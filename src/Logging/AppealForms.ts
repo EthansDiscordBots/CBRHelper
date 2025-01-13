@@ -133,10 +133,10 @@ module.exports = {
 
 
         var modpendingappeals
-        async function getentries() {
+        async function modgetentries() {
             return await ModAppealForms.getEntries()
         }
-        retryOperation(getentries)
+        retryOperation(modgetentries)
             .then(res => modpendingappeals = (res || []))
             .catch(err => modpendingappeals = [])
         await new Promise(r => setTimeout(r, 1000))
