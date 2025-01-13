@@ -53,6 +53,8 @@ module.exports = {
             .then(res => pendingappeals = (res || []))
             .catch(err => pendingappeals = [])
         await new Promise(r => setTimeout(r, 1000))
+
+
         if (pendingappeals?.length > 0) {
             for (let i = 0; i < pendingappeals.length; i++) {
                 const embeds = []
@@ -81,10 +83,11 @@ module.exports = {
                 if (content.length >= 1) embed.setDescription(content)
                     else embed.setDescription("N/A")  
                 embeds.push(embed)
-                AppealFormsPending.deleteEntryById(data.getValue("_id"))
+                dat
                 client.channels.cache.get("1132230548576817282").send({ content: "<@&1130751888875343982>", embeds: embeds })
             }
         }
+
 
         ms.on("entryCreated", async (data) => {
             if (data.getCollectionName() == "ModAppealForms") {
@@ -116,20 +119,20 @@ module.exports = {
                 client.channels.cache.get("1328133530424840212").send({ embeds: embeds })
             }
         })
-        var pendingappeals
+        var modpendingappeals
         async function getentries() {
             return await ModAppealForms.getEntries()
         }
         retryOperation(getentries)
-            .then(res => pendingappeals = (res || []))
-            .catch(err => pendingappeals = [])
+            .then(res => modpendingappeals = (res || []))
+            .catch(err => modpendingappeals = [])
         await new Promise(r => setTimeout(r, 1000))
-        if (pendingappeals?.length > 0) {
-            for (let i = 0; i < pendingappeals.length; i++) {
+        if (modpendingappeals?.length > 0) {
+            for (let i = 0; i < modpendingappeals.length; i++) {
                 const embeds = []
                 let content = ""
                 let charlength = 0
-                const data: Entry<Logging> = pendingappeals[i]
+                const data: Entry<Logging> = modpendingappeals[i]
                 var embed = new EmbedBuilder()
                 for (let i = 0; i < data.getValue("fields").length; i++) {
                     if (charlength < 3000) {
@@ -152,7 +155,7 @@ module.exports = {
                 if (content.length >= 1) embed.setDescription(content)
                     else embed.setDescription("N/A")  
                 embeds.push(embed)
-                ModAppealForms.deleteEntryById(data.getValue("_id"))
+                data.delete()
                 client.channels.cache.get("1328133530424840212").send({  embeds: embeds })
             }
     }}
