@@ -15,6 +15,9 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
+
+
+
         ms.on("entryCreated", async (data) => {
             if (data.getCollectionName() == "MRAppealForms") {
                 const embeds = []
@@ -45,22 +48,22 @@ module.exports = {
                 client.channels.cache.get("1132230548576817282").send({ content: "<@&1130751888875343982>", embeds: embeds })
             }
         })
-        var pendingappeals
+        let MRpending
         async function getentries() {
             return await AppealFormsPending.getEntries()
         }
         retryOperation(getentries)
-            .then(res => pendingappeals = (res || []))
-            .catch(err => pendingappeals = [])
+            .then(res => MRpending = (res || []))
+            .catch(err => MRpending = [])
         await new Promise(r => setTimeout(r, 1000))
 
 
-        if (pendingappeals?.length > 0) {
-            for (let i = 0; i < pendingappeals.length; i++) {
+        if (MRpending?.length > 0) {
+            for (let i = 0; i < MRpending.length; i++) {
                 const embeds = []
                 let content = ""
                 let charlength = 0
-                const data: Entry<Logging> = pendingappeals[i]
+                const data: Entry<Logging> = MRpending[i]
                 var embed = new EmbedBuilder()
                 for (let i = 0; i < data.getValue("fields").length; i++) {
                     if (charlength < 3000) {
@@ -87,6 +90,9 @@ module.exports = {
                 client.channels.cache.get("1132230548576817282").send({ content: "<@&1130751888875343982>", embeds: embeds })
             }
         }
+
+
+
 
 
         ms.on("entryCreated", async (data) => {
@@ -119,6 +125,13 @@ module.exports = {
                 client.channels.cache.get("1328133530424840212").send({ embeds: embeds })
             }
         })
+
+
+
+
+
+
+
         var modpendingappeals
         async function getentries() {
             return await ModAppealForms.getEntries()
