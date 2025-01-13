@@ -7,7 +7,7 @@ module.exports = {
         .setDescription("Log a punishment request."),
 
     async execute(interaction, client) {
-        if (interaction.guild.id != "987869336125456525") return await interaction.reply({ content: "You cannot use this command in this guild", ephemeral: true })
+        if (interaction.guild.id != "process.env.AdminServerId") return await interaction.reply({ content: "You cannot use this command in this guild", ephemeral: true })
         if (interaction.channel.id != "1130750245370875994" && interaction.channel.id != "1130757287770857472") return await interaction.reply({ content: "You must use this command in the Operations or HRD Punishment Logs channel.", ephemeral: true })
         if (!await db.get(`${interaction.user.id}.verifiedRoblox`)) return await interaction.reply({ephemeral: true, content: "You must be verified on the bot before using this command."})
 

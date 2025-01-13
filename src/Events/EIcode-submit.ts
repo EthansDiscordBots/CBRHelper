@@ -27,7 +27,7 @@ module.exports = {
                 return code.toLowerCase() == (await db.get(`${department}secretcode`)).toLowerCase()
             }
             async function sendMessage(department) {
-                const member = await client.guilds.cache.get("1130864207705948162").members.fetch(message.author.id).catch()
+                const member = await client.guilds.cache.get("process.env.CertServerId").members.fetch(message.author.id).catch()
                 let link
                 if (department == "hrd") {
                     department = "Human resources"

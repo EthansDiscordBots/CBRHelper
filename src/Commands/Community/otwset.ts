@@ -20,10 +20,10 @@ module.exports = {
         async function getUser(optionName) {
             let userId = isNaN(Number(optionName)) ? await getIdFromUsername(optionName) : Number(optionName)
             let discorduser
-            await fetch(`https://api.blox.link/v4/public/guilds/480452557949370380/roblox-to-discord/${userId}`, {headers: { "Authorization": process.env.BloxlinkAPIKey}}).then(async res => {
+            await fetch(`https://api.blox.link/v4/public/guilds/process.env.MainServerId/roblox-to-discord/${userId}`, {headers: { "Authorization": process.env.BloxlinkAPIKey}}).then(async res => {
                 const data = await res.json()
                 if (!data.error) {
-                    discorduser = await client.guilds.cache.get("480452557949370380").members.fetch(data.discordIDs[0])
+                    discorduser = await client.guilds.cache.get("process.env.MainServerId").members.fetch(data.discordIDs[0])
                 }
                 else {
                     discorduser = { user: { id: "0" } }
@@ -62,7 +62,7 @@ module.exports = {
             .setDescription(`LR: ${(LR ?? 'N/A')},\nMR: ${(MR ?? 'N/A')},\nHR: ${(HR ?? 'N/A')},\nExec: ${(HRS ?? 'N/A')},\nSHR: ${(SHR ?? 'N/A')}\nDiscord roles will be removed/added from the old users shortly.`)
             .setColor(0x00ffe5)
         await interaction.followUp({ embeds: [embed] })
-        client.guilds.cache.get("480452557949370380").members.fetch().then(async fetched => {
+        client.guilds.cache.get("process.env.MainServerId").members.fetch().then(async fetched => {
             const ids = fetched.map(m => m)
             for (var i = 0; i < ids.length; i++) {
                 const member = ids[i]

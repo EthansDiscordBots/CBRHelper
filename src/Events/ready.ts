@@ -5,7 +5,7 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
-//        client.guilds.cache.get("1130864207705948162").channels.create({
+//        client.guilds.cache.get("process.env.CertServerId").channels.create({
  //           name: "candidate-closure",
 //            type: ChannelType.GuildText,
 //            parent: "1132201402769362965",
@@ -15,7 +15,7 @@ module.exports = {
  //                   allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
 //                },
  //               {
- //                   id: client.guilds.cache.get("1130864207705948162").roles.everyone,
+ //                   id: client.guilds.cache.get("process.env.CertServerId").roles.everyone,
  //                   deny: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
   //              },
   //          ],
@@ -24,7 +24,7 @@ module.exports = {
         setInterval(() => {
 
             const array = [
-                `${client.guilds.cache.get("480452557949370380").memberCount} amazing people ❤`,
+                `${client.guilds.cache.get("process.env.MainServerId").memberCount} amazing people ❤`,
             ];
             let index = 0;
             if (index === array.length) index = 0

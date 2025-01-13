@@ -7,7 +7,7 @@ module.exports = {
     async execute(client) {
         client.on(Events.GuildMemberAdd, async member => {
             const joinedGuild = member.guild
-            if (joinedGuild.id != "480452557949370380") return
+            if (joinedGuild.id != "process.env.MainServerId") return
             if (member.bot) return
             const embed = new EmbedBuilder()
             .setAuthor({name: member.displayName, iconURL: member.user.displayAvatarURL({ dynamic: true })})

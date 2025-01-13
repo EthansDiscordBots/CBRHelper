@@ -22,7 +22,7 @@ module.exports = {
 
             for (let i = 0; i < pingsallowed.length; i++) {
                 let member
-                member = await client.guilds.cache.get("480452557949370380").members.fetch(pingsallowed[i]).catch(async err => member = await client.guilds.cache.get("480452557949370380").members.fetch("1138830931914932354"))
+                member = await client.guilds.cache.get("process.env.MainServerId").members.fetch(pingsallowed[i]).catch(async err => member = await client.guilds.cache.get("process.env.MainServerId").members.fetch("1138830931914932354"))
                 if (!member.roles.cache.get("1098284216749404351")) {
 
                     pingsallowed = pingsallowed.filter(item => item !== pingsallowed[i]);
@@ -32,7 +32,7 @@ module.exports = {
 
             for (let i = 0; i < pingsnotallowed.length; i++) {
                 let member
-                member = await client.guilds.cache.get("480452557949370380").members.fetch(pingsnotallowed[i]).catch(async err => member = await client.guilds.cache.get("480452557949370380").members.fetch("1138830931914932354"))
+                member = await client.guilds.cache.get("process.env.MainServerId").members.fetch(pingsnotallowed[i]).catch(async err => member = await client.guilds.cache.get("process.env.MainServerId").members.fetch("1138830931914932354"))
                 if (!member.roles.cache.get("1098284216749404351")) {
 
                 pingsnotallowed = pingsnotallowed.filter(item => item !== pingsnotallowed[i]);

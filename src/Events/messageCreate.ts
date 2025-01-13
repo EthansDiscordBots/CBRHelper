@@ -193,7 +193,7 @@ module.exports = {
                     }
                 }
             }
-            if (message.guildId === "480452557949370380") {
+            if (message.guildId === "process.env.MainServerId") {
                 if (message.author.bot) return
                 if (message.member.roles.cache.get("987085821427466300") || message.member.roles.cache.get("987085792365125722") || message.member.roles.cache.get("1098284216749404351")) {
                     var bal = await db.get(`${message.author.id}.tolog-messages}`)
@@ -215,7 +215,7 @@ module.exports = {
                 interface T { }
                 const noping = await db.get("SHRDontPingUsers")
                 for (let i = 0; i < noping.length; i++) {
-                    if ((await client.guilds.cache.get("480452557949370380").members.fetch(message.author.id)).roles.cache.get("1098284216749404351")) return
+                    if ((await client.guilds.cache.get("process.env.MainServerId").members.fetch(message.author.id)).roles.cache.get("1098284216749404351")) return
                     if (message.author.id == noping[i]) return
                     if (message.mentions.users.get(noping[i]) && (message.mentions.repliedUser?.id || null) != noping[i]) {
                         const VWs = await db.get(`SHRPingVWs.${message.author.id}`) ?? []
@@ -223,7 +223,7 @@ module.exports = {
                         if (VWs.length > 0) {
                             const prevwarnmessages = []
                             for (let i = 0; i < VWs.length; i++) {
-                                prevwarnmessages.push(`https://discord.com/channels/480452557949370380/${VWs[i].channel}/${VWs[i].message}`)
+                                prevwarnmessages.push(`https://discord.com/channels/process.env.MainServerId/${VWs[i].channel}/${VWs[i].message}`)
                             }
                             client.channels.cache.get("1232574877207101460").send({ content: `${modoncallping}; user <@${message.author.id}> needs a punishment as they have pinged an SHR after a verbal warning and the SHR has pings disabled.\n${prevwarnmessages.toString()}`, allowedMentions: { parse: [AllowedMentionsTypes.Role] } })
                         }

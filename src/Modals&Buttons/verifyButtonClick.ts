@@ -41,7 +41,7 @@ module.exports = {
                 await db.set(`${interaction.user.id}.verifMethod`, "Game")
             }
             else if (interaction.customId == "Bloxlink") {
-                fetch(`https://api.blox.link/v4/public/guilds/480452557949370380/discord-to-roblox/${interaction.user.id}`, { headers: { "Authorization": process.env.BloxlinkAPIKey } })
+                fetch(`https://api.blox.link/v4/public/guilds/process.env.MainServerId/discord-to-roblox/${interaction.user.id}`, { headers: { "Authorization": process.env.BloxlinkAPIKey } })
                     .then(async (response) => {
                         const data = await response.json()
                         const robloxUserId = data.robloxID

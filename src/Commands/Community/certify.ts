@@ -37,7 +37,7 @@ module.exports = {
             .setColor("Green")
             .setDescription(`# **Crystal Bay Resorts Management Certification Exam<:bunnycelebrate:1140636429928628335> **
   
-👋 Welcome to the Crystal Bay Resorts Management Certification Quiz! The purpose of this quiz is to teach you the basic procedures at CBR, regarding Shifts and Training Sessions to better prepare you for your role. All the information covered in this quiz can be found in the **[Documents Channel](https://discord.com/channels/480452557949370380/987092780222406676)**. Be sure to review the resources available to ensure your success. Good luck!
+👋 Welcome to the Crystal Bay Resorts Management Certification Quiz! The purpose of this quiz is to teach you the basic procedures at CBR, regarding Shifts and Training Sessions to better prepare you for your role. All the information covered in this quiz can be found in the **[Documents Channel](https://discord.com/channels/process.env.MainServerId/987092780222406676)**. Be sure to review the resources available to ensure your success. Good luck!
 
 _Please type "continue" to begin._`)
 

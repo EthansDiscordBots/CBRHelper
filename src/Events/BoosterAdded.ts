@@ -9,7 +9,7 @@ module.exports = {
         client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
             if (!newMember.roles.cache.get("929165612188590091")) {
                 
-                fetch(`https://api.blox.link/v4/public/guilds/480452557949370380/discord-to-roblox/${oldMember.user.id}`, { headers: { "Authorization": process.env.BloxlinkAPIKey } }).then(async res => {
+                fetch(`https://api.blox.link/v4/public/guilds/process.env.MainServerId/discord-to-roblox/${oldMember.user.id}`, { headers: { "Authorization": process.env.BloxlinkAPIKey } }).then(async res => {
                     const data = await res.json()
                     async function retryOperation(operation, maxRetries = 3, delay = 1000) {
                         for (let retry = 0; retry < maxRetries; retry++) {
@@ -35,7 +35,7 @@ module.exports = {
                 })
             }
             else if (newMember.roles.cache.get("929165612188590091")) {
-                fetch(`https://api.blox.link/v4/public/guilds/480452557949370380/discord-to-roblox/${oldMember.user.id}`, { headers: { "Authorization": process.env.BloxlinkAPIKey } }).then(async res => {
+                fetch(`https://api.blox.link/v4/public/guilds/process.env.MainServerId/discord-to-roblox/${oldMember.user.id}`, { headers: { "Authorization": process.env.BloxlinkAPIKey } }).then(async res => {
                     const data = await res.json()
                     async function retryOperation(operation, maxRetries = 3, delay = 1000) {
                         for (let retry = 0; retry < maxRetries; retry++) {

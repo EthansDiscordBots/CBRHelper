@@ -5,10 +5,10 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
-        client.channels.cache.get("1219441779074535524").messages.fetch({after: String(await db.get(`480452557949370380.countinglastmessage`))}).then(async m => {        
+        client.channels.cache.get("1219441779074535524").messages.fetch({after: String(await db.get(`process.env.MainServerId.countinglastmessage`))}).then(async m => {        
             let messages = m.map(m => m)
             messages = messages.reverse()
-            var mostrecentcorrect = await db.get("480452557949370380.count")
+            var mostrecentcorrect = await db.get("process.env.MainServerId.count")
             for (const e of messages) {
                 var number
                 try { number = await eval(e.content) }

@@ -33,7 +33,7 @@ You should have been roled in the main discord server, if you have not, please c
                         retryOperation(async function() {
                             return await certicoll.createEntry({robloxId: await getCachedRobloxFromDiscord(msg.author.id), discordId: msg.author.id})
                         })
-                        await (await client.guilds.cache.get("480452557949370380").members.fetch(msg.author.id)).roles.add("1324386691829600286")
+                        await (await client.guilds.cache.get("process.env.MainServerId").members.fetch(msg.author.id)).roles.add("1324386691829600286")
                     }
                     else {
                         embed.setColor("Red")
