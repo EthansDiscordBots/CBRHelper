@@ -1,0 +1,5 @@
+json.sqlite
+.env
+node_modules/
+out.log
+err.log
