@@ -26,7 +26,7 @@ module.exports = {
                         content = content + `**${data.getValue("fields")[i].name}**` + "\n\n"
                         content = content + data.getValue("fields")[i].value + "\n\n"
                         charlength += String(data.getValue("fields")[i].name).length
-                        charlength += String(data.getValue("fields")[i].name).length
+                        charlength += String(data.getValue("fields")[i].value).length
                     } else {
                         embed.setColor(0x00ffe5)
                         if (content.length >= 1) embed.setDescription(content)
@@ -65,7 +65,7 @@ module.exports = {
                         content = content + `**${data.getValue("fields")[i].name}**` + "\n\n"
                         content = content + data.getValue("fields")[i].value + "\n\n"
                         charlength += String(data.getValue("fields")[i].name).length
-                        charlength += String(data.getValue("fields")[i].name).length
+                        charlength += String(data.getValue("fields")[i].value).length
                     } else {
                         charlength = 0
                         content = ""
