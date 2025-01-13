@@ -82,7 +82,7 @@ module.exports = {
                     else embed.setDescription("N/A")
                 embeds.push(embed)
 
-                AppealFormsPending.deleteEntryById(data.getValue("_id"))
+                data.delete()
                 client.channels.cache.get("1132230548576817282").send({ content: "<@&1130751888875343982>", embeds: embeds })
             }
         }
