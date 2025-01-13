@@ -103,6 +103,7 @@ module.exports = {
                         embed = new EmbedBuilder()
                     }
                     embed.setColor(0x00ffe5)
+                    console.log(content)
                     embed.setDescription(content)
                     embeds.push(embed)
                     data.delete()
