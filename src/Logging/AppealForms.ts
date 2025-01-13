@@ -146,6 +146,7 @@ module.exports = {
                 let content = ""
                 let charlength = 0
                 const data: Entry<Logging> = modpendingappeals[i]
+                console.log(data.getValue("fields"))
                 var embed = new EmbedBuilder()
                 for (let i = 0; i < data.getValue("fields").length; i++) {
                     if (charlength < 3000) {
