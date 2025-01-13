@@ -52,12 +52,13 @@ module.exports = {
             .catch(err => pendingappeals = [])
         await new Promise(r => setTimeout(r, 1000))
         if (pendingappeals?.length > 0) {
-            console.log(data.getValue("fields")[1])
+            
             for (let i = 0; i < pendingappeals.length; i++) {
                 const embeds = []
                 let content = ""
                 let charlength = 0
                 const data: Entry<Logging> = pendingappeals[i]
+                console.log(data.getValue("fields")[1])
                 var embed = new EmbedBuilder()
                 for (let i = 0; i < data.getValue("fields").length; i++) {
                     if (charlength < 3000) {
