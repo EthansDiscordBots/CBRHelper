@@ -8,5 +8,5 @@ require('dotenv').config();
 deployCommands(client)
 deployEvents(client)
 client.login(String(process.env.token))
-console.log("hey9")
+console.log("hey10")
 
