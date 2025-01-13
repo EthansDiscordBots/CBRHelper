@@ -11,6 +11,7 @@ import { retryOperation } from "../../Functions/retry"
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("verify-all")
+        
         .setDescription("Verify everyone on the bot and update those who are already"),
     async execute(interaction: CommandInteraction, client) {
         client.guilds.cache.get(process.env.MainServerId).members.fetch().then(async members => {
