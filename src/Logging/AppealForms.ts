@@ -100,6 +100,7 @@ module.exports = {
                     }
                     embed.setColor(0x00ffe5)
                     if (content.length >= 1) embed.setDescription(content)
+                        else embed.setDescription("N/A")
                     embeds.push(embed)
                     data.delete()
                 }
