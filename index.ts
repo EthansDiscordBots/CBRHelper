@@ -9,4 +9,4 @@ deployCommands(client)
 deployEvents(client)
 client.login(String(process.env.token))
 
-console.log("test")
+console.log("test1")
