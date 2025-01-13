@@ -83,7 +83,7 @@ module.exports = {
                 if (content.length >= 1) embed.setDescription(content)
                     else embed.setDescription("N/A")  
                 embeds.push(embed)
-                dat
+                data.delete()
                 client.channels.cache.get("1132230548576817282").send({ content: "<@&1130751888875343982>", embeds: embeds })
             }
         }
