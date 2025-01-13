@@ -52,7 +52,7 @@ module.exports = {
             .catch(err => pendingappeals = [])
         await new Promise(r => setTimeout(r, 1000))
         if (pendingappeals?.length > 0) {
-            console.log(data.getValue("fields"))
+            console.log(data.getValue("fields")[1])
             for (let i = 0; i < pendingappeals.length; i++) {
                 const embeds = []
                 let content = ""
