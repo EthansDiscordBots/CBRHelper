@@ -7,7 +7,7 @@ interface Logging extends EntryData {
     type: string
 }
 const ms = new MarcSyncClient(String(process.env.mskey))
-const AppealFormsPending: Collection<Logging> = ms.getCollection("MRAppealForms")
+const AppealFormsPending: Collection<Logging> = ms.getCollection("ModAppealForms")
 import { retryOperation } from "../Functions/retry";
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
     once: true,
     async execute(client) {
         ms.on("entryCreated", async (data) => {
-            if (data.getCollectionName() == "MRAppealForms") {
+            if (data.getCollectionName() == "ModAppealForms") {
                 const embeds = []
                 let content = ""
                 let charlength = 0
@@ -39,7 +39,7 @@ module.exports = {
                     embeds.push(embed)
                     data.delete()
                 }
-                client.channels.cache.get("1132230548576817282").send({ content: "<@&1130751888875343982>", embeds: embeds })
+                client.channels.cache.get("1328133530424840212").send({ content: "", embeds: embeds })
             }
         })
         var pendingappeals
@@ -76,8 +76,8 @@ module.exports = {
                 embed.setColor(0x00ffe5)
                 embed.setDescription(content)
                 embeds.push(embed)
-                AppealFormsPending.deleteEntryById(data.getValue("_id"))
-                client.channels.cache.get("1132230548576817282").send({ content: "<@&1130751888875343982>", embeds: embeds })
+                data.delete()
+                client.channels.cache.get("1328133530424840212").send({ content: "", embeds: embeds })
             }
         }
     }
