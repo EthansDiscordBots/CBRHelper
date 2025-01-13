@@ -3,3 +3,4 @@ json.sqlite
 node_modules/
 out.log
 err.log
+package-lock.json
