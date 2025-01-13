@@ -36,7 +36,8 @@ module.exports = {
                         embed = new EmbedBuilder()
                     }
                     embed.setColor(0x00ffe5)
-                    embed.setDescription(content)
+                    if (content.Length>=1)embed.setDescription(content)
+                        else embed.setDescription("N/A")
                     embeds.push(embed)
                     data.delete()
                 }
@@ -75,7 +76,8 @@ module.exports = {
 
                 }
                 embed.setColor(0x00ffe5)
-                embed.setDescription(content)
+                if (content.length >=1)embed.setDescription(content)
+                    else embed.setDescription("N/A")
                 embeds.push(embed)
 
                 AppealFormsPending.deleteEntryById(data.getValue("_id"))
