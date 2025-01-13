@@ -120,30 +120,25 @@ module.exports = {
             for (let i = 0; i < pendingappeals.length; i++) {
                 const embeds = []
                 let content = ""
-                let charlength = 0
-                const data: Entry<Logging> = pendingappeals[i]
-                var embed = new EmbedBuilder()
+                let embed = new EmbedBuilder()
                 for (let i = 0; i < data.getValue("fields").length; i++) {
-                    if (charlength < 3000) {
+                    if (content.length < 3000) {
                         content = content + `**${data.getValue("fields")[i].name}**` + "\n\n"
                         content = content + data.getValue("fields")[i].value + "\n\n"
-                        charlength += String(data.getValue("fields")[i].name).length
-                        charlength += String(data.getValue("fields")[i].name).length
                     } else {
-                        charlength = 0
-                        content = ""
                         embed.setColor(0x00ffe5)
                         embed.setDescription(content)
+                        content = ""
                         embeds.push(embed)
                         embed = new EmbedBuilder()
                     }
-
+                    embed.setColor(0x00ffe5)
+                    if (content.length >= 1) embed.setDescription(content)
+                        else embed.setDescription("N/A")
+                    embeds.push(embed)
+                    data.delete()
                 }
-                embed.setColor(0x00ffe5)
-                embed.setDescription(content)
-                embeds.push(embed)
-                ModAppealForms.deleteEntryById(data.getValue("_id"))
-                client.channels.cache.get("1328133530424840212").send({  embeds: embeds })
+                client.channels.cache.get("1328133530424840212").send({ embeds: embeds })
             }
     }}
 }
