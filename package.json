@@ -1,0 +1,35 @@
+{
+    "dependencies": {
+        "@discordjs/rest": "^1.5.0",
+        "better-sqlite3": "^9.0.0",
+        "canvacord": "^5.4.10",
+        "discord-html-transcripts": "^3.2.0",
+        "discord.js": "^14.16.1",
+        "discordx": "^11.12.2",
+        "dotenv": "^16.3.1",
+        "fs": "^0.0.1-security",
+        "marcsync": "^1.2.0",
+        "mongoose": "^8.0.0",
+        "noblox.js": "^4.15.0",
+        "node-cron": "^3.0.3",
+        "pm2": "^5.3.0",
+        "quick.db": "^9.1.7"
+    },
+    "name": "discordhsdigksdfihy",
+    "version": "1.0.0",
+    "main": "index.ts",
+    "scripts": {
+        "test": "node index.ts",
+        "dev": "tsx watch index.ts",
+        "start": "node dist/index.js",
+        "build": "tsup index.ts "
+    },
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "devDependencies": {
+        "tsup": "^8.0.2",
+        "tsx": "^4.4.0",
+        "typescript": "^5.3.2"
+    }
+}

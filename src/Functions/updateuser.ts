@@ -1,0 +1,127 @@
+import { ButtonInteraction, CommandInteraction, EmbedBuilder, GuildAuditLogsEntry } from "discord.js"
+import * as rbx from "noblox.js"
+
+export async function updateUser(userid, member, rblxusername, interaction: CommandInteraction | ButtonInteraction) {
+    const binds = [
+        {
+            minrole: 4,
+            maxrole: 17,
+            roles: ["987085895419166821"]
+        },
+        {
+            minrole: 20,
+            maxrole: 125,
+            roles: ["987085821427466300"]
+        },
+        {
+            minrole: 130,
+            maxrole: 155,
+            roles: ["987085792365125722"]
+        },
+        {
+            minrole: 157,
+            maxrole: 255,
+            roles: ["987406739961946162", "1098284216749404351"]
+        },
+        {
+            minrole: 140,
+            maxrole: 255,
+            roles: ["864306599526137886"]
+        },
+        {
+            minrole: 145,
+            maxrole: 255,
+            roles: ["987406739961946162"]
+        },
+        {
+            minrole: 123,
+            maxrole: 255,
+            roles: ["1248303542083784806"]
+        },
+    ]
+    var rank
+    var RankName
+    const removed = []
+    const add = []
+    const guild = interaction.guild
+    await fetch(`https://groups.roblox.com/v2/users/${userid}/groups/roles`).then(async res => {
+        const data = await res.json()
+        let targetGroupEntry = data.data.find((entry) => {return entry.group.id === 4720080});
+        if (targetGroupEntry) {
+            RankName = targetGroupEntry.role.name
+            rank = targetGroupEntry.role.rank
+        }
+        else {
+            RankName = "Customer"
+            rank = 1
+        }
+    })
+    const roles = (await fetch("https://groups.roblox.com/v1/groups/4720080/roles").then(async res => {
+        const data = await res.json()
+        return data.roles
+    })).map(r => r.name)
+    let displayName = rblxusername
+
+    await member.setNickname(`${displayName}`).catch((err) => console.log("Username not changed as I do not have permission to"));
+    let oldrole
+    const newrole = guild.roles.cache?.find(role => role.name == RankName)
+    for (let i = 0; i < roles.length; i++) {
+        const roleName = roles[i];
+        oldrole = guild.roles.cache?.find(role => role.name == roleName && role.name != RankName);
+        if (oldrole && member.roles.cache.get(oldrole.id) && oldrole?.name != newrole?.name) {
+            await member.roles.remove(oldrole.id);
+            removed.unshift(` ${oldrole.name}`)
+        }
+    }
+    if (newrole && !member.roles.cache.get(newrole.id)) {
+        await member.roles.add(newrole.id);
+        add.unshift(` ${newrole.name}`)
+    }
+    if (!member.roles.cache.get("987091381908537384")) {
+        add.unshift(" Verified")
+        await member.roles.add("987091381908537384")
+    }
+
+    if (member.roles.cache.get("1098288727979204819")) {
+        removed.unshift(" Unverified")
+        await member.roles.remove("1098288727979204819")
+    }
+
+    for (let i = 0; i < binds.length; i++) {
+        const bind = binds[i]
+        if (rank < bind.minrole || rank > bind.maxrole) {
+            for (let i = 0; i < bind.roles.length; i++) {
+                if (member.roles.cache.get(bind.roles[i])) {
+                    await member.roles.remove(bind.roles[i])
+                    removed.unshift(" " + interaction.guild.roles.cache.get(bind.roles[i]).name)
+                }
+
+            }
+        }
+    }
+
+    for (let i = 0; i < binds.length; i++) {
+        const bind = binds[i]
+        if (rank >= bind.minrole && rank <= bind.maxrole) {
+            for (let i = 0; i < bind.roles.length; i++) {
+                if (!member.roles.cache.get(bind.roles[i])) {
+                    await member.roles.add(bind.roles[i])
+                    add.unshift(" " + interaction.guild.roles.cache.get(bind.roles[i]).name)
+                }
+
+            }
+        }
+    }
+    if (add.length >= 1 || removed.length >= 1) {
+        const embed = new EmbedBuilder()
+            .setColor("Red")
+        if (add.length > 0) embed.addFields({ name: "Added roles", value: add.toString(), inline: true })
+        if (removed.length > 0) embed.addFields({ name: "Removed Roles", value: removed.toString(), inline: true })
+        if (interaction.isCommand() && interaction.commandName == "verify-all") return
+        if (interaction.isCommand() && interaction.commandName != "update") await interaction.channel.send({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+        if (interaction.isCommand() && interaction.commandName == "update") await interaction.reply({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+    }
+    else {
+        if (interaction.isCommand() && interaction.commandName == "update") await interaction.reply({ content: `User already up to date` })
+    }
+}
