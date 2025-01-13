@@ -138,7 +138,7 @@ module.exports = {
                     embeds.push(embed)
                     data.delete()
                 }
-                client.channels.cache.get("1328133530424840212").send({ embeds: embeds })
+                client.channels.cache.get("1328133530424840212").send({ content: "Testing", embeds: embeds })
             }
     }}
 }
