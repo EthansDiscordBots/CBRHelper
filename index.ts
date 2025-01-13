@@ -9,4 +9,3 @@ deployCommands(client)
 deployEvents(client)
 client.login(String(process.env.token))
 
-
