@@ -15,7 +15,9 @@ module.exports = {
     once: true,
     async execute(client) {
         ms.on("entryCreated", async (data) => {
+            
             if (data.getCollectionName() == "MRAppealForms") {
+                console.log(data.getValue("fields"))
                 const embeds = []
                 let content = ""
                 let charlength = 0
@@ -57,6 +59,7 @@ module.exports = {
                 let charlength = 0
                 const data: Entry<Logging> = pendingappeals[i]
                 var embed = new EmbedBuilder()
+                console.log(data.getValue("fields"))
                 for (let i = 0; i < data.getValue("fields").length; i++) {
                     if (charlength < 3000) {
                         content = content + `**${data.getValue("fields")[i].name}**` + "\n\n"

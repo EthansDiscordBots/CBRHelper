@@ -16,6 +16,7 @@ module.exports = {
     async execute(client) {
         ms.on("entryCreated", async (data) => {
             if (data.getCollectionName() == "ModAppealForms") {
+                console.log(data.getValue("fields"))
                 const embeds = []
                 let content = ""
                 let charlength = 0
@@ -51,6 +52,7 @@ module.exports = {
             .catch(err => pendingappeals = [])
         await new Promise(r => setTimeout(r, 1000))
         if (pendingappeals?.length > 0) {
+            console.log(data.getValue("fields"))
             for (let i = 0; i < pendingappeals.length; i++) {
                 const embeds = []
                 let content = ""
