@@ -29,7 +29,8 @@ module.exports = {
                         charlength += String(data.getValue("fields")[i].name).length
                     } else {
                         embed.setColor(0x00ffe5)
-                        embed.setDescription(content)
+                        if (content.Length>=1)embed.setDescription(content)
+                            else embed.setDescription("N/A")
                         charlength = 0
                         content = ""
                         embeds.push(embed)
@@ -69,7 +70,8 @@ module.exports = {
                         charlength = 0
                         content = ""
                         embed.setColor(0x00ffe5)
-                        embed.setDescription(content)
+                        if (content.Length>=1)embed.setDescription(content)
+                            else embed.setDescription("N/A")
                         embeds.push(embed)
                         embed = new EmbedBuilder()
                     }
