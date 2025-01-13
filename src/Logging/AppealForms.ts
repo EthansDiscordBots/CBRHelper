@@ -77,12 +77,13 @@ module.exports = {
                 embed.setColor(0x00ffe5)
                 embed.setDescription(content)
                 embeds.push(embed)
+
                 AppealFormsPending.deleteEntryById(data.getValue("_id"))
                 client.channels.cache.get("1132230548576817282").send({ content: "<@&1130751888875343982>", embeds: embeds })
             }
         }
 
-        ms.on("entryCreated", async (data) => {
+        ms.on("entryCreated", async (data) => { 
             if (data.getCollectionName() == "ModAppealForms") {
                 const embeds = []
                 let content = ""
