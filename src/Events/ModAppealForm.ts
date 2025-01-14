@@ -7,7 +7,7 @@ interface Logging extends EntryData {
     type: string
 }
 const ms = new MarcSyncClient(String(process.env.mskey))
-const AppealFormsPending: Collection<Logging> = ms.getCollection("MRAppealForms")
+const AppealFormsPending: Collection<Logging> = ms.getCollection("ModAppealForms")
 import { retryOperation } from "../Functions/retry";
 
 module.exports = {
@@ -15,8 +15,7 @@ module.exports = {
     once: true,
     async execute(client) {
         ms.on("entryCreated", async (data) => {
-            
-            if (data.getCollectionName() == "MRAppealForms") {
+            if (data.getCollectionName() == "ModAppealForms") {
                 console.log(data.getValue("fields"))
                 const embeds = []
                 let content = ""
@@ -41,7 +40,7 @@ module.exports = {
                     embeds.push(embed)
                     data.delete()
                 }
-                client.channels.cache.get("1132230548576817282").send({ content: "<@&1130751888875343982>", embeds: embeds })
+                client.channels.cache.get(process.env.ModAppealForms).send({ content: "", embeds: embeds })
             }
         })
         var pendingappeals
@@ -53,13 +52,13 @@ module.exports = {
             .catch(err => pendingappeals = [])
         await new Promise(r => setTimeout(r, 1000))
         if (pendingappeals?.length > 0) {
+            
             for (let i = 0; i < pendingappeals.length; i++) {
                 const embeds = []
                 let content = ""
                 let charlength = 0
                 const data: Entry<Logging> = pendingappeals[i]
                 var embed = new EmbedBuilder()
-                console.log(data.getValue("fields"))
                 for (let i = 0; i < data.getValue("fields").length; i++) {
                     if (charlength < 3000) {
                         content = content + `**${data.getValue("fields")[i].name}**` + "\n\n"
@@ -79,8 +78,8 @@ module.exports = {
                 embed.setColor(0x00ffe5)
                 embed.setDescription(content)
                 embeds.push(embed)
-                AppealFormsPending.deleteEntryById(data.getValue("_id"))
-                client.channels.cache.get("1132230548576817282").send({ content: "<@&1130751888875343982>", embeds: embeds })
+                data.delete()
+                client.channels.cache.get(process.env.ModAppealForms).send({ content: "", embeds: embeds })
             }
         }
     }
