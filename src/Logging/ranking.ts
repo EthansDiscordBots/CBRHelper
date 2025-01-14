@@ -92,7 +92,7 @@ module.exports = {
                             await emb.setThumbnail(json.data[0].imageUrl)
                         }
                     )
-                    await client.channels.cache.get("1141765600142688506").send({ embeds: [emb] })
+                    await client.channels.cache.get(process.env.RankLogs).send({ embeds: [emb] })
                     retryOperation(del)
                 }
                 catch (err) {

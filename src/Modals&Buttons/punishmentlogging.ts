@@ -59,7 +59,7 @@ module.exports = {
                     name: interaction.fields.getTextInputValue("Member Username"),
                     id: userID
                 },
-                Department: interaction.channel?.id == "1130750245370875994" ? "Human Resources" : "Operations",
+                Department: interaction.channel?.id == process.env.HRSPunishmentLog ? "Human Resources" : "Operations",
                 Reason: interaction.fields.getTextInputValue("Reason"),
                 IssuerData: {
                     name: userdata.name,
@@ -130,7 +130,7 @@ module.exports = {
                     .replace("PUNISHERRANK", punishmentdata.IssuerData.rankInGroup)
                     .replace("PUNISHMENTREASON", punishmentdata.Reason)
                 if ((await getRoleInGroup(process.env.groupId, punishmentdata.Involved.id)).rank > 30) {
-                    const member = await client.guilds.cache.get("480452557949370380")?.members.fetch(membertodm)
+                    const member = await client.guilds.cache.get(process.env.MainServerId)?.members.fetch(membertodm)
                     if (!member) await interaction.reply({ content: "This member is not within the main discord server, DM notice not sent. Any other actions (eg demotion/termination) (should have been) completed. (DEMOTION NOT YET ADDED)", ephemeral: true })
                     else {
                         await interaction.reply({ content: "User has been DMd, and any other actions (eg blacklist/termination) (should have been) completed.", ephemeral: true })
@@ -170,7 +170,7 @@ module.exports = {
                                 })
                             case "Demotion":
                                 const playercurrentrank = await getRoleInGroup(process.env.groupId, punishmentdata.Involved.id)
-                                const roles = (await (await fetch("https://groups.roblox.com/v1/groups/4720080/roles")).json()).roles
+                                const roles = (await (await fetch(`https://groups.roblox.com/v1/groups/${process.env.groupId}/roles`)).json()).roles
                                 const rolepos = roles.find(r => r.name == playercurrentrank.RankName && r.rank == playercurrentrank.rank)
                                 const newrole = roles[roles.indexOf(rolepos) - 1]
                                 messageformat = messageformat.replace("OLDRANK", playercurrentrank.RankName).replace("NEWRANK", newrole.name)

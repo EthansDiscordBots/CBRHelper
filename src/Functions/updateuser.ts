@@ -6,37 +6,37 @@ export async function updateUser(userid, member, rblxusername, interaction: Comm
         {
             minrole: 4,
             maxrole: 17,
-            roles: ["987085895419166821"]
+            roles: [process.env.MAINLR]
         },
         {
             minrole: 20,
             maxrole: 125,
-            roles: ["987085821427466300"]
+            roles: [process.env.MAINMR]
         },
         {
             minrole: 130,
             maxrole: 155,
-            roles: ["987085792365125722"]
+            roles: [process.env.MAINHR]
         },
         {
             minrole: 157,
             maxrole: 255,
-            roles: ["987406739961946162", "1098284216749404351"]
+            roles: [process.env.BLUpdater, process.env.MAINSHR]
         },
         {
             minrole: 140,
             maxrole: 255,
-            roles: ["864306599526137886"]
+            roles: [process.env.RevivePing]
         },
         {
             minrole: 145,
             maxrole: 255,
-            roles: ["987406739961946162"]
+            roles: [process.env.BLUpdater]
         },
         {
             minrole: 123,
             maxrole: 255,
-            roles: ["1248303542083784806"]
+            roles: [process.env.GroupWallShoutPerms]
         },
     ]
     var rank
@@ -87,28 +87,30 @@ export async function updateUser(userid, member, rblxusername, interaction: Comm
         await member.roles.remove("1098288727979204819")
     }
 
-    for (let i = 0; i < binds.length; i++) {
-        const bind = binds[i]
-        if (rank < bind.minrole || rank > bind.maxrole) {
-            for (let i = 0; i < bind.roles.length; i++) {
-                if (member.roles.cache.get(bind.roles[i])) {
-                    await member.roles.remove(bind.roles[i])
-                    removed.unshift(" " + interaction.guild.roles.cache.get(bind.roles[i]).name)
+    if (interaction.guild.id == process.env.MainServerId) {
+        for (let i = 0; i < binds.length; i++) {
+            const bind = binds[i]
+            if (rank < bind.minrole || rank > bind.maxrole) {
+                for (let i = 0; i < bind.roles.length; i++) {
+                    if (member.roles.cache.get(bind.roles[i])) {
+                        await member.roles.remove(bind.roles[i])
+                        removed.unshift(" " + interaction.guild.roles.cache.get(bind.roles[i]).name)
+                    }
+    
                 }
-
             }
         }
-    }
-
-    for (let i = 0; i < binds.length; i++) {
-        const bind = binds[i]
-        if (rank >= bind.minrole && rank <= bind.maxrole) {
-            for (let i = 0; i < bind.roles.length; i++) {
-                if (!member.roles.cache.get(bind.roles[i])) {
-                    await member.roles.add(bind.roles[i])
-                    add.unshift(" " + interaction.guild.roles.cache.get(bind.roles[i]).name)
+    
+        for (let i = 0; i < binds.length; i++) {
+            const bind = binds[i]
+            if (rank >= bind.minrole && rank <= bind.maxrole) {
+                for (let i = 0; i < bind.roles.length; i++) {
+                    if (!member.roles.cache.get(bind.roles[i])) {
+                        await member.roles.add(bind.roles[i])
+                        add.unshift(" " + interaction.guild.roles.cache.get(bind.roles[i]).name)
+                    }
+    
                 }
-
             }
         }
     }

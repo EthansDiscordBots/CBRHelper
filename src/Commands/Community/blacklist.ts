@@ -19,7 +19,7 @@ module.exports = {
         const place=  interaction.options.getString("place")
         const add = interaction.options.getBoolean("add")
         const reason = interaction.options.getString("reason")
-
+        if (!interaction.member.roles.cache.get(process.env.MAINSHR))
         if (add && !reason) return await interaction.followUp("You must have a reason if you are adding a blacklist to a user")
         const userid = await getIdFromUsername(robloxusername)
         await new Promise(r => setTimeout(r, 500))

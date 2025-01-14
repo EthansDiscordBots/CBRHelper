@@ -98,7 +98,7 @@ module.exports = {
             }
 
             if (embeds.length > 0) {
-                await client.channels.cache.get("1279312212032491520").send({ embeds });
+                await client.channels.cache.get(process.env.AuditLogs).send({ embeds });
             }
 
         }, 7500);

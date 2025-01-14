@@ -30,7 +30,7 @@ module.exports = {
                     embed.setFields(data.getValue("fields"))
                     embed.setColor(0x00ffe5)
                     AppealFormsPending.deleteEntryById(data.getValue("_id"))
-                    client.channels.cache.get("1132683214964658197").send({content: "<@&1130866442720526396>", embeds: [embed] })
+                    client.channels.cache.get(process.env.MRAppealForms).send({content: "<@&1130866442720526396>", embeds: [embed] })
                 }
 
                 

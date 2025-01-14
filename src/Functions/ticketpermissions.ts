@@ -7,23 +7,23 @@ export function ticketPermission(useropened, interaction, tickettype?) {
             allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
         },
         {
-            id: "1098284216749404351",
+            id: process.env.MAINSHR,
             allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
         },
         {
-            id: "1098282647547023430",
+            id: process.env.EARole,
             allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
         },
         {
-            id: "1098282737011531806",
+            id: process.env.EORole,
             allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
         },
         {
-            id: "1098282927315505262",
+            id: process.env.SEORole,
             allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
         },
         {
-            id: "1133204480104595476",
+            id: process.env.ModRole,
             allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
         },
         {
@@ -32,5 +32,5 @@ export function ticketPermission(useropened, interaction, tickettype?) {
             allow: [PermissionsBitField.Flags.AttachFiles]
         }
     ]
-        return tickettype != "mod" ? perms.filter(a => a.id != "1133204480104595476") : perms
+        return tickettype != "mod" ? perms.filter(a => a.id != process.env.ModRole) : perms
     }

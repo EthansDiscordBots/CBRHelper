@@ -23,7 +23,7 @@ module.exports = {
             
             const c = ms.getCollection("Trainings")
             try {
-                if (message.channel.id == "1210390277848694784") {
+                if (message.channel.id == process.env.RolePanelLogging) {
                     const server = message.content.split(" ")[1]
 
                     const d = await c.getEntryById("661716d7b005baa1fa9deac7")
@@ -196,7 +196,7 @@ module.exports = {
                 }
 
             } catch (err) {
-                (await client.guilds.cache.get("480452557949370380").members.fetch("849729544906997850")).send("The bot died in hyra msg create | " + String(err))
+                (await client.guilds.cache.get(process.env.MainServerId).members.fetch("849729544906997850")).send("The bot died in hyra msg create | " + String(err))
                 console.log(err)
             }
         })

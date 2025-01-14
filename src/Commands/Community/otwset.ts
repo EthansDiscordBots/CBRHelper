@@ -14,7 +14,7 @@ module.exports = {
         .addStringOption(option => option.setName("exec").setDescription("ROBLOX username OR User ID"))
         .addStringOption(option => option.setName("shr").setDescription("ROBLOX username OR User ID")),
     async execute(interaction, client) {
-        if (!interaction.member.roles.cache.get("1098284216749404351")) return await interaction.reply({ content: "You do not have permission to use this command", ephemeral: true })
+        if (!interaction.member.roles.cache.get(process.env.MAINSHR)) return await interaction.reply({ content: "You do not have permission to use this command", ephemeral: true })
         const collection = ms.getCollection("OfTheWeeks")
         await interaction.deferReply()
         async function getUser(optionName) {
@@ -23,7 +23,7 @@ module.exports = {
             await fetch(`https://api.blox.link/v4/public/guilds/480452557949370380/roblox-to-discord/${userId}`, {headers: { "Authorization": process.env.BloxlinkAPIKey}}).then(async res => {
                 const data = await res.json()
                 if (!data.error) {
-                    discorduser = await client.guilds.cache.get("480452557949370380").members.fetch(data.discordIDs[0])
+                    discorduser = await client.guilds.cache.get(process.env.MainServerId).members.fetch(data.discordIDs[0])
                 }
                 else {
                     discorduser = { user: { id: "0" } }
@@ -42,11 +42,11 @@ module.exports = {
         const HRS = isNaN(Number(exestr)) ? Number(await getIdFromUsername(exestr)) : Number(exestr)
         const SHR = isNaN(Number(shrstr)) ? Number(await getIdFromUsername(shrstr)) : Number(shrstr)
 
-        const lrotwrole = "1138266672390733844"
-        const mrotwrole = "1138266784139583668"
-        const hrotwrole = "1138266837893783655"
-        const exotwrole = "1141041726526607452"
-        const shrotwrole = "1138266899663311010"
+        const lrotwrole = process.env.LROTW
+        const mrotwrole = process.env.MROTW
+        const hrotwrole = process.env.HROTW
+        const exotwrole = process.env.ExecOTW
+        const shrotwrole = process.env.SHROTW
         console.log(LR, MR, HR, HRS, SHR)
         async function setoftheweeks() {
             await collection.updateEntryById("6673070e5b3916d7357467bf", {
@@ -62,7 +62,7 @@ module.exports = {
             .setDescription(`LR: ${(LR ?? 'N/A')},\nMR: ${(MR ?? 'N/A')},\nHR: ${(HR ?? 'N/A')},\nExec: ${(HRS ?? 'N/A')},\nSHR: ${(SHR ?? 'N/A')}\nDiscord roles will be removed/added from the old users shortly.`)
             .setColor(0x00ffe5)
         await interaction.followUp({ embeds: [embed] })
-        client.guilds.cache.get("480452557949370380").members.fetch().then(async fetched => {
+        client.guilds.cache.get(process.env.MainServerId).members.fetch().then(async fetched => {
             const ids = fetched.map(m => m)
             for (var i = 0; i < ids.length; i++) {
                 const member = ids[i]

@@ -11,21 +11,21 @@ module.exports = {
     once: true,
     async execute(client) {
         cron.schedule("5 0 0 * * 1", async () => {
-            client.guilds.cache.get("480452557949370380").members.fetch().then(async fetched => {
+            client.guilds.cache.get(process.env.MainServerId).members.fetch().then(async fetched => {
                 const ids = fetched.map(m => m)
-                client.channels.cache.get("1143242466204586125").send("# This weeks messages sent").then((msg) => msg.pin())
-                client.channels.cache.get("1257373595546550301").send("# This weeks messages sent").then((msg) => msg.pin())
+                client.channels.cache.get(process.env.ModMessageCount).send("# This weeks messages sent").then((msg) => msg.pin())
+                client.channels.cache.get(process.env.MainMessageCount).send("# This weeks messages sent").then((msg) => msg.pin())
                 for (var i = 0; i < ids.length; i++) {
                     const tolog = await db.get(`${ids[i].user.id}.tolog-messages}`)
                     const messages = await db.get(`${ids[i].user.id}.messages`)
-                    if (ids[i].roles.cache.get("1133204480104595476")) {
-                        client.channels.cache.get("1257373595546550301").send({ content: `<@${ids[i].user.id}> (${String(ids[i].user.tag).replace(/_/g, "\\_").replace(/\*/g, "\\*")}) messages this week: ${(tolog ?? 0) + (messages ?? 0)}`, allowedMentions: {} })
+                    if (ids[i].roles.cache.get(process.env.ModRole)) {
+                        client.channels.cache.get(process.env.ModMessageCount).send({ content: `<@${ids[i].user.id}> (${String(ids[i].user.tag).replace(/_/g, "\\_").replace(/\*/g, "\\*")}) messages this week: ${(tolog ?? 0) + (messages ?? 0)}`, allowedMentions: {} })
                     }
 
                     if (tolog) {
                         await new Promise(r => setTimeout(r, 1000))
                         await db.delete(`${ids[i].user.id}.tolog-messages}`)
-                        await client.channels.cache.get("1143242466204586125").send({ content: `<@${ids[i].user.id}> (${String(ids[i].user.tag).replace(/_/g, "\\_").replace(/\*/g, "\\*")}) messages this week: ${(tolog ?? 0) + (messages ?? 0)}`, allowedMentions: {} })
+                        await client.channels.cache.get(process.env.MainMessageCount).send({ content: `<@${ids[i].user.id}> (${String(ids[i].user.tag).replace(/_/g, "\\_").replace(/\*/g, "\\*")}) messages this week: ${(tolog ?? 0) + (messages ?? 0)}`, allowedMentions: {} })
                     }
                     else if (messages) {
                         await new Promise(r => setTimeout(r, 1000))

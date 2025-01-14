@@ -17,7 +17,7 @@ module.exports = {
             const roletable = await getRoleInGroup(process.env.groupId, robloxId)
             if (!robloxId) return await interaction.reply({content: "You are not verified on the bot, please run /verify first.", ephemeral: true})
             if (roletable.rank < 30) return await interaction.reply({content: "You do not have sufficient permissions to run this command.", ephemeral: true})
-            if (await interaction.member.roles.cache.get("1324386691829600286")) return await interaction.reply({content: "You are already certified", ephemeral: true})
+            if (await interaction.member.roles.cache.get(process.env.CertifiedManagementRole)) return await interaction.reply({content: "You are already certified", ephemeral: true})
             await interaction.deferReply({ephemeral: true})
             async function checkMsForCert() {
                 return await certicoll.getEntries({discordId: interaction.user.id})
@@ -26,7 +26,7 @@ module.exports = {
             await retryOperation(checkMsForCert).then(response => foundEntry = response)
 
             if (foundEntry.length > 0) {
-                await interaction.member.roles.add("1324386691829600286")
+                await interaction.member.roles.add(process.env.CertifiedManagementRole)
                 return await interaction.followUp({content: "Found quiz completed previously, role re-given."})
             }
 
