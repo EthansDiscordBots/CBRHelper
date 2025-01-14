@@ -98,7 +98,7 @@ module.exports = {
                     TrainingCentreLogs.deleteEntryById(data.getValue("_id"))
                 }
 
-                client.channels.cache.get("1209982303913381910").send({ embeds: traininglogsembeds })
+                client.channels.cache.get(process.env.TrainingServerCreate).send({ embeds: traininglogsembeds })
             }
         }, 10000);
     }

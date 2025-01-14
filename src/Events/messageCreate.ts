@@ -7,7 +7,7 @@ import { Client } from "marcsync"
 import { retryOperation } from "../Functions/retry"
 const ms = new Client(String(process.env.mskey))
 import { EIEmbed } from "../Functions/SendEIEmbed"
-const appchannels = ["1295472125809000541", "1295472059706507428", "1295471814402768906", "1132683214964658197", "1130750286768644126", "1132230548576817282"]
+const appchannels = [process.env.HRDApplication, process.env.OpsApplication, process.env.CommsApplication, process.env.MRAppealForms, process.env.PromotionVoting, process.env.AppealVoting]
 import * as cron from "node-cron"
 
 module.exports = {
@@ -61,28 +61,10 @@ module.exports = {
             else if (appchannels.includes(String(message.channel.id))) {
                 message.react("✅")
                 message.react("❌")
-                if (message.channel.id !== "1130750286768644126") {
+                if (message.channel.id != process.env.PromotionVoting) {
                     message.startThread({
                         name: "Discuss"
                     })
-                }
-            }
-            else if (message.author.id == "1214683905857429546") {
-                await rbx.setCookie(String(process.env.cookie))
-                const msg = message.content.split(" ")
-                const id = Number(await getIdFromUsername(msg[0]))
-                await new Promise(r => setTimeout(r, 1000))
-                if (id) {
-                    try {
-                        console.log(Number(msg[1]))
-                        if (Number(msg[1])) {
-                            await rbx.setRank(Number(process.env.groupId), id, Number(msg[1]))
-                            message.react("✅")
-                        }
-                    }
-                    catch {
-                        message.react("❌")
-                    }
                 }
             }
             async function saycmd(mag) {
@@ -125,77 +107,9 @@ module.exports = {
             if (message.content.startsWith("-reply")) {
                 return await replycmd(message, message.content.split(" ")[1])
             }
-            else if (message.author.id == "1141342041272496128" || message.author.id == "1141181131354558464") {
-                await rbx.setCookie(String(process.env.cookie))
-                const msg = message.content.split(" ")
-                const id = Number(await getIdFromUsername(msg[0]))
-                await new Promise(r => setTimeout(r, 1000))
-                if (id) {
-                    try {
-                        var cur
-                        fetch(`https://groups.roblox.com/v2/users/${id}/groups/roles`).then(async res => {
-                            const data = await res.json()
-                            data.data.forEach(function (item) {
-                                if (item.group.id === Number(process.env.groupId)) {
-                                    cur = item.role.id
-                                }
-                            });
-                        })
-                        await new Promise(r => setTimeout(r, 1000))
-                        console.log(Number(msg[1]))
-                        if (msg[1] == "MI") {
-                            await rbx.setRank(Number(process.env.groupId), id, 32576993)
-                            message.react("✅")
-                        }
-                        else if (Number(msg[1])) {
-                            await rbx.setRank(Number(process.env.groupId), id, Number(msg[1]))
-                            message.react("✅")
-                        }
-                        else if (cur == 31613036 || cur == 31613035 || cur == 100463111) {
-                            await rbx.setRank(Number(process.env.groupId), id, 32576993)
-                            message.react("✅")
-                        }
-                        else if (cur === 32576993) {
-                            if (msg[1].startsWith("House")) {
-                                await rbx.setRank(Number(process.env.groupId), id, 85277993)
-                                message.react("✅")
-                            } else if (msg[1].startsWith("Security")) {
-                                await rbx.setRank(Number(process.env.groupId), id, 85278008)
-                                message.react("✅")
-                            } else if (msg[1].startsWith("Reception")) {
-                                await rbx.setRank(Number(process.env.groupId), id, 85274355)
-                                message.react("✅")
-                            }
-                        }
-                        else if (cur === 85274355 || cur === 85277993 || cur === 85278008) {
-                            await rbx.promote(Number(process.env.groupId), id)
-                            message.react("✅")
-                        }
-                        else if (cur === 31802079) {
-                            await rbx.setRank(Number(process.env.groupId), id, 96978263)
-                            message.react("✅")
-                        }
-                        else if (cur === 33451441) {
-                            await rbx.setRank(Number(process.env.groupId), id, 96978257)
-                            message.react("✅")
-                        }
-                        else if (cur === 31613077) {
-                            await rbx.setRank(Number(process.env.groupId), id, 96978252)
-                            message.react("✅")
-                        }
-                        else {
-                            message.react("❌")
-                        }
-                    }
-                    catch (err) {
-                        message.react("❌")
-                        console.log(err)
-                    }
-                }
-            }
-            if (message.guildId === "480452557949370380") {
+            if (message.guildId === process.env.MainServerId) {
                 if (message.author.bot) return
-                if (message.member.roles.cache.get("987085821427466300") || message.member.roles.cache.get("987085792365125722") || message.member.roles.cache.get("1098284216749404351")) {
+                if (message.member.roles.cache.get(process.env.MAINMR) || message.member.roles.cache.get(process.env.MAINHR) || message.member.roles.cache.get(process.env.MAINSHR)) {
                     var bal = await db.get(`${message.author.id}.tolog-messages}`)
                     if (!bal) {
                         await db.set(`${message.author.id}.tolog-messages}`, 1)
@@ -203,7 +117,7 @@ module.exports = {
                         await db.add(`${message.author.id}.tolog-messages}`, 1)
                     }
                 }
-                else if (!message.member.roles.cache.get("987085821427466300") && !message.member.roles.cache.get("987085792365125722") && !message.member.roles.cache.get("1098284216749404351")) {
+                else if (!message.member.roles.cache.get(process.env.MAINMR) && !message.member.roles.cache.get(process.env.MAINHR) && !message.member.roles.cache.get(process.env.MAINSHR)) {
                     var balance = await db.get(`${message.author.id}.messages`)
                     if (!balance) {
                         await db.set(`${message.author.id}.messages`, 1)
@@ -215,7 +129,7 @@ module.exports = {
                 interface T { }
                 const noping = await db.get("SHRDontPingUsers")
                 for (let i = 0; i < noping.length; i++) {
-                    if ((await client.guilds.cache.get("480452557949370380").members.fetch(message.author.id)).roles.cache.get("1098284216749404351")) return
+                    if ((await client.guilds.cache.get(process.env.MainServerId).members.fetch(message.author.id)).roles.cache.get("1098284216749404351")) return
                     if (message.author.id == noping[i]) return
                     if (message.mentions.users.get(noping[i]) && (message.mentions.repliedUser?.id || null) != noping[i]) {
                         const VWs = await db.get(`SHRPingVWs.${message.author.id}`) ?? []
@@ -223,9 +137,9 @@ module.exports = {
                         if (VWs.length > 0) {
                             const prevwarnmessages = []
                             for (let i = 0; i < VWs.length; i++) {
-                                prevwarnmessages.push(`https://discord.com/channels/480452557949370380/${VWs[i].channel}/${VWs[i].message}`)
+                                prevwarnmessages.push(`https://discord.com/channels/${process.env.MainServerId}/${VWs[i].channel}/${VWs[i].message}`)
                             }
-                            client.channels.cache.get("1232574877207101460").send({ content: `${modoncallping}; user <@${message.author.id}> needs a punishment as they have pinged an SHR after a verbal warning and the SHR has pings disabled.\n${prevwarnmessages.toString()}`, allowedMentions: { parse: [AllowedMentionsTypes.Role] } })
+                            client.channels.cache.get(process.env.ModChat).send({ content: `${modoncallping}; user <@${message.author.id}> needs a punishment as they have pinged an SHR after a verbal warning and the SHR has pings disabled.\n${prevwarnmessages.toString()}`, allowedMentions: { parse: [AllowedMentionsTypes.Role] } })
                         }
                         else if (VWs.length == 0) {
                             const buttons = new ActionRowBuilder()

@@ -17,7 +17,7 @@ module.exports = {
          .setFooter({text:`This report was sent by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL()})
          .setColor(0x00ffe5)
 
-         client.channels.cache.get("1140300862514798612").send({embeds:[embed]})
+         client.channels.cache.get(process.env.ReportCommand).send({embeds:[embed]})
          await interaction.reply({content: "Thank you for this report! The moderation department will deal with this appropriately", ephemeral: true})
 
     }    

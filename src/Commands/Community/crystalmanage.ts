@@ -84,7 +84,7 @@ module.exports = {
                 return await interaction.followUp({embeds: [reply_embed]})
         }
 
-        if (!interaction.member.roles.cache.get("1098284216749404351")) return await interaction.reply({ content: "You do not have permission to use this command", ephemeral: true })
+        if (!interaction.member.roles.cache.get(process.env.MAINSHR)) return await interaction.reply({ content: "You do not have permission to use this command", ephemeral: true })
 
         switch (command) {
             case "remove":
@@ -128,6 +128,6 @@ module.exports = {
             .setDescription(`${await getUsernameFromId(userid)} // \`${userid}\` has had their ballance ${set ? 'set to' : 'changed by'} ${change}`)
             .setColor(0x00ffe5)
         await interaction.followUp({ embeds: [reply_embed] })
-        client.channels.cache.get("1245324205323714621").send({ embeds: [embed] })
+        client.channels.cache.get(process.env.CrystalManageLogs).send({ embeds: [embed] })
     }
 }

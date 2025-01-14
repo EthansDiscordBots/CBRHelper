@@ -24,7 +24,7 @@ module.exports = {
         setInterval(() => {
 
             const array = [
-                `${client.guilds.cache.get("480452557949370380").memberCount} amazing people ❤`,
+                `${client.guilds.cache.get(process.env.MainServerId).memberCount} amazing people ❤`,
             ];
             let index = 0;
             if (index === array.length) index = 0

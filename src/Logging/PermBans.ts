@@ -41,7 +41,7 @@ module.exports = {
                 }
                 retryOperation(createEntry)
     
-                client.channels.cache.get("1261714722806567024").send({ embeds: PbanEmbeds }).then(msg => msg.startThread({name: "Proof"}))
+                client.channels.cache.get(process.env.PermBans).send({ embeds: PbanEmbeds }).then(msg => msg.startThread({name: "Proof"}))
             }
         }, 10000);
     }

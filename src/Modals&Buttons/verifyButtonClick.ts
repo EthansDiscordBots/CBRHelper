@@ -55,7 +55,7 @@ module.exports = {
                             .then(result => console.log("Operation succeeded - Set verified user"))
                             .catch(error => console.error("Operation failed:", error.message));
                             const rblxuser = await getUsernameFromId(robloxUserId)
-                            if (interaction.channel.id == "987088186574512168") {
+                            if (interaction.channel.id == process.env.VerifyChannel) {
                                 await interaction.reply({ content: `Successfully verified as ${rblxuser} (\`${robloxUserId}\`)`, ephemeral: true })
                             } else {
                                 await interaction.reply({ content: `Successfully verified as ${rblxuser} (\`${robloxUserId}\`)` })
@@ -118,7 +118,7 @@ module.exports = {
                     const userId = await db.get(`${interaction.user.id}.pendingRobloxUserId`)
                     if ((await getBlurb(userId)).includes(await db.get(`${interaction.user.id}.emojiString`))) {
                         const rblxuser = await getUsernameFromId(userId)
-                        if (interaction.channel.id == "987088186574512168") {
+                        if (interaction.channel.id == process.env.VerifyChannel) {
                             await interaction.reply({ content: `Successfully verified as ${rblxuser} (\`${userId}\`)`, ephemeral: true })
                         } else {
                             await interaction.reply({ content: `Successfully verified as ${rblxuser} (\`${userId}\`)` })
@@ -146,7 +146,7 @@ module.exports = {
                     }
                     if (entry[0].getValue("confirmed")) {
                         const rblxuser = await getUsernameFromId(entry[0].getValue("RobloxId"))
-                        if (interaction.channel.id == "987088186574512168") {
+                        if (interaction.channel.id == process.env.VerifyChannel) {
                             await interaction.reply({ content: `Successfully verified as ${rblxuser} (\`${entry[0].getValue("RobloxId")}\`)`, ephemeral:true })
                         }
                         else {

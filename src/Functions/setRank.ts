@@ -5,8 +5,7 @@ export async function setRank(cookie, groupId, userid, newrank) {
 
     
     if (Number.isNaN(Number(newrank))) {
-        console.log("nan")
-        const roles = (await fetch("https://groups.roblox.com/v1/groups/4720080/roles").then(async res => {
+        const roles = (await fetch(`https://groups.roblox.com/v1/groups/${groupId}/roles`).then(async res => {
             const data = await res.json()
             return data.roles
         }))
@@ -18,8 +17,7 @@ export async function setRank(cookie, groupId, userid, newrank) {
         }
     }
     else if (Number(newrank) <= 255) {
-        console.log("<= 255")
-        const roles = await fetch("https://groups.roblox.com/v1/groups/4720080/roles").then(async res => {
+        const roles = await fetch(`https://groups.roblox.com/v1/groups/${groupId}/roles`).then(async res => {
             const data = await res.json()
             return data.roles
         })
@@ -28,7 +26,6 @@ export async function setRank(cookie, groupId, userid, newrank) {
             const rolerank = roles[i].rank;
             console.log(rolerank)
             if (rolerank == Number(newrank)) {
-                console.log("rank found")
                 newrankid = roles[i].id
             }
         }

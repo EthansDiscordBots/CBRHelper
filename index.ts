@@ -7,4 +7,5 @@ client.setMaxListeners(100);
 require('dotenv').config();
 deployCommands(client)
 deployEvents(client)
+
 client.login(String(process.env.token))

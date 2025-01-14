@@ -32,7 +32,7 @@ module.exports = {
         )
 
 //        client.channels.cache.get("1206677980990935061").send({embeds: [embed], components: [buttons]})
-        const s = client.channels.cache.get("1206677980990935061").createMessageComponentCollector()
+        const s = client.channels.cache.get(process.env.CandidateClosureChannel).createMessageComponentCollector()
 
         const nowUTC = new Date()
         const estTime = nowUTC.toLocaleString("en-US", {timeZone: "America/New_York"})

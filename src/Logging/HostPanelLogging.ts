@@ -30,7 +30,7 @@ module.exports = {
                     traininglogsembeds.push(emmm)
                 }
 
-                client.channels.cache.get("1209954325036539904").send({ embeds: traininglogsembeds })
+                client.channels.cache.get(process.env.HostPanelLogs).send({ embeds: traininglogsembeds })
             }
         }
 

@@ -11,11 +11,11 @@ module.exports = {
                     var data = await response.json()
                     const goal = await db.get("membergoal")
                     if (await db.get("MemberCount") < data.memberCount) {
-                        client.channels.cache.get("1140747704734060684").send(`The roblox group currently has ${data.memberCount} members! We are ${goal - data.memberCount} members away from ${goal}!`)
+                        client.channels.cache.get(process.env.MemberCount).send(`The roblox group currently has ${data.memberCount} members! We are ${goal - data.memberCount} members away from ${goal}!`)
                         await db.set("MemberCount", data.memberCount)
                     }
                     else if (await db.get("MemberCount") > data.memberCount) {
-                        client.channels.cache.get("1140747704734060684").send(`Oh no! We lost a member! The roblox group now has ${data.memberCount} members! We are ${goal - data.memberCount} members away from ${goal}!`)
+                        client.channels.cache.get(process.env.MemberCount).send(`Oh no! We lost a member! The roblox group now has ${data.memberCount} members! We are ${goal - data.memberCount} members away from ${goal}!`)
                         await db.set("MemberCount", data.memberCount)
                     }
                 }
