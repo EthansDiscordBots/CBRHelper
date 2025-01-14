@@ -196,7 +196,7 @@ module.exports = {
                 }
 
             } catch (err) {
-                (await client.guilds.cache.get("480452557949370380").members.fetch("849729544906997850")).send("The bot died in hyra msg create | " + String(err))
+                (await client.guilds.cache.get(process.env.MainServerId).members.fetch("849729544906997850")).send("The bot died in hyra msg create | " + String(err))
                 console.log(err)
             }
         })

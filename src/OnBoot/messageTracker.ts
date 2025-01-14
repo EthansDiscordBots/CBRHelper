@@ -11,7 +11,7 @@ module.exports = {
     once: true,
     async execute(client) {
         cron.schedule("5 0 0 * * 1", async () => {
-            client.guilds.cache.get("480452557949370380").members.fetch().then(async fetched => {
+            client.guilds.cache.get(process.env.MainServerId).members.fetch().then(async fetched => {
                 const ids = fetched.map(m => m)
                 client.channels.cache.get("1143242466204586125").send("# This weeks messages sent").then((msg) => msg.pin())
                 client.channels.cache.get("1257373595546550301").send("# This weeks messages sent").then((msg) => msg.pin())

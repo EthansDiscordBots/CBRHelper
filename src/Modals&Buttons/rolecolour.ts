@@ -28,7 +28,7 @@ module.exports = {
 
         if (interaction.isModalSubmit() && interaction.customId.split("-")[1] == "Colour") {
             const roleId = interaction.customId.split("-")[0]
-            const role = client.guilds.cache.get("480452557949370380")?.roles.cache.get(roleId)
+            const role = client.guilds.cache.get(process.env.MainServerId)?.roles.cache.get(roleId)
             let colour
             await interaction.deferReply({ephemeral: true})
             try {

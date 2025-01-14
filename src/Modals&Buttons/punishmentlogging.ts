@@ -130,7 +130,7 @@ module.exports = {
                     .replace("PUNISHERRANK", punishmentdata.IssuerData.rankInGroup)
                     .replace("PUNISHMENTREASON", punishmentdata.Reason)
                 if ((await getRoleInGroup(process.env.groupId, punishmentdata.Involved.id)).rank > 30) {
-                    const member = await client.guilds.cache.get("480452557949370380")?.members.fetch(membertodm)
+                    const member = await client.guilds.cache.get(process.env.MainServerId)?.members.fetch(membertodm)
                     if (!member) await interaction.reply({ content: "This member is not within the main discord server, DM notice not sent. Any other actions (eg demotion/termination) (should have been) completed. (DEMOTION NOT YET ADDED)", ephemeral: true })
                     else {
                         await interaction.reply({ content: "User has been DMd, and any other actions (eg blacklist/termination) (should have been) completed.", ephemeral: true })

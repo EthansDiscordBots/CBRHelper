@@ -45,7 +45,7 @@ module.exports = {
                         }
                     }
                 }
-                (await client.guilds.cache.get("480452557949370380").members.fetch(userwhopinged)).send(`The SHR you have pinged in https://discord.com/channels/480452557949370380/${channelin}/${messageid} has removed the verbal warning from your record. Please do not ping another SHR member with their pings disabled.`)
+                (await client.guilds.cache.get(process.env.MainServerId).members.fetch(userwhopinged)).send(`The SHR you have pinged in https://discord.com/channels/480452557949370380/${channelin}/${messageid} has removed the verbal warning from your record. Please do not ping another SHR member with their pings disabled.`)
                 interaction.message.edit({content: interaction.message.content, components: [], allowedMentions: {parse: []}})
                 await interaction.reply({content: "This users vw has been removed from the logs.", ephemeral: true})
                 await db.set("SHRPingVWs", data)

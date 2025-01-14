@@ -14,7 +14,7 @@ module.exports = {
         
         .setDescription("Verify everyone on the bot and update those who are already"),
     async execute(interaction: CommandInteraction, client) {
-        client.guilds.cache.get("480452557949370380").members.fetch().then(async members => {
+        client.guilds.cache.get(process.env.MainServerId).members.fetch().then(async members => {
             const ids = members.map(m => m)
             await interaction.reply({content: `Scanning server. Estimated time until completion ${Math.floor((5 * ids.length) / 60)} minutes`})
             for (var i = 0; i < ids.length; i++) {
@@ -25,7 +25,7 @@ module.exports = {
                     await updateUser(id, member, await getUsernameFromId(id), interaction)
                 }
                 else {
-                    fetch(`https://api.blox.link/v4/public/guilds/480452557949370380/discord-to-roblox/${member.user.id}`, { headers: { "Authorization": process.env.BloxlinkAPIKey } })
+                    fetch(`https://api.blox.link/v4/public/guilds/${process.env.MainServerId}/discord-to-roblox/${member.user.id}`, { headers: { "Authorization": process.env.BloxlinkAPIKey } })
                         .then(async (response) => {
                             const data = await response.json()
                             const robloxUserId = data.robloxID
