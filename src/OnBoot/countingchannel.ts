@@ -5,7 +5,7 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
-        client.channels.cache.get("1219441779074535524").messages.fetch({after: null | String(await db.get(`480452557949370380.countinglastmessage`))}).then(async m => {        
+        client.channels.cache.get("1219441779074535524").messages.fetch({after: null | Number(await db.get(`480452557949370380.countinglastmessage`)) > 1 ? String(await db.get(`480452557949370380.countinglastmessage`)) : null}).then(async m => {        
             let messages = m.map(m => m)
             messages = messages.reverse()
             var mostrecentcorrect = await db.get("480452557949370380.count")
