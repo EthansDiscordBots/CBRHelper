@@ -5,7 +5,7 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
-        client.channels.cache.get(process.env.CountingChannel).messages.fetch({after: null | String(await db.get(`${process.env.MainServerId}.countinglastmessage`))}).then(async m => {        
+        client.channels.cache.get(process.env.CountingChannel).messages.fetch({after: null | Number(await db.get(`${process.env.MainServerId}.countinglastmessage`)) >= 1 ? String(await db.get(`${process.env.MainServerId}.countinglastmessage`)) : null}).then(async m => {        
             let messages = m.map(m => m)
             messages = messages.reverse()
             var mostrecentcorrect = await db.get(`${process.env.MainServerId}.count`)
