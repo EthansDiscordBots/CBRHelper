@@ -21,25 +21,14 @@ module.exports = {
                 let content = ""
                 let charlength = 0
                 let embed = new EmbedBuilder()
+                .setColor(0x00ffe5)
                 for (let i = 0; i < data.getValue("fields").length; i++) {
-                    if (charlength < 3000) {
-                        content = content + `**${data.getValue("fields")[i].name}**` + "\n\n"
-                        content = content + data.getValue("fields")[i].value + "\n\n"
-                        charlength += String(data.getValue("fields")[i].name).length
-                        charlength += String(data.getValue("fields")[i].name).length
-                    } else {
-                        embed.setColor(0x00ffe5)
-                        embed.setDescription(content)
-                        charlength = 0
-                        content = ""
-                        embeds.push(embed)
-                        embed = new EmbedBuilder()
-                    }
-                    embed.setColor(0x00ffe5)
-                    embed.setDescription(content)
+                    embed.setDescription(data.getValue("fields")[i])
                     embeds.push(embed)
-                    data.delete()
+                    embed = new EmbedBuilder()
+                    .setColor(0x00ffe5)
                 }
+                data.delete()
                 client.channels.cache.get(process.env.ModAppealForms).send({ content: "", embeds: embeds })
             }
         })
@@ -60,24 +49,12 @@ module.exports = {
                 const data: Entry<Logging> = pendingappeals[i]
                 var embed = new EmbedBuilder()
                 for (let i = 0; i < data.getValue("fields").length; i++) {
-                    if (charlength < 3000) {
-                        content = content + `**${data.getValue("fields")[i].name}**` + "\n\n"
-                        content = content + data.getValue("fields")[i].value + "\n\n"
-                        charlength += String(data.getValue("fields")[i].name).length
-                        charlength += String(data.getValue("fields")[i].name).length
-                    } else {
-                        charlength = 0
-                        content = ""
-                        embed.setColor(0x00ffe5)
-                        embed.setDescription(content)
-                        embeds.push(embed)
-                        embed = new EmbedBuilder()
-                    }
-
+                    embed.setDescription(data.getValue("fields")[i])
+                    embeds.push(embed)
+                    embed = new EmbedBuilder()
+                    .setColor(0x00ffe5)
                 }
-                embed.setColor(0x00ffe5)
-                embed.setDescription(content)
-                embeds.push(embed)
+                
                 data.delete()
                 client.channels.cache.get(process.env.ModAppealForms).send({ content: "", embeds: embeds })
             }
