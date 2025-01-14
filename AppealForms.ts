@@ -79,7 +79,7 @@ module.exports = {
                 embed.setColor(0x00ffe5)
                 embed.setDescription(content)
                 embeds.push(embed)
-                AppealFormsPending.deleteEntryById(data.getValue("_id"))
+                data.delete()
                 client.channels.cache.get(procrss.env.MRAppealForms).send({ content: "<@&1130751888875343982>", embeds: embeds })
             }
         }
