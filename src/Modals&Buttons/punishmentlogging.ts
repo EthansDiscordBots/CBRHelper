@@ -59,7 +59,7 @@ module.exports = {
                     name: interaction.fields.getTextInputValue("Member Username"),
                     id: userID
                 },
-                Department: interaction.channel?.id == "1130750245370875994" ? "Human Resources" : "Operations",
+                Department: interaction.channel?.id == process.env.HRSPunishmentLog ? "Human Resources" : "Operations",
                 Reason: interaction.fields.getTextInputValue("Reason"),
                 IssuerData: {
                     name: userdata.name,
@@ -170,7 +170,7 @@ module.exports = {
                                 })
                             case "Demotion":
                                 const playercurrentrank = await getRoleInGroup(process.env.groupId, punishmentdata.Involved.id)
-                                const roles = (await (await fetch("https://groups.roblox.com/v1/groups/4720080/roles")).json()).roles
+                                const roles = (await (await fetch(`https://groups.roblox.com/v1/groups/${process.env.groupId}/roles`)).json()).roles
                                 const rolepos = roles.find(r => r.name == playercurrentrank.RankName && r.rank == playercurrentrank.rank)
                                 const newrole = roles[roles.indexOf(rolepos) - 1]
                                 messageformat = messageformat.replace("OLDRANK", playercurrentrank.RankName).replace("NEWRANK", newrole.name)

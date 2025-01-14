@@ -24,25 +24,25 @@ module.exports = {
                 if (id) {
                     await updateUser(id, member, await getUsernameFromId(id), interaction)
                 }
-                else {
-                    fetch(`https://api.blox.link/v4/public/guilds/${process.env.MainServerId}/discord-to-roblox/${member.user.id}`, { headers: { "Authorization": process.env.BloxlinkAPIKey } })
-                        .then(async (response) => {
-                            const data = await response.json()
-                            const robloxUserId = data.robloxID
-                            if (!robloxUserId) return client.channels.cache.get("1181701599278669834").send({content: `Unable to find a roblox account for <@${member.user.id}>`, allowedMentions: {} })
-                            await db.set(`${member.user.id}.verifiedRoblox`, robloxUserId)
-                            await db.set(`${robloxUserId}.discordId`, member.user.id)
-                            async function setVerified() {
-                                await verifiedCollection.createEntry({ RobloxUserId: robloxUserId, DiscordUserId: member.user.id })
-                            }
-                            retryOperation(setVerified)
-                                .then(result => console.log("Operation succeeded - Set verified user"))
-                                .catch(error => console.error("Operation failed:", error.message));
-                            const rblxuser = await getUsernameFromId(robloxUserId)
-                            await client.channels.cache.get("1181701599278669834").send({content: `Successfully linked <@${member.user.id}> as [${rblxuser} (${robloxUserId})](<https://www.roblox.com/users/${robloxUserId}/profile>)`,  allowedMentions: {} })
-                            await updateUser(robloxUserId, member, rblxuser, interaction)
-                        })
-                }
+                // else {
+                //     fetch(`https://api.blox.link/v4/public/guilds/${process.env.MainServerId}/discord-to-roblox/${member.user.id}`, { headers: { "Authorization": process.env.BloxlinkAPIKey } })
+                //         .then(async (response) => {
+                //             const data = await response.json()
+                //             const robloxUserId = data.robloxID
+                //             if (!robloxUserId) return client.channels.cache.get("1181701599278669834").send({content: `Unable to find a roblox account for <@${member.user.id}>`, allowedMentions: {} })
+                //             await db.set(`${member.user.id}.verifiedRoblox`, robloxUserId)
+                //             await db.set(`${robloxUserId}.discordId`, member.user.id)
+                //             async function setVerified() {
+                //                 await verifiedCollection.createEntry({ RobloxUserId: robloxUserId, DiscordUserId: member.user.id })
+                //             }
+                //             retryOperation(setVerified)
+                //                 .then(result => console.log("Operation succeeded - Set verified user"))
+                //                 .catch(error => console.error("Operation failed:", error.message));
+                //             const rblxuser = await getUsernameFromId(robloxUserId)
+                //             await client.channels.cache.get("1181701599278669834").send({content: `Successfully linked <@${member.user.id}> as [${rblxuser} (${robloxUserId})](<https://www.roblox.com/users/${robloxUserId}/profile>)`,  allowedMentions: {} })
+                //             await updateUser(robloxUserId, member, rblxuser, interaction)
+                //         })
+                // }
                 if (i == ids.length - 1) interaction.channel.send("Server scan complete.")
             }
         })

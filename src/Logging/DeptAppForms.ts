@@ -19,27 +19,27 @@ module.exports = {
             let pendingapps = entries
             const embeds = {
                 ["ops"]:{
-                    channelId: "1295472059706507428",
+                    channelId: process.env.OpsApplication,
                     embeds: []
                 },
                 ["comms"]:{
-                    channelId: "1295471814402768906",
+                    channelId: process.env.CommsApplication,
                     embeds: []
                 },
                 ["hr"]:{
-                    channelId: "1295472125809000541",
+                    channelId: process.env.HRDApplication,
                     embeds: []
                 },
                 ["hrquiz"]: {
-                    channelId: "1318421062173724733",
+                    channelId: process.env.HrQuiz,
                     embeds: []
                 },
                 ["opsquiz"]: {
-                    channelId: "1318420960965169162",
+                    channelId: process.env.OpsQuiz,
                     embeds: []
                 },
                 ["commsquiz"]: {
-                    channelId: "1318420770929512508",
+                    channelId: process.env.CommsQuiz,
                     embeds: []
                 }
             }

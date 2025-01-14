@@ -72,7 +72,7 @@ module.exports = {
 
         embed2.setTimestamp()
 
-        client.channels.cache.get("1141765600142688506").send({ embeds: [embed2] })
+        client.channels.cache.get(process.env.RankLogs).send({ embeds: [embed2] })
         await interaction.reply({ embeds: [embed] })
     }
 }

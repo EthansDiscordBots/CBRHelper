@@ -47,9 +47,9 @@ Select your department using the buttons below!`)
             await interaction.reply({ embeds: [embed], components: [row], ephemeral: true })
         }
         const i = interaction
-        const HRRoleId = "1130868330627088386"
-        const opsroleid = "1130868364445757553"
-        const commsroleid = "1130868393713619064"
+        const HRRoleId = process.env.CERTHRDCandiRole
+        const opsroleid = process.env.CERTOpsCandiRole
+        const commsroleid = process.env.CERTCommsCandiRole
         if (interaction.isButton() && interaction.customId == "Operations") {
             if (!i.member.roles.cache.get(opsroleid) && !i.member.roles.cache.get(HRRoleId) && !i.member.roles.cache.get(commsroleid)) {
                 await i.member.roles.add(opsroleid)

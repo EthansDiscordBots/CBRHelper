@@ -5,10 +5,10 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
-        client.channels.cache.get("1219441779074535524").messages.fetch({after: null | String(await db.get(`480452557949370380.countinglastmessage`))}).then(async m => {        
+        client.channels.cache.get(process.env.CountingChannel).messages.fetch({after: null | String(await db.get(`${process.env.MainServerId}.countinglastmessage`))}).then(async m => {        
             let messages = m.map(m => m)
             messages = messages.reverse()
-            var mostrecentcorrect = await db.get("480452557949370380.count")
+            var mostrecentcorrect = await db.get(`${process.env.MainServerId}.count`)
             for (const e of messages) {
                 var number
                 try { number = await eval(e.content) }
@@ -38,7 +38,7 @@ module.exports = {
                 await db.set(`${message.guild.id}.count`, Number(message.content.split(" ")[1]))
                 message.delete()
             }
-            else if (message.channel.id == "1219441779074535524") {
+            else if (message.channel.id == process.env.CountingChannel) {
                 if (!await db.get(`${message.guild.id}.count`)) await db.set(`${message.guild.id}.count`, 1)
                 let count = await db.get(`${message.guild.id}.count`)
 
@@ -79,7 +79,7 @@ module.exports = {
             try { number = await eval(message.content) }
             catch (error) { }
             number = Math.round(number)
-            if (message.channel.id == "1219441779074535524" && number == Number(await db.get(`${message.guild.id}.count`)) - 1) {
+            if (message.channel.id == process.env.CountingChannel && number == Number(await db.get(`${message.guild.id}.count`)) - 1) {
                 message.channel.send(`Beep boop! I detected the most recent number in this channel was deleted! Just for clarication, the last number said was ${Number(await db.get(`${message.guild.id}.count`)) - 1}!`)
             }
         })
@@ -88,7 +88,7 @@ module.exports = {
             try { number = await eval(oldmsg.content) }
             catch (error) { }
             number = Math.round(number)
-            if (oldmsg.channel.id == "1219441779074535524" && number == Number(await db.get(`${oldmsg.guild.id}.count`)) - 1) {
+            if (oldmsg.channel.id == process.env.CountingChannel && number == Number(await db.get(`${oldmsg.guild.id}.count`)) - 1) {
                 oldmsg.channel.send(`Beep boop! I detected the most recent number in this channel was edited! Just for clarication, the last number said was ${Number(await db.get(`${oldmsg.guild.id}.count`)) - 1}!`)
             }
         })

@@ -22,7 +22,7 @@ module.exports = {
         let embed
         if (type === "Training") {
             for (let i = 0; i < training_times.length; i++) {
-                if (training_times[i] - 1 == hours && (interaction.member.roles.cache.get("987085792365125722") || interaction.member.roles.cache.get("987085821427466300") || interaction.member.roles.cache.get("1098284216749404351"))) {
+                if (training_times[i] - 1 == hours && (interaction.member.roles.cache.get(process.env.MAINHR) || interaction.member.roles.cache.get(process.env.MAINMR) || interaction.member.roles.cache.get(process.env.MAINSHR))) {
                     if (minutes >= 45) {
                         embed = new EmbedBuilder()
                             .setTitle(":clock1: Training Session")
@@ -30,7 +30,7 @@ module.exports = {
                             .addFields({ name: "Host", value: `<@${host.id}>`, inline: true }, { name: "Co-host", value: `<@${co.id}>`, inline: true }, { name: "Link", value: "[Training Centre](https://www.roblox.com/games/6781985443)" })
                     }
                 }
-                else if ((training_times[i] % 24) == hours && (interaction.member.roles.cache.get("987085792365125722") || interaction.member.roles.cache.get("987085821427466300") || interaction.member.roles.cache.get("1098284216749404351"))) {
+                else if ((training_times[i] % 24) == hours && (interaction.member.roles.cache.get(process.env.MAINHR) || interaction.member.roles.cache.get(process.env.MAINMR) || interaction.member.roles.cache.get(process.env.MAINSHR))) {
                     if (minutes <= 15) {
                         embed = new EmbedBuilder()
                             .setTitle(":clock1: Training Session")
@@ -38,7 +38,7 @@ module.exports = {
                             .addFields({ name: "Host", value: `<@${host.id}>`, inline: true }, { name: "Co-host", value: `<@${co.id}>`, inline: true }, { name: "Link", value: "[Training Centre](https://www.roblox.com/games/6781985443)" })
                     }
                 }
-                else if (interaction.member.roles.cache.get("987084400984477697") || interaction.member.roles.cache.get("987084402116919346") || interaction.member.roles.cache.get("1098283313644445776") || interaction.member.roles.cache.get("987084403698192445")) {
+                else if (interaction.member.roles.cache.get(process.env.President) || interaction.member.roles.cache.get(process.env.VicePresident) || interaction.member.roles.cache.get(process.env.COO) || interaction.member.roles.cache.get(process.env.MAINDEV)) {
                     embed = new EmbedBuilder()
                         .setTitle(":clock1: Training Session")
                         .setDescription("A training session will be commencing shortly down at the Training Center. If you're interested in being promoted to your next rank, we highly suggest you attend and participate!")
@@ -55,7 +55,7 @@ module.exports = {
                 const embed2 = new EmbedBuilder()
                     .setDescription(`A session has been announced with <@${host.id}> as the host!`)
                 await interaction.reply({ embeds: [embed2] })
-                await client.channels.cache.get('1098295356007137401').send({ content: `<@&1140045877893943417>`, embeds: [embed] })
+                await client.channels.cache.get(process.env.SessionsAnnounce).send({ content: `<@&${process.env.TrainingPing}>`, embeds: [embed] })
                 await db.set("TrainingLastAnnounced", Math.floor(Date.now() / 1000))
             }
             else if (embed === undefined) {
@@ -67,19 +67,19 @@ module.exports = {
             var embed2
             var sent = false
             for (var i = 0; i < training_times.length; i++) {
-                if (training_times[i] - 1 == hours && (interaction.member.roles.cache.get("987085792365125722") || interaction.member.roles.cache.get("987085821427466300"))) {
+                if (training_times[i] - 1 == hours && (interaction.member.roles.cache.get(process.env.MAINHR) || interaction.member.roles.cache.get(process.env.MAINMR))) {
                     embed = new EmbedBuilder()
                         .setTitle(":loudspeaker: Hotel Shift")
                         .setDescription("A shift is currently being hosted at the hotel! Head on down using the link below to interact with your peers and work hard for a possible promotion.")
                         .addFields({ name: "Host", value: `<@${host.id}>`, inline: true }, { name: "Co-host", value: `<@${co.id}>`, inline: true }, { name: "Link", value: "[Main Game](https://www.roblox.com/games/6781188865/Crystal-Bay-Resorts-V1)" })
                 }
-                else if ((training_times[i] % 24) != hours && (interaction.member.roles.cache.get("987085792365125722") || interaction.member.roles.cache.get("987085821427466300"))) {
+                else if ((training_times[i] % 24) != hours && (interaction.member.roles.cache.get(process.env.MAINHR) || interaction.member.roles.cache.get(process.env.MAINMR))) {
                     embed = new EmbedBuilder()
                         .setTitle(":loudspeaker: Hotel Shift")
                         .setDescription("A shift is currently being hosted at the hotel! Head on down using the link below to interact with your peers and work hard for a possible promotion.")
                         .addFields({ name: "Host", value: `<@${host.id}>`, inline: true }, { name: "Co-host", value: `<@${co.id}>`, inline: true }, { name: "Link", value: "[Main Game](https://www.roblox.com/games/6781188865/Crystal-Bay-Resorts-V1)" })
                 }
-                else if (interaction.member.roles.cache.get("1098284216749404351")) {
+                else if (interaction.member.roles.cache.get(process.env.MAINSHR)) {
                     embed = new EmbedBuilder()
                         .setTitle(":loudspeaker: Hotel Shift")
                         .setDescription("A shift is currently being hosted at the hotel! Head on down using the link below to interact with your peers and work hard for a possible promotion.")
@@ -100,7 +100,7 @@ module.exports = {
                     return await interaction.reply({ embeds: [embed2] }).catch()
                 }
                 else {
-                    client.channels.cache.get("1098295356007137401").send({ content: "<@&1140045916385063017>", embeds: [embed] })
+                    client.channels.cache.get(process.env.SessionsAnnounce).send({ content: `<@&${process.env.ShiftPing}>`, embeds: [embed] })
                     embed2 = new EmbedBuilder()
                         .setDescription(`A shift was successfully announced with <@${host.id}> as the host`)
                     return await interaction.reply({ embeds: [embed2] }).catch()

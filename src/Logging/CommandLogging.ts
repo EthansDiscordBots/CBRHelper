@@ -19,7 +19,7 @@ module.exports = {
             if (traininglogspending?.length > 0) {
                 for (let i = 0; i < traininglogspending.length; i++) {
                     if (traininglogsembeds.length == 10) {
-                        client.channels.cache.get("1141551783076974612").send({ embeds: traininglogsembeds })
+                        client.channels.cache.get(process.env.TCCommands).send({ embeds: traininglogsembeds })
                         traininglogsembeds = []
                     }
                     const data: Entry<Logging> = traininglogspending[i]
@@ -36,7 +36,7 @@ module.exports = {
                     traininglogsembeds.push(emmm)
                 }
 
-                client.channels.cache.get("1141551783076974612").send({ embeds: traininglogsembeds })
+                client.channels.cache.get(process.env.TCCommands).send({ embeds: traininglogsembeds })
             }
         }
         async function MainGameLogsFunc(entries) {
@@ -45,7 +45,7 @@ module.exports = {
             if (maingamepending?.length > 0) {
                 for (let i = 0; i < maingamepending.length; i++) {
                     if (maingamelogsembeds.length == 10) {
-                        client.channels.cache.get("1141551783076974612").send({ embeds: maingamelogsembeds })
+                        client.channels.cache.get(process.env.MainCommands).send({ embeds: maingamelogsembeds })
                         maingamelogsembeds = []
                     }
                     const data: Entry<Logging> = maingamepending[i]
@@ -61,7 +61,7 @@ module.exports = {
                     emmm.setColor(0x00ffe5)
                     maingamelogsembeds.push(emmm)
                 }
-                client.channels.cache.get("1239150105198592011").send({ embeds: maingamelogsembeds })
+                client.channels.cache.get(process.env.MainCommands).send({ embeds: maingamelogsembeds })
             }
         }
         let entries

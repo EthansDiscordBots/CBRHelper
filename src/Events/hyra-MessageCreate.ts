@@ -23,7 +23,7 @@ module.exports = {
             
             const c = ms.getCollection("Trainings")
             try {
-                if (message.channel.id == "1210390277848694784") {
+                if (message.channel.id == process.env.RolePanelLogging) {
                     const server = message.content.split(" ")[1]
 
                     const d = await c.getEntryById("661716d7b005baa1fa9deac7")

@@ -96,7 +96,7 @@ module.exports = {
                 ticket = await interaction.guild.channels.create({
                     name: `❓│${useropened.tag}`,
                     type: ChannelType.GuildText,
-                    parent: "1140035354347438210",
+                    parent: process.env.GeneralTicketCat,
                     permissionOverwrites: permissions(useropened, interaction),
                 });
                 await db.set(`Ticket${ticket.id}.Type`, `General Support`)
@@ -105,7 +105,7 @@ module.exports = {
                 ticket = await interaction.guild.channels.create({
                     name: `✋│${useropened.tag}`,
                     type: ChannelType.GuildText,
-                    parent: "1140035493862576148",
+                    parent: process.env.SupportTicketCat,
                     permissionOverwrites: permissions(useropened, interaction),
                 });
                 await db.set(`Ticket${ticket.id}.Type`, `Hotel Support`)
@@ -114,7 +114,7 @@ module.exports = {
                 ticket = await interaction.guild.channels.create({
                     name: `📋│${useropened.tag}`,
                     type: ChannelType.GuildText,
-                    parent: "1140035861333950515",
+                    parent: process.env.ReportTIcketCat,
                     permissionOverwrites: permissions(useropened, interaction),
                 });
                 await db.set(`Ticket${ticket.id}.Type`, `Management Report`)
@@ -123,7 +123,7 @@ module.exports = {
                 ticket = await interaction.guild.channels.create({
                     name: `⚠️│${useropened.tag}`,
                     type: ChannelType.GuildText,
-                    parent: "1140035913137799238",
+                    parent: process.env.BugTicketCat,
                     permissionOverwrites: permissions(useropened, interaction),
                 });
                 await db.set(`Ticket${ticket.id}.Type`, `Bug Report`)
@@ -176,9 +176,9 @@ module.exports = {
             });
             //if (ttt) return await i.reply({ content: "You cannot claim your own ticket!", ephemeral: true })
             i.channel.setName(`claimed│${y[1]}`)
-            i.channel.permissionOverwrites.edit("1098282647547023430", { SendMessages: false })
-            i.channel.permissionOverwrites.edit("1098282737011531806", { SendMessages: false })
-            i.channel.permissionOverwrites.edit("1098282927315505262", { SendMessages: false })
+            i.channel.permissionOverwrites.edit(process.env.EARole, { SendMessages: false })
+            i.channel.permissionOverwrites.edit(process.env.EORole, { SendMessages: false })
+            i.channel.permissionOverwrites.edit(process.env.SEORole, { SendMessages: false })
             i.channel.permissionOverwrites.edit(i.user.id, { SendMessages: true })
             const embeds = new EmbedBuilder()
                 .setDescription(`This ticket has been claimed by <@${i.user.id}>`)
@@ -189,9 +189,9 @@ module.exports = {
 
         if (interaction.isButton() && interaction.customId == "Close") {
             const i = interaction
-            await i.channel.permissionOverwrites.delete(i.guild.roles.cache.get("1098282647547023430"))
-            await i.channel.permissionOverwrites.delete(i.guild.roles.cache.get("1098282737011531806"))
-            await i.channel.permissionOverwrites.delete(i.guild.roles.cache.get("1098282927315505262"))
+            await i.channel.permissionOverwrites.delete(process.env.EARole)
+            await i.channel.permissionOverwrites.delete(process.env.EORole)
+            await i.channel.permissionOverwrites.delete(process.env.SEORole)
             const y = i.channel.name.split("│")
             i.channel.setName(`closed│${y[1]}`)
             i.guild.members.fetch().then(async fetchedMembers => {
@@ -256,7 +256,7 @@ module.exports = {
                 )
                 .setColor(0x00ffe5)
 
-            const message = await client.channels.cache.get("1273348453304635423")?.send({ files: [transcriptfile] })
+            const message = await client.channels.cache.get(process.env.TicketTranscripts)?.send({ files: [transcriptfile] })
             const transcripturl = await message.attachments.first().url
             const transcriptbutton = new ActionRowBuilder()
                 .addComponents(
@@ -266,7 +266,7 @@ module.exports = {
                         .setLabel("Download file")
                 )
 
-            client.channels.cache.get("1273339279891763230")?.send({ embeds: [transcriptembed], components: [transcriptbutton] })
+            client.channels.cache.get(process.env.TranscriptsInMain)?.send({ embeds: [transcriptembed], components: [transcriptbutton] })
             await db.delete(`Ticket${interaction.channel.id}`)
             channel.delete()
             
