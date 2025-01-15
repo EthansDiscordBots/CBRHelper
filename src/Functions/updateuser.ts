@@ -119,11 +119,20 @@ export async function updateUser(userid, member, rblxusername, interaction: Comm
             .setColor("Red")
         if (add.length > 0) embed.addFields({ name: "Added roles", value: add.toString(), inline: true })
         if (removed.length > 0) embed.addFields({ name: "Removed Roles", value: removed.toString(), inline: true })
-        if (interaction.isCommand() && interaction.commandName == "verify-all") return
-        if (interaction.isCommand() && interaction.commandName != "update") await interaction.channel.send({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
-        if (interaction.isCommand() && interaction.commandName == "update") await interaction.reply({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+        if (interaction.isCommand() && interaction.commandName == "verify-all") 
+            return
+        if (interaction.isCommand() && interaction.commandName != "update") 
+            await interaction.channel.send({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+        if (interaction.isCommand() && interaction.commandName == "update") {
+            if (!interaction.replied) await interaction.reply({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+            else await interaction.editReply({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+        }
     }
     else {
-        if (interaction.isCommand() && interaction.commandName == "update") await interaction.reply({ content: `User already up to date` })
+        if (interaction.isCommand() && interaction.commandName == "update") {
+            if (!interaction.replied) await interaction.reply({ content: `User already up to date` })
+            else await interaction.editReply({content: "User already up to date"})
+        }
+            
     }
 }

@@ -16,7 +16,7 @@ module.exports = {
     async execute(client) {
         ms.on("entryCreated", async (data) => {
             if (data.getCollectionName() == "MRAppealForms") {
-                console.log(data.getValue("fields"))
+
                 const embeds = []
                 let content = ""
                 let charlength = 0
