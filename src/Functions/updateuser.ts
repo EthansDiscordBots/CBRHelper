@@ -124,14 +124,14 @@ export async function updateUser(userid, member, rblxusername, interaction: Comm
         if (interaction.isCommand() && interaction.commandName != "update") 
             await interaction.channel.send({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
         if (interaction.isCommand() && interaction.commandName == "update") {
-            if (!interaction.replied) await interaction.reply({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
-            else await interaction.editReply({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+            if (!interaction.deferred) await interaction.reply({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+            else await interaction.followUp({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
         }
     }
     else {
         if (interaction.isCommand() && interaction.commandName == "update") {
-            if (!interaction.replied) await interaction.reply({ content: `User already up to date` })
-            else await interaction.editReply({content: "User already up to date"})
+            if (!interaction.deferred) await interaction.reply({ content: `User already up to date` })
+            else await interaction.followUp({content: "User already up to date"})
         }
             
     }
