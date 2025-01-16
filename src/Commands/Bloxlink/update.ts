@@ -13,7 +13,7 @@ module.exports = {
         var member
         
         if (!interaction.options.getMember("discord-user")) member = interaction.member
-        else if (interaction.options.getMember("discord-user") != interaction.member && (!interaction.member.roles.cache.get(process.env.BLUpdater) && !interaction.member.permissions.has(PermissionsBitField.PermissionsBitField.Flags.ManageRoles))) return await interaction.reply({ content: "You must have the `Bloxlink Updater` role to update other users.", ephemeral: true })
+        else if (interaction.options.getMember("discord-user") != interaction.member && (!interaction.member.roles.cache.get(process.env.BLUpdater) && !interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles))) return await interaction.reply({ content: "You must have the `Bloxlink Updater` role to update other users.", ephemeral: true })
         else member = interaction.options.getMember("discord-user")
         
         const rblxuserid = await db.get(`${member.user.id}.verifiedRoblox`)
