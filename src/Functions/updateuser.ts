@@ -77,14 +77,14 @@ export async function updateUser(userid, member, rblxusername, interaction: Comm
         await member.roles.add(newrole.id);
         add.unshift(` ${newrole.name}`)
     }
-    if (!member.roles.cache.get("987091381908537384")) {
+    if (!member.roles.cache.get((interaction.guild.roles.cache.find(role => role.name == "Verified")).id)) {
         add.unshift(" Verified")
-        await member.roles.add("987091381908537384")
+        await member.roles.add((interaction.guild.roles.cache.find(role => role.name == "Verified")).id)
     }
 
-    if (member.roles.cache.get("1098288727979204819")) {
+    if (member.roles.cache.get((interaction.guild.roles.cache.find(role => role.name == "Unverified")).id)) {
         removed.unshift(" Unverified")
-        await member.roles.remove("1098288727979204819")
+        await member.roles.remove((interaction.guild.roles.cache.find(role => role.name == "Unverified")).id)
     }
 
     if (interaction.guild.id == process.env.MainServerId) {
