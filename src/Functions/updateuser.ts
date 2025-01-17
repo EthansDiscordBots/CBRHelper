@@ -77,14 +77,14 @@ export async function updateUser(userid, member, rblxusername, interaction: Comm
         await member.roles.add(newrole.id);
         add.unshift(` ${newrole.name}`)
     }
-    if (!member.roles.cache.get("987091381908537384")) {
+    if (!member.roles.cache.get((interaction.guild.roles.cache.find(role => role.name == "Verified")).id)) {
         add.unshift(" Verified")
-        await member.roles.add("987091381908537384")
+        await member.roles.add((interaction.guild.roles.cache.find(role => role.name == "Verified")).id)
     }
 
-    if (member.roles.cache.get("1098288727979204819")) {
+    if (member.roles.cache.get((interaction.guild.roles.cache.find(role => role.name == "Unverified")).id)) {
         removed.unshift(" Unverified")
-        await member.roles.remove("1098288727979204819")
+        await member.roles.remove((interaction.guild.roles.cache.find(role => role.name == "Unverified")).id)
     }
 
     if (interaction.guild.id == process.env.MainServerId) {
@@ -119,11 +119,20 @@ export async function updateUser(userid, member, rblxusername, interaction: Comm
             .setColor("Red")
         if (add.length > 0) embed.addFields({ name: "Added roles", value: add.toString(), inline: true })
         if (removed.length > 0) embed.addFields({ name: "Removed Roles", value: removed.toString(), inline: true })
-        if (interaction.isCommand() && interaction.commandName == "verify-all") return
-        if (interaction.isCommand() && interaction.commandName != "update") await interaction.channel.send({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
-        if (interaction.isCommand() && interaction.commandName == "update") await interaction.reply({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+        if (interaction.isCommand() && interaction.commandName == "verify-all") 
+            return
+        if (interaction.isCommand() && interaction.commandName != "update") 
+            await interaction.channel.send({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+        if (interaction.isCommand() && interaction.commandName == "update") {
+            if (!interaction.deferred) await interaction.reply({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+            else await interaction.followUp({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+        }
     }
     else {
-        if (interaction.isCommand() && interaction.commandName == "update") await interaction.reply({ content: `User already up to date` })
+        if (interaction.isCommand() && interaction.commandName == "update") {
+            if (!interaction.deferred) await interaction.reply({ content: `User already up to date` })
+            else await interaction.followUp({content: "User already up to date"})
+        }
+            
     }
 }

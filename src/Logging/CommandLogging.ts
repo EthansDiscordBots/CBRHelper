@@ -27,7 +27,12 @@ module.exports = {
                     emmm.setTitle("A new command has been ran in the training center!")
                     emmm.addFields(
                         { name: "Player who ran command:", value: String(data.getValue("userRan")), inline: true },
-                        { name: "Command Ran:", value: String(data.getValue("CommandRan")), inline: true },
+
+                    )
+                    if (String(data.getValue("CommandRan")).length <= 1024) emmm.addFields({ name: "Command Ran:", value: String(data.getValue("CommandRan")), inline: true })
+                    else if (String(data.getValue("CommandRan")).length <= 4000) emmm.setDescription(String(data.getValue("CommandRan")))
+                    else console.log(`[${new Date().toLocaleDateString("en-US", { timeZone: "Europe/London" })}] ${data.getValue("CommandRan")}`)
+                    emmm.addFields(
                         { name: "Players rank in group:", value: String(data.getValue("RankinGroup")), inline: true },
                         { name: "Ran on:", value: `<t:${data.getValue("ranat")}:D> at <t:${data.getValue("ranat")}:T>` }
                     )
@@ -53,7 +58,12 @@ module.exports = {
                     emmm.setTitle("A new command has been ran in the main game!")
                     emmm.addFields(
                         { name: "Player who ran command:", value: String(data.getValue("userRan")), inline: true },
-                        { name: "Command Ran:", value: String(data.getValue("CommandRan")), inline: true },
+
+                    )
+                    if (String(data.getValue("CommandRan")).length <= 1024) emmm.addFields({ name: "Command Ran:", value: String(data.getValue("CommandRan")), inline: true })
+                    else if (String(data.getValue("CommandRan")).length <= 4000) emmm.setDescription(String(data.getValue("CommandRan")))
+                    else console.log(`[${new Date().toLocaleDateString("en-US", { timeZone: "Europe/London" })}] ${data.getValue("CommandRan")}`)
+                    emmm.addFields(
                         { name: "Players rank in group:", value: String(data.getValue("RankinGroup")), inline: true },
                         { name: "Ran on:", value: `<t:${data.getValue("ranat")}:D> at <t:${data.getValue("ranat")}:T>` }
                     )
