@@ -10,7 +10,7 @@ app.get("/test", (req, res) => {
 
     res.status(200).send(JSON.stringify({
         "success": true
-    }))
+    })).json()
 })
 
 app.listen(PORT)
