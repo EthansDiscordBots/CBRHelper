@@ -1,16 +1,16 @@
-import { Client, AwaitModalSubmitOptions, ButtonInteraction, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ModalSubmitInteraction, ChannelType, ButtonBuilder, ButtonStyle, EmbedBuilder, PermissionOverwrites, PermissionsBitField, AllowedMentionsTypes, embedLength, TextChannel } from "discord.js";
+import { Client, AwaitModalSubmitOptions, ButtonInteraction, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ModalSubmitInteraction, ChannelType, ButtonBuilder, ButtonStyle, EmbedBuilder, PermissionOverwrites, PermissionsBitField, AllowedMentionsTypes, embedLength, TextChannel, Interaction } from "discord.js";
 import { ticketPermission as permissions } from "../Functions/ticketpermissions";
 import * as transcript from "discord-html-transcripts"
 import { QuickDB } from "quick.db";
 const db = new QuickDB()
 module.exports = {
     name: 'interactionCreate',
-    async execute(interaction, client: Client) {
-        if (interaction.isButton() && interaction.customId.includes("TicketOpen")) {
+    async execute(interaction: Interaction, client: Client) {
+        if (interaction.isStringSelectMenu() && interaction.customId == "TicketOpen") {
             const modal = new ModalBuilder()
                 .setTitle("Ticket Creation")
             const modalComponents = []
-            if (interaction.customId == "TicketOpenGeneral") {
+            if (interaction.values[0] == "General" || interaction.values[0] == "Communications") {
                 const Openreason = new TextInputBuilder()
                     .setCustomId("Open Reason")
                     .setPlaceholder("What are CBR's alliance requirements.")
@@ -21,18 +21,7 @@ module.exports = {
                     new ActionRowBuilder<TextInputBuilder>().addComponents(Openreason),
                 )
             }
-            else if (interaction.customId == "TicketOpenSupport") {
-                const Openreason = new TextInputBuilder()
-                    .setCustomId("Open Reason")
-                    .setPlaceholder("Report an LR")
-                    .setRequired(true)
-                    .setStyle(TextInputStyle.Short)
-                    .setLabel("What is your reason for opening a ticket?")
-                modal.addComponents(
-                    new ActionRowBuilder<TextInputBuilder>().addComponents(Openreason),
-                )
-            }
-            else if (interaction.customId == "TicketOpenReport") {
+            else if (interaction.values[0] == "Executive" || interaction.values[0] == "SHR" || interaction.values[0] == "Human Resources" || interaction.values[0] == "Operations") {
                 const Username = new TextInputBuilder()
                     .setCustomId("Member Username")
                     .setLabel("Member being reported's username?")
@@ -65,7 +54,7 @@ module.exports = {
 
                 )
             }
-            else if (interaction.customId == "TicketOpenBug") {
+            else if (interaction.values[0] == "Bug") {
                 const Openreason = new TextInputBuilder()
                     .setCustomId("Bug description")
                     .setPlaceholder("The nametag doesnt show in game.")
@@ -85,15 +74,16 @@ module.exports = {
             }
 
 
-            modal.setCustomId(interaction.customId)
+            modal.setCustomId(interaction.values[0])
             interaction.showModal(modal)
         }
 
-        if (interaction.isModalSubmit() && interaction.customId.includes("TicketOpen")) {
+        if (interaction.isModalSubmit()) {
             const useropened = interaction.user
             let ticket
-            if (interaction.customId == "TicketOpenGeneral") {
-                ticket = await interaction.guild.channels.create({
+
+            if (interaction.customId == "General") {
+                ticket = await interaction.guild?.channels.create({
                     name: `❓│${useropened.tag}`,
                     type: ChannelType.GuildText,
                     parent: process.env.GeneralTicketCat,
@@ -101,34 +91,81 @@ module.exports = {
                 });
                 await db.set(`Ticket${ticket.id}.Type`, `General Support`)
             }
-            else if (interaction.customId == "TicketOpenSupport") {
-                ticket = await interaction.guild.channels.create({
+
+            else if (interaction.customId == "Communications") {
+                ticket = await interaction.guild?.channels.create({
                     name: `✋│${useropened.tag}`,
                     type: ChannelType.GuildText,
                     parent: process.env.SupportTicketCat,
-                    permissionOverwrites: permissions(useropened, interaction),
+                    permissionOverwrites: [{
+                            id: process.env.MainServerComms as string,
+                            allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
+                        },
+                    ],
                 });
-                await db.set(`Ticket${ticket.id}.Type`, `Hotel Support`)
+                await db.set(`Ticket${ticket.id}.Type`, `Communications`)
             }
-            else if (interaction.customId == "TicketOpenReport") {
-                ticket = await interaction.guild.channels.create({
+
+            else if (interaction.customId == "Executive") {
+                ticket = await interaction.guild?.channels.create({
                     name: `📋│${useropened.tag}`,
                     type: ChannelType.GuildText,
-                    parent: process.env.ReportTIcketCat,
-                    permissionOverwrites: permissions(useropened, interaction),
+                    parent: process.env.ReportTicketCat,
+                    permissionOverwrites: [{
+                        id: process.env.MAINSHR as string,
+                        allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
+                    }],
                 });
-                await db.set(`Ticket${ticket.id}.Type`, `Management Report`)
+                await db.set(`Ticket${ticket.id}.Type`, `Executive Report`)
             }
-            else if (interaction.customId == "TicketOpenBug") {
-                ticket = await interaction.guild.channels.create({
+
+            else if (interaction.customId == "SHR") {
+                ticket = await interaction.guild?.channels.create({
+                    name: `⚠️│${useropened.tag}`,
+                    type: ChannelType.GuildText,
+                    parent: process.env.ReportTicketCat,
+                });
+                await db.set(`Ticket${ticket.id}.Type`, `SHR Report`)
+            }
+
+            else if (interaction.customId == "Bug") {
+                ticket = await interaction.guild?.channels.create({
                     name: `⚠️│${useropened.tag}`,
                     type: ChannelType.GuildText,
                     parent: process.env.BugTicketCat,
-                    permissionOverwrites: permissions(useropened, interaction),
+                    permissionOverwrites: [{
+                        id: process.env.MAINDEV as string,
+                        allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
+                    }]
                 });
                 await db.set(`Ticket${ticket.id}.Type`, `Bug Report`)
             }
-            await db.set(`Ticket${ticket.id}.Creator`, `<@${useropened.id}>`)
+            else if (interaction.customId == "Human Resources") {
+                ticket = await interaction.guild?.channels.create({
+                    name: `⚠️│${useropened.tag}`,
+                    type: ChannelType.GuildText,
+                    parent: process.env.ReportTicketCat,
+                    permissionOverwrites: [{
+                        id: process.env.MainServerHRD as string,
+                        allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
+                    }]
+                });
+                await db.set(`Ticket${ticket.id}.Type`, `Main Game Report`)
+            }
+            else if (interaction.customId == "Operations") {
+                ticket = await interaction.guild?.channels.create({
+                    name: `⚠️│${useropened.tag}`,
+                    type: ChannelType.GuildText,
+                    parent: process.env.ReportTicketCat,
+                    permissionOverwrites: [{
+                        id: process.env.MainServerOps as string,
+                        allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
+                    }]
+                });
+                await db.set(`Ticket${ticket.id}.Type`, `Training Centre Report`)
+            }
+            else return
+            await db.set(`Ticket${ticket.id}.Creator`, useropened.id)
             await db.set(`Ticket${ticket.id}.CreatedAt`, `<t:${Math.floor(Date.now() / 1000)}:f>`)
             const replyEmbed = new EmbedBuilder()
                 .setDescription(`Ticket <#${ticket.id}> has been created.`)
@@ -160,13 +197,15 @@ module.exports = {
                 secondchan.addFields({ name: field.customId, value: field.value })
             }
             ticket.send({ embeds: [channelembed, secondchan], components: [claiming] })
+            ticket.permissionOverwrites.edit(interaction.user.id, { SendMessages: true, ViewChannel: true})
+            ticket.permissionOverwrites.edit(interaction.guild?.roles.everyone, {ViewChannel: false})
         }
 
         if (interaction.isButton() && interaction.customId == "Claim") {
             const i = interaction
-            const y = i.channel.name.split("│")
+            const y = (i.channel as TextChannel)?.name.split("│")
             var ttt
-            await i.guild.members.fetch().then(async fetchedMembers => {
+            await i.guild?.members.fetch().then(async fetchedMembers => {
                 const totalOnline = fetchedMembers.filter(member => member.user.tag == y[1]);
                 if (totalOnline.map(m => m).length > 0) {
                     if (totalOnline.map(m => m.user.id)[0] == i.user.id) {
@@ -175,29 +214,27 @@ module.exports = {
                 }
             });
             //if (ttt) return await i.reply({ content: "You cannot claim your own ticket!", ephemeral: true })
-            i.channel.setName(`claimed│${y[1]}`)
-            i.channel.permissionOverwrites.edit(process.env.EARole, { SendMessages: false })
-            i.channel.permissionOverwrites.edit(process.env.EORole, { SendMessages: false })
-            i.channel.permissionOverwrites.edit(process.env.SEORole, { SendMessages: false })
-            i.channel.permissionOverwrites.edit(i.user.id, { SendMessages: true })
+            
+            (i.channel as TextChannel)?.setName(`claimed│${y[1]}`);
+            (i.channel as TextChannel)?.permissionOverwrites.edit(process.env.EARole as string, { SendMessages: false });
+            (i.channel as TextChannel)?.permissionOverwrites.edit(process.env.EORole as string, { SendMessages: false });
+            (i.channel as TextChannel)?.permissionOverwrites.edit(process.env.SEORole as string, { SendMessages: false });
+            (i.channel as TextChannel)?.permissionOverwrites.edit(i.user.id, { SendMessages: true });
             const embeds = new EmbedBuilder()
                 .setDescription(`This ticket has been claimed by <@${i.user.id}>`)
                 .setColor(0x00ffe5)
             i.reply({ embeds: [embeds] })
-            await db.set(`Ticket${i.channel.id}.ClaimedBy`, `<@${interaction.user.id}>`)
+            await db.set(`Ticket${i.channel?.id}.ClaimedBy`, `<@${interaction.user.id}>`)
         }
 
         if (interaction.isButton() && interaction.customId == "Close") {
             const i = interaction
-            await i.channel.permissionOverwrites.delete(process.env.EARole)
-            await i.channel.permissionOverwrites.delete(process.env.EORole)
-            await i.channel.permissionOverwrites.delete(process.env.SEORole)
-            const y = i.channel.name.split("│")
-            i.channel.setName(`closed│${y[1]}`)
-            i.guild.members.fetch().then(async fetchedMembers => {
-                const totalOnline = fetchedMembers.filter(member => member.user.tag == y[1]);
-                if (totalOnline.map(m => m).length > 0) await i.channel.permissionOverwrites.delete(totalOnline.map(m => m.user.id)[0])
-            });
+            await (i.channel as TextChannel)?.permissionOverwrites.delete(process.env.EARole as string)
+            await (i.channel as TextChannel)?.permissionOverwrites.delete(process.env.EORole as string)
+            await (i.channel as TextChannel)?.permissionOverwrites.delete(process.env.SEORole as string)
+            const y = (i.channel as TextChannel)?.name.split("│");
+            (i.channel as TextChannel)?.setName(`closed│${y[1]}`)
+            await (i.channel as TextChannel)?.permissionOverwrites.delete(await db.get(`Ticket${i.channelId}.Creator`) as string)
             const reasonModal = new ModalBuilder()
                 .setCustomId("ReasonSetModal")
                 .setTitle("Set reason")
@@ -208,19 +245,19 @@ module.exports = {
                 .setRequired(false)
                 .setStyle(TextInputStyle.Short)
                 .setPlaceholder("Issue resolved.")
-            await db.set(`Ticket${interaction.channel.id}.ClosedBy`, `<@${interaction.user.id}>`)
+            await db.set(`Ticket${(i.channel as TextChannel)?.id}.ClosedBy`, `<@${interaction.user.id}>`)
             const mcom = new ActionRowBuilder<TextInputBuilder>().addComponents(rblxuser)
             reasonModal.addComponents(mcom)
             i.showModal(reasonModal)
         }
 
         if (interaction.isModalSubmit() && interaction.customId == "ReasonSetModal") {
-            await db.set(`Ticket${interaction.channel.id}.CloseReason`, interaction.fields.getTextInputValue("reason"))
+            await db.set(`Ticket${(interaction.channel as TextChannel)?.id}.CloseReason`, interaction.fields.getTextInputValue("reason"))
             const newe = new EmbedBuilder()
                 .setTitle("Ticket closed")
                 .setDescription("This ticket has been closed, would you like to delete the channel?")
                 .setColor(0x00ffe5)
-            const row = new ActionRowBuilder()
+            const row = new ActionRowBuilder<ButtonBuilder>()
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId("ConfirmDel")
@@ -234,15 +271,15 @@ module.exports = {
         if (interaction.isButton() && interaction.customId == "ConfirmDel") {
             const i = interaction
             await i.reply("Deleting channel...");
-            const channel: TextChannel = i.channel
+            const channel = i.channel as TextChannel
             const transcriptfile = await transcript.createTranscript(channel)
 
-            const CreatedBy = await db.get(`Ticket${i.channel.id}.Creator`) ?? "N/A"
-            const CreatedAt = await db.get(`Ticket${interaction.channel.id}.CreatedAt`) ?? "N/A"
-            const ClaimedBy = await db.get(`Ticket${i.channel.id}.ClaimedBy`) ?? "N/A"
-            const TicketType = await db.get(`Ticket${interaction.channel.id}.Type`) ?? "N/A"
-            const closedBy = await db.get(`Ticket${interaction.channel.id}.ClosedBy`) ?? "N/A"
-            const closeReason = await db.get(`Ticket${interaction.channel.id}.CloseReason`) ?? "N/A"
+            const CreatedBy = await db.get(`Ticket${(interaction.channel as TextChannel)?.id}.Creator`) ?? "N/A"
+            const CreatedAt = await db.get(`Ticket${(interaction.channel as TextChannel)?.id}.CreatedAt`) ?? "N/A"
+            const ClaimedBy = await db.get(`Ticket${(interaction.channel as TextChannel)?.id}.ClaimedBy`) ?? "N/A"
+            const TicketType = await db.get(`Ticket${(interaction.channel as TextChannel)?.id}.Type`) ?? "N/A"
+            const closedBy = await db.get(`Ticket${(interaction.channel as TextChannel)?.id}.ClosedBy`) ?? "N/A"
+            const closeReason = await db.get(`Ticket${(interaction.channel as TextChannel)?.id}.CloseReason`) ?? "N/A"
 
             const transcriptembed = new EmbedBuilder()
                 .setTitle("Ticket Closed")
@@ -256,7 +293,7 @@ module.exports = {
                 )
                 .setColor(0x00ffe5)
 
-            const message = await client.channels.cache.get(process.env.TicketTranscripts)?.send({ files: [transcriptfile] })
+            const message = await ( client.channels.cache.get(process.env.TicketTranscripts as string) as TextChannel)?.send({ files: [transcriptfile] })
             const transcripturl = await message.attachments.first().url
             const transcriptbutton = new ActionRowBuilder()
                 .addComponents(
@@ -266,8 +303,8 @@ module.exports = {
                         .setLabel("Download file")
                 )
 
-            client.channels.cache.get(process.env.TranscriptsInMain)?.send({ embeds: [transcriptembed], components: [transcriptbutton] })
-            await db.delete(`Ticket${interaction.channel.id}`)
+            client.channels.cache.get(process.env.TranscriptsInMain as string)?.send({ embeds: [transcriptembed], components: [transcriptbutton] })
+            await db.delete(`Ticket${(interaction.channel as TextChannel)?.id}`)
             channel.delete()
             
         }
