@@ -12,3 +12,5 @@ app.get("/test", (req, res) => {
         "success": true
     }))
 })
+
+app.listen(PORT)
