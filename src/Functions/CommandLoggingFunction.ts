@@ -23,7 +23,7 @@ export async function CommandLogs(entries: Logging) {
     }
     else {
         if (entries.type == "Training") {
-            await db.unshift("PendingTrainingComands", entries)
+            await db.unshift("PendingTrainingCommands", entries)
         }
         else if (entries.type == "MainGame") {
             await db.unshift("PendingMainGameCommands", entries)
