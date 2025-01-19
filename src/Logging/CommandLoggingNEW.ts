@@ -7,6 +7,8 @@ interface Logging {
     ranat: number
 }
 import { retryOperation } from "../Functions/retry";
+import { QuickDB } from "quick.db";
+const db = new QuickDB()
 let traininglogspending: any[] = []
 let maingamelogspending: any[] = []
 
@@ -39,6 +41,7 @@ module.exports = {
     once: true,
     async execute(client) {
         while (true) {
+            console.log("while true loop")
             await new Promise(r => setTimeout(r, 10 * 1000))
             console.log(traininglogspending)
             let traininglogsembeds = []
