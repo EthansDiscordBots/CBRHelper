@@ -23,6 +23,7 @@ app.post("/command-logging", async (req, res) => {
          return
      }
      console.log("recieved")
+     console.log(req.body)
     await CommandLogs(req.body)
     res.status(200).send("Logged")
 });
