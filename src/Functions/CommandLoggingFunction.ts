@@ -14,19 +14,19 @@ export async function CommandLogs(entries: Logging) {
     if (Array.isArray(entries)) {
         for (let i = 0; i < entries.length; i++) {
             if (entries[i].type == "Training") {
-                await db.unshift("PendingTrainingCommands", entries[i])
+                await db.push("PendingTrainingCommands", entries[i])
             }
             else if (entries[i].type == "MainGame") {
-                await db.unshift("PendingMainGameCommands", entries[i])
+                await db.push("PendingMainGameCommands", entries[i])
             }
         }
     }
     else {
         if (entries.type == "Training") {
-            await db.unshift("PendingTrainingCommands", entries)
+            await db.push("PendingTrainingCommands", entries)
         }
         else if (entries.type == "MainGame") {
-            await db.unshift("PendingMainGameCommands", entries)
+            await db.push("PendingMainGameCommands", entries)
         }
     }
 }
