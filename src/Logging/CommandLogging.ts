@@ -18,7 +18,6 @@ module.exports = {
             setInterval(async () => {
                 let traininglogspending = await db.get("PendingTrainingCommands")
                 let maingamelogspending = await db.get("PendingMainGameCommands")
-                console.log(traininglogspending)
                 let traininglogsembeds: EmbedBuilder[] = []
                 let maingameembeds: EmbedBuilder[] = []
                 for (let i = 0; i < traininglogspending.length; i++) {
@@ -51,7 +50,7 @@ module.exports = {
                     }
                     const data: Logging = maingamelogspending[i]
                     const emmm = new EmbedBuilder()
-                    emmm.setTitle("A new command has been ran in the training center!")
+                    emmm.setTitle("A new command has been ran in the main game!")
                     emmm.addFields(
                         { name: "Player who ran command:", value: String(data.userRan), inline: true },
     
