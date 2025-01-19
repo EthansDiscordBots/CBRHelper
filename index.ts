@@ -2,7 +2,7 @@ const { Client, GatewayIntentBits, Partials} = require(`discord.js`);
 const client = new Client({ intents: [GatewayIntentBits.GuildVoiceStates ,GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.DirectMessages], partials: [Partials.Message, Partials.Channel, Partials.Reaction] }); 
 import { deployEvents } from "./src/Functions/deployEvents";
 import { deployCommands } from "./src/Functions/deployCommands";
-import { CommandLogs } from "./src/Logging/CommandLoggingNEW";
+import { CommandLogs } from "./src/Functions/CommandLoggingFunction";
 const express = require("express");
 const bodyParser = require("body-parser");
 client.setMaxListeners(100);
