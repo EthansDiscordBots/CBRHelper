@@ -29,6 +29,8 @@ export async function CommandLogs(entries: Logging) {
             maingamelogspending.unshift(entries)
         }
     }
+    console.log(traininglogspending)
+    console.log(maingamelogspending)
 }
 
 
@@ -38,6 +40,7 @@ module.exports = {
     async execute(client) {
         while (true) {
             await new Promise(r => setTimeout(r, 10 * 1000))
+            console.log(traininglogspending)
             let traininglogsembeds = []
             for (let i = 0; i < traininglogspending.length; i++) {
                 if (traininglogsembeds.length == 10) {
