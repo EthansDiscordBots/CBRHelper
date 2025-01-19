@@ -77,6 +77,22 @@ module.exports = {
             modal.setCustomId(interaction.values[0])
             interaction.showModal(modal)
         }
+        if (interaction.isModalSubmit() && interaction.customId == "ReasonSetModal") {
+            await db.set(`Ticket${(interaction.channel as TextChannel)?.id}.CloseReason`, interaction.fields.getTextInputValue("reason"))
+            const newe = new EmbedBuilder()
+                .setTitle("Ticket closed")
+                .setDescription("This ticket has been closed, would you like to delete the channel?")
+                .setColor(0x00ffe5)
+            const row = new ActionRowBuilder<ButtonBuilder>()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId("ConfirmDel")
+                        .setStyle(ButtonStyle.Danger)
+                        .setLabel("Delete")
+                        .setEmoji("🗑")
+                )
+            interaction.reply({ embeds: [newe], components: [row] })
+        }
 
         if (interaction.isModalSubmit()) {
             const useropened = interaction.user
@@ -249,23 +265,6 @@ module.exports = {
             const mcom = new ActionRowBuilder<TextInputBuilder>().addComponents(rblxuser)
             reasonModal.addComponents(mcom)
             i.showModal(reasonModal)
-        }
-
-        if (interaction.isModalSubmit() && interaction.customId == "ReasonSetModal") {
-            await db.set(`Ticket${(interaction.channel as TextChannel)?.id}.CloseReason`, interaction.fields.getTextInputValue("reason"))
-            const newe = new EmbedBuilder()
-                .setTitle("Ticket closed")
-                .setDescription("This ticket has been closed, would you like to delete the channel?")
-                .setColor(0x00ffe5)
-            const row = new ActionRowBuilder<ButtonBuilder>()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId("ConfirmDel")
-                        .setStyle(ButtonStyle.Danger)
-                        .setLabel("Delete")
-                        .setEmoji("🗑")
-                )
-            interaction.reply({ embeds: [newe], components: [row] })
         }
 
         if (interaction.isButton() && interaction.customId == "ConfirmDel") {
