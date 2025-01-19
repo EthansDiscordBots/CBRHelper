@@ -44,7 +44,7 @@ module.exports = {
                     traininglogsembeds.push(emmm)
                 }
     
-                client.channels.cache.get(process.env.TCCommands).send({ embeds: traininglogsembeds })
+                if (traininglogsembeds.length > 0) client.channels.cache.get(process.env.TCCommands).send({ embeds: traininglogsembeds })
             }, 10000)
     }
 }
