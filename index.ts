@@ -22,6 +22,7 @@ app.post("/command-logging", async (req, res) => {
          res.status(403).send("Unauthorized.")
          return
      }
+     console.log("recieved")
     await CommandLogs(req.body)
     res.status(200).send("Logged")
 });
