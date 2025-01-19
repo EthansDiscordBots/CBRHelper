@@ -12,30 +12,6 @@ const db = new QuickDB()
 let traininglogspending: any[] = []
 let maingamelogspending: any[] = []
 
-export async function CommandLogs(entries: Logging) {
-    if (Array.isArray(entries)) {
-        for (let i = 0; i < entries.length; i++) {
-            if (entries[i].type == "Training") {
-                traininglogspending = entries[i]
-            }
-            else if (entries[i].type == "MainGame") {
-                maingamelogspending = entries[i]
-            }
-        }
-    }
-    else {
-        if (entries.type == "Training") {
-            traininglogspending.unshift(entries)
-        }
-        else if (entries.type == "MainGame") {
-            maingamelogspending.unshift(entries)
-        }
-    }
-    console.log(traininglogspending)
-    console.log(maingamelogspending)
-}
-
-
 module.exports = {
     name: 'ready',
     once: true,
@@ -71,4 +47,27 @@ module.exports = {
             client.channels.cache.get(process.env.TCCommands).send({ embeds: traininglogsembeds })
         }
     }
+}
+
+export async function CommandLogs(entries: Logging) {
+    if (Array.isArray(entries)) {
+        for (let i = 0; i < entries.length; i++) {
+            if (entries[i].type == "Training") {
+                traininglogspending = entries[i]
+            }
+            else if (entries[i].type == "MainGame") {
+                maingamelogspending = entries[i]
+            }
+        }
+    }
+    else {
+        if (entries.type == "Training") {
+            traininglogspending.unshift(entries)
+        }
+        else if (entries.type == "MainGame") {
+            maingamelogspending.unshift(entries)
+        }
+    }
+    console.log(traininglogspending)
+    console.log(maingamelogspending)
 }
