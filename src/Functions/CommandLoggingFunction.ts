@@ -9,8 +9,6 @@ interface Logging {
 import { retryOperation } from "./retry";
 import { QuickDB } from "quick.db";
 const db = new QuickDB()
-let traininglogspending: any[] = []
-let maingamelogspending: any[] = []
 
 export async function CommandLogs(entries: Logging) {
     if (Array.isArray(entries)) {
@@ -31,6 +29,4 @@ export async function CommandLogs(entries: Logging) {
             await db.unshift("PendingMainGameCommands", entries)
         }
     }
-    console.log(traininglogspending)
-    console.log(maingamelogspending)
 }
