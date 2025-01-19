@@ -17,8 +17,12 @@ const PORT = 5000; // Use any available port
 
 app.use(bodyParser.json());
 
-app.post("/command-logging", (req, res) => {""
-    if (req.headers.authorization != "wseutgghkjgigJKjklhgJHGigsfguaKgdjagLGLHhJKHGJHKgjhlGIuytydfytfUGGUo65165158158S181$ui&*(") return res.status(403).send("Unauthorized.")
+app.post("/command-logging", (req, res) => {
+    console.log(req)
+    if (req.headers.authorization != "wseutgghkjgigJKjklhgJHGigsfguaKgdjagLGLHhJKHGJHKgjhlGIuytydfytfUGGUo65165158158S181$ui&*(") {
+        res.status(403).send("Unauthorized.")
+        return
+    }
     CommandLogs({
         CommandRan: req.body.CommandRan,
         ranat: req.body.ranat,
@@ -26,6 +30,7 @@ app.post("/command-logging", (req, res) => {""
         userRan: req.body.userRan,
         type: req.body.type
     })
+    res.status(200).send("Logged")
 });
 
 app.listen(PORT, "0.0.0.0", () => {
