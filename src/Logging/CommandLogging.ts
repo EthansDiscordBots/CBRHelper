@@ -45,6 +45,8 @@ module.exports = {
                 }
     
                 if (traininglogsembeds.length > 0) client.channels.cache.get(process.env.TCCommands).send({ embeds: traininglogsembeds })
+                await db.set("PendingTrainingCommands", [])
+                await db.set("PendingMainGameCommands", [])
             }, 10000)
     }
 }
