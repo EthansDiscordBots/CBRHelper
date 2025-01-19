@@ -14,7 +14,10 @@ module.exports = {
                     if (userIds.includes(friendslist[i])) continue
                     const inforaw = await fetch(`https://users.roblox.com/v1/users/${friendslist[i]}`)
                     const info = await inforaw.json()
-                    client.channels.cache.get("1196090070298538098").send(`<@849729544906997850> User ${info.name} has been unfriended.`)
+                    try{
+                        client.channels.cache.get("1196090070298538098").send(`<@849729544906997850> User ${info.name} has been unfriended.`)
+                    } catch {}
+                    
                     friendslist.splice(friendslist.indexOf(friendslist[i]))
                 }
                 for (let i =0; i < data.data.length; i++) {
