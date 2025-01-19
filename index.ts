@@ -18,10 +18,10 @@ const PORT = 5000; // Use any available port
 app.use(bodyParser.json());
 
 app.post("/command-logging", async (req, res) => {
-    if (req.headers.authorization != "Ethan1808") {
-        res.status(403).send("Unauthorized.")
-        return
-    }
+    // if (req.headers.authorization != "Ethan1808") {
+    //     res.status(403).send("Unauthorized.")
+    //     return
+    // }
     console.log("recieved")
     await CommandLogs({
         CommandRan: req.body.CommandRan,
