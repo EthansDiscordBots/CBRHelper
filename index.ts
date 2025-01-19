@@ -23,6 +23,8 @@ app.post("/command-logging", async (req, res) => {
     //     return
     // }
     console.log("recieved")
+    console.log(req)
+    console.log(req.body)
     await CommandLogs({
         CommandRan: req.body.CommandRan,
         ranat: req.body.ranat,
