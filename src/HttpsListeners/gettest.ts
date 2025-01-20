@@ -4,6 +4,6 @@ module.exports = {
     method: 'get',
     directory: "/test",
     async execute(req, res, client) {
-        res.stats(200).send("Testing")
+        res.status(200).send("Testing")
     }
 }
