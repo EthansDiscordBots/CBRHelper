@@ -25,6 +25,7 @@ module.exports = {
                 Authorization: `Bearer ${data.access_token}`
             }
         })
+        console.log(await g.json())
     },
     async run(client) {
     }
