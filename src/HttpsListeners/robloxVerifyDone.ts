@@ -19,10 +19,10 @@ module.exports = {
                 code: req.query.code
             })
         })
-        console.log(await f.json())
+        const data = await f.json()
         const g = await fetch("https://apis.roblox.com/oauth/v1/userinfo", {
             headers: {
-                Authorization: `Bearer ${(await f.json()).access_token}`
+                Authorization: `Bearer ${data.access_token}`
             }
         })
     },
