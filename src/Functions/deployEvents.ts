@@ -9,6 +9,10 @@ export async function deployEvents(client) {
                 client.on(event.name, (...args) => event.execute(...args, client));
             }
         }
+        for (const file of fs.readdirSync("src/HttpsListeners")) {
+            const event = require(`../HttpsListeners/${file}`);
+            client.once("ready", (...args) => event.run(...args, client));
+        }
         for (const file of fs.readdirSync("src/OnBoot")) {
             const event = require(`../OnBoot/${file}`);
             if (event.once) {
