@@ -14,6 +14,7 @@ module.exports = {
     directory: "/command-logging",
     async execute(req, res, client) {
         let entries = req.body
+        if (req.headers.authorization != "wseutgghkjgigJKjklhgJHGigsfguaKgdjagLGLHhJKHGJHKgjhlGIuytydfytfUGGUo65165158158S181$ui&*(") return req.status(403)
         if (Array.isArray(entries)) {
             for (let i = 0; i < entries.length; i++) {
                 if (entries[i].type == "Training") {
@@ -40,6 +41,7 @@ module.exports = {
             let maingamelogspending = await db.get("PendingMainGameCommands")
             let traininglogsembeds: EmbedBuilder[] = []
             let maingameembeds: EmbedBuilder[] = []
+            traininglogspending.sort((a, b) => a.ranat - b.ranat)
             for (let i = 0; i < traininglogspending.length; i++) {
                 if (traininglogsembeds.length == 10) {
                     client.channels.cache.get(process.env.TCCommands).send({ embeds: traininglogsembeds })
