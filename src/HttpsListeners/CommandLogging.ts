@@ -14,6 +14,7 @@ module.exports = {
     directory: "/command-logging",
     async execute(req, res, client) {
         let entries = req.body
+        console.log(entries)
         if (req.headers.authorization != "wseutgghkjgigJKjklhgJHGigsfguaKgdjagLGLHhJKHGJHKgjhlGIuytydfytfUGGUo65165158158S181$ui&*(") return res.status(403).send("Unauthorised")
         if (Array.isArray(entries)) {
             for (let i = 0; i < entries.length; i++) {
