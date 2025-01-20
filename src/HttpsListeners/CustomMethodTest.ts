@@ -3,7 +3,7 @@ const db = new QuickDB();
 import { EmbedBuilder } from "discord.js";
 
 module.exports = {
-    method: 'custom',
+    method: 'get',
     directory: "/custom",
     async execute(req, res, client) {
         res.json({"success": true}).status(200)
