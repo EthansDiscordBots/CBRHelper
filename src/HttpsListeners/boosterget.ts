@@ -20,6 +20,7 @@ module.exports = {
                 console.log("No Booster Role")
                 const boostersorig: Array<Booster> = await db.get("Boosters") as Array<Booster>
                 let boosters = boostersorig.filter(async r => r.UserId == await db.get(`${newMember.user.id}.verifiedRoblox`))
+                console.log(boosters)
                 if (boosters.length > 0) await db.set("Boosters", boostersorig.filter(async r => r.UserId != await db.get(`${newMember.user.id}.verifiedRoblox`)))
             }
             else if (newMember.roles.cache.get(process.env.BoosterRole)) {
