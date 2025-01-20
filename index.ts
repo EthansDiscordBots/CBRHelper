@@ -3,6 +3,7 @@ const client = new Client({ intents: [GatewayIntentBits.GuildVoiceStates ,Gatewa
 import { deployEvents } from "./src/Functions/deployEvents";
 import { deployCommands } from "./src/Functions/deployCommands";
 import { CommandLogs } from "./src/Functions/CommandLoggingFunction";
+import { deployListeners } from "./src/Functions/deployListeners";
 const express = require("express");
 const bodyParser = require("body-parser");
 client.setMaxListeners(100);
@@ -27,6 +28,8 @@ app.post("/command-logging", async (req, res) => {
     await CommandLogs(req.body)
     res.status(200).send("Logged")
 });
+
+deployListeners(app, client)
 
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Webhook listener running on port ${PORT}`);
