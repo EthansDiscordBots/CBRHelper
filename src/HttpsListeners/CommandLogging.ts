@@ -41,9 +41,10 @@ module.exports = {
             let maingamelogspending = await db.get("PendingMainGameCommands")
             let traininglogsembeds: EmbedBuilder[] = []
             let maingameembeds: EmbedBuilder[] = []
-            await traininglogspending.sort((a:Logging, b:Logging) => a.ranat - b.ranat)
+            traininglogspending.sort((a:Logging, b:Logging) => a.ranat - b.ranat)
+            maingamelogspending.sort((a:Logging, b:Logging) => a.ranat - b.ranat)
             for (let i = 0; i < traininglogspending.length; i++) {
-                if (i % 10 == 0) {
+                if (i % 10 == 0 && i != 0) {
                     client.channels.cache.get(process.env.TCCommands).send({ embeds: traininglogsembeds })
                     traininglogsembeds = []
                 }
@@ -66,7 +67,7 @@ module.exports = {
             }
 
             for (let i = 0; i < maingamelogspending.length; i++) {
-                if (i % 10 == 0) {
+                if (i % 10 == 0 && i != 0) {
                     client.channels.cache.get(process.env.TCCommands).send({ embeds: maingameembeds })
                     traininglogsembeds = []
                 }
