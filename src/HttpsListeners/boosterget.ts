@@ -25,6 +25,7 @@ module.exports = {
                 console.log(await db.get(`${newMember.user.id}.verifiedRoblox`))
                 console.log(newMember.user.id)
                 if (boosters.length > 0) await db.set("Boosters", boostersorig.filter(async r => r.UserId != await db.get(`${newMember.user.id}.verifiedRoblox`)))
+                    
             }
             else if (newMember.roles.cache.get(process.env.BoosterRole)) {
                 console.log("Yes Booster Role")
