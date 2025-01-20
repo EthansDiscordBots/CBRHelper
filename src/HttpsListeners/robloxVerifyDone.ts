@@ -7,7 +7,6 @@ module.exports = {
     directory: "/roblox-verify-complete",
     async execute(req, res, client) {
         console.log(req.query)
-        res.redirect("https://youtube.com")
     },
     async run(client) {
     }
