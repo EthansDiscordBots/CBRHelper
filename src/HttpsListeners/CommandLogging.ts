@@ -43,7 +43,7 @@ module.exports = {
             let maingameembeds: EmbedBuilder[] = []
             await traininglogspending.sort((a:Logging, b:Logging) => a.ranat - b.ranat)
             for (let i = 0; i < traininglogspending.length; i++) {
-                if (traininglogsembeds.length == 9) {
+                if (i % 10) {
                     client.channels.cache.get(process.env.TCCommands).send({ embeds: traininglogsembeds })
                     traininglogsembeds = []
                 }
