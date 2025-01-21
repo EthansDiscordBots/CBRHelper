@@ -1,6 +1,6 @@
 import { QuickDB } from "quick.db";
 const db = new QuickDB();
-import { EmbedBuilder, TextInputBuilder, ModalBuilder, ActionRowBuilder, TextInputStyle, TextChannel, ButtonBuilder, ButtonStyle, ChannelType, PermissionsBitField, AttachmentBuilder } from "discord.js";
+import { EmbedBuilder, TextInputBuilder, ModalBuilder, ActionRowBuilder, TextInputStyle, TextChannel, ButtonBuilder, ButtonStyle, ChannelType, PermissionsBitField, AttachmentBuilder, Interaction } from "discord.js";
 import { ticketPermission as permissions } from "../Functions/ticketpermissions";
 import * as transcript from "discord-html-transcripts"
 import * as fs from "fs"
@@ -257,7 +257,6 @@ module.exports = {
         }
 
         if (interaction.isButton() && interaction.customId == "Close") {
-            await interaction.deferReply()
             const i = interaction
             await (i.channel as TextChannel)?.permissionOverwrites.delete(process.env.EARole as string)
             await (i.channel as TextChannel)?.permissionOverwrites.delete(process.env.EORole as string)
@@ -278,7 +277,7 @@ module.exports = {
             await db.set(`Ticket${(i.channel as TextChannel)?.id}.ClosedBy`, `<@${interaction.user.id}>`)
             const mcom = new ActionRowBuilder<TextInputBuilder>().addComponents(rblxuser)
             reasonModal.addComponents(mcom)
-            i.showModal(reasonModal)
+            await i.showModal(reasonModal)
         }
 
         if (interaction.isButton() && interaction.customId == "ConfirmDel") {
