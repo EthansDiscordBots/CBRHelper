@@ -6,7 +6,7 @@ module.exports = {
     method: 'get',
     directory: "/test",
     async execute(req, res, client) {
-        res.status(200)
+        res.json({"success": true}).status(200)
     },
     discordEvent: "ready",
     discordOnce: true,

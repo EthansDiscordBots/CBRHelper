@@ -32,7 +32,7 @@ module.exports = {
                 await db.push("PendingMainGameCommands", entries)
             }
         }
-        res.send({"data": "Logging"}).status(200)
+        res.json({"data": "Logging"}).status(200)
     },
     discordEvent: "ready",
     discordOnce: true,

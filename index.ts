@@ -15,11 +15,6 @@ client.login(String(process.env.token))
 const app = express();
 const PORT = 5000; // Use any available port
 
-app.use((req, res, next) => {
-    res.type('application/json'); // Sets the default Content-Type to application/json
-    next();
-});
-
 deployListeners(app, client)
 
 app.listen(PORT, "0.0.0.0", () => {
