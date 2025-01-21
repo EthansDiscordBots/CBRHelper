@@ -9,6 +9,7 @@ interface Booster {
 module.exports = {
     method: 'get',
     directory: "/boosters",
+    authNeeded: true,
     async execute(req, res, client) {
         const boosters = await db.get("Boosters")
         res.send(boosters).status(200)

@@ -12,6 +12,7 @@ interface Logging {
 module.exports = {
     method: 'post',
     directory: "/command-logging",
+    authNeeded: true,
     async execute(req, res, client) {
         let entries = req.body
         if (Array.isArray(entries)) {
