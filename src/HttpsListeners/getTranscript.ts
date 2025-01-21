@@ -10,7 +10,6 @@ module.exports = {
     directory: "/transcripts/:id",
     async execute(req, res, client) {
         const ticketId = req.params.id
-        console.log(ticketId)
         const intend = "Transcripts"
         const endPath = path.join(intend, `${ticketId}.html`)
         if (!fs.existsSync(endPath)) return res.status(404).json({success: false, error: 404, message: "Transcript not found."})
@@ -21,7 +20,6 @@ module.exports = {
         if (interaction.isStringSelectMenu() && interaction.customId == "TicketOpen") {
             const modal = new ModalBuilder()
                 .setTitle("Ticket Creation")
-            const modalComponents = []
             if (interaction.values[0] == "General" || interaction.values[0] == "Communications") {
                 const Openreason = new TextInputBuilder()
                     .setCustomId("Open Reason")
@@ -289,7 +287,6 @@ module.exports = {
                 limit: -1, // Max amount of messages to fetch. `-1` recursively fetches.
                 returnType: transcript.ExportReturnType.String, // Valid options: 'buffer' | 'string' | 'attachment' Default: 'attachment' OR use the enum ExportReturnType
                 saveImages: true, // Download all images and include the image data in the HTML (allows viewing the image even after it has been deleted) (! WILL INCREASE FILE SIZE !)
-                footerText: "Exported {number} message{s}", // Change text at footer, don't forget to put {number} to show how much messages got exported, and {s} for plural
                 poweredBy: false, // Whether to include the "Powered by discord-html-transcripts" footer
             })
             const transcriptname = `${interaction.channel.id}.html`
@@ -324,7 +321,7 @@ module.exports = {
                     new ButtonBuilder()
                         .setStyle(ButtonStyle.Link)
                         .setURL(`https://cbr.ethansrandomthings.uk/transcripts/${interaction.channel.id}`)
-                        .setLabel("Download file")
+                        .setLabel("View online transcript")
                 )
 
             client.channels.cache.get(process.env.TranscriptsInMain as string)?.send({ embeds: [transcriptembed], components: [transcriptbutton] })
