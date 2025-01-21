@@ -4,8 +4,8 @@
             "name": "CBR DEV HTTPS Listener",
             "script": "npm",
             "args" : "run httpsstart",
-            "error_file": "err.log",
-            "out_file": "out.log"
+            "error_file": "httpserr.log",
+            "out_file": "httpsout.log"
         }
     ]
 }
