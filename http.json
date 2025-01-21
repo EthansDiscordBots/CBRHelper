@@ -3,7 +3,7 @@
         {
             "name": "CBR DEV HTTPS Listener",
             "script": "npm",
-            "args" : "run start",
+            "args" : "run httpsstart",
             "error_file": "err.log",
             "out_file": "out.log"
         }
