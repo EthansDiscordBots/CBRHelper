@@ -14,7 +14,7 @@ module.exports = {
         const intend = "Transcripts"
         const endPath = path.join(intend, `${ticketId}.html`)
         if (!fs.existsSync(endPath)) return res.status(404).json({success: false, error: 404, message: "Transcript not found."})
-        res.sendFile(endPath)
+        res.sendFile(path.resolve(endPath))
     },
     discordEvent: 'interactionCreate',
     async run(interaction, client) {
