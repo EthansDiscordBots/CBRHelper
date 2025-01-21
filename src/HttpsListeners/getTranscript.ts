@@ -296,6 +296,9 @@ module.exports = {
             const transcriptname = `${interaction.channel.id}.html`
             const filePath = "../Transcripts"
             const endpath = path.join(filePath, transcriptname)
+            if (!fs.existsSync(endpath)) {
+                fs.mkdirSync(endpath, { recursive: true });
+            }
             fs.writeFileSync(endpath, transcriptfile, "utf8")
 
 
