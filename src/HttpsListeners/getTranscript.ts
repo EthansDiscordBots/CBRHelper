@@ -292,10 +292,10 @@ module.exports = {
                 poweredBy: false, // Whether to include the "Powered by discord-html-transcripts" footer
             })
             const transcriptname = `${interaction.channel.id}.html`
-            const filePath = "../Transcripts"
+            const filePath = "Transcripts"
             const endpath = path.join(filePath, transcriptname)
             if (!fs.existsSync(filePath)) {
-                fs.mkdirSync(filePath, { recursive: true });
+                fs.mkdirSync(filePath, { recursive: true }); // Create directory if it doesn't exist
             }
             fs.writeFileSync(endpath, transcriptfile, "utf8")
 
