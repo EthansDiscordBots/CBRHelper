@@ -7,10 +7,35 @@ module.exports = {
     directory: "/host-panel",
     authNeeded: true,
     async execute(req, res) {
-        
+        await db.push("hostpanelpending", req.body)
     },
     discordEvent: "ready",
     discordOnce: true,
     async run(client) {
+        setInterval(async () => {
+                    let traininglogspending = await db.get("hostpanelpending")
+                    let traininglogsembeds: EmbedBuilder[] = []
+                    traininglogspending.sort((a, b) => a.ranat - b.ranat)
+                    for (let i = 0; i < traininglogspending.length; i++) {
+                        if (i % 10 == 0 && i != 0) {
+                            client.channels.cache.get(process.env.HostPanelLogs).send({ embeds: traininglogsembeds })
+                            traininglogsembeds = []
+                        }
+                        const data = traininglogspending[i]
+                        const emmm = new EmbedBuilder()
+                        emmm.setTitle("A new command has been ran in the training center!")
+                        emmm.addFields(
+                            { name: "User:", value: data.user, inline: true },
+                            { name: "Action:", value: data.action, inline: true },
+                            { name: "Server:", value: data.server, inline: true }
+                        )
+                        emmm.setColor(0x00ffe5)
+                        traininglogsembeds.push(emmm)
+                    }
+        
+                    if (traininglogsembeds.length > 0) client.channels.cache.get(process.env.HostPanelLogs).send({ embeds: traininglogsembeds })
+
+                    await db.set("PendingTrainingCommands", [])
+                }, 10000)
     }
 }
