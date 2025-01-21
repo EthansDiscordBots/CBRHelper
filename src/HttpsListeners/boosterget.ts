@@ -11,8 +11,10 @@ module.exports = {
     directory: "/boosters",
     async execute(req, res, client) {
         const boosters = await db.get("Boosters")
-        res.json(boosters).status(200)
+        res.send(boosters).status(200)
     },
+    discordEvent: "ready",
+    discordOnce: true,
     async run(client) {
         client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
             const roblox = await db.get(`${newMember.user.id}.verifiedRoblox`) 

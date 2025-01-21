@@ -32,8 +32,10 @@ module.exports = {
                 await db.push("PendingMainGameCommands", entries)
             }
         }
-        res.json({"data": "Logging"}).status(200)
+        res.send({"data": "Logging"}).status(200)
     },
+    discordEvent: "ready",
+    discordOnce: true,
     async run(client) {
         setInterval(async () => {
             let traininglogspending = await db.get("PendingTrainingCommands")
