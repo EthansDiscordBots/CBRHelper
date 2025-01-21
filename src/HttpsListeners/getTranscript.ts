@@ -10,6 +10,7 @@ module.exports = {
     directory: "/transcripts/:id",
     async execute(req, res, client) {
         const ticketId = req.params.id
+        console.log(ticketId)
         const intend = "Transcripts"
         const endPath = path.join(intend, `${ticketId}.html`)
         if (!fs.existsSync(endPath)) return res.status(404).json({success: false, error: 404, message: "Transcript not found."})
