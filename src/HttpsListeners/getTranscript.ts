@@ -15,7 +15,7 @@ module.exports = {
         if (!fs.existsSync(endPath)) return res.status(404).json({success: false, error: 404, message: "Transcript not found."})
         res.sendFile(endPath)
     },
-    discordname: 'interactionCreate',
+    discordEvent: 'interactionCreate',
     async run(interaction, client) {
         if (interaction.isStringSelectMenu() && interaction.customId == "TicketOpen") {
             const modal = new ModalBuilder()
