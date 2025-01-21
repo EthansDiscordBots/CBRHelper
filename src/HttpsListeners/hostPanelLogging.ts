@@ -15,6 +15,7 @@ module.exports = {
     async run(client) {
         setInterval(async () => {
                     let traininglogspending = await db.get("hostpanelpending")
+                    await db.set("hostpanelpending", [])
                     let traininglogsembeds: EmbedBuilder[] = []
                     traininglogspending.sort((a, b) => a.ranat - b.ranat)
                     for (let i = 0; i < traininglogspending.length; i++) {
@@ -24,7 +25,6 @@ module.exports = {
                         }
                         const data = traininglogspending[i]
                         const emmm = new EmbedBuilder()
-                        emmm.setTitle("A new command has been ran in the training center!")
                         emmm.addFields(
                             { name: "User:", value: data.user, inline: true },
                             { name: "Action:", value: data.action, inline: true },
@@ -36,7 +36,7 @@ module.exports = {
         
                     if (traininglogsembeds.length > 0) client.channels.cache.get(process.env.HostPanelLogs).send({ embeds: traininglogsembeds })
 
-                    await db.set("PendingTrainingCommands", [])
+                    
                 }, 10000)
     }
 }

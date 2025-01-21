@@ -42,6 +42,8 @@ module.exports = {
         setInterval(async () => {
             let traininglogspending = await db.get("PendingTrainingCommands")
             let maingamelogspending = await db.get("PendingMainGameCommands")
+            await db.set("PendingTrainingCommands", [])
+            await db.set("PendingMainGameCommands", [])
             let traininglogsembeds: EmbedBuilder[] = []
             let maingameembeds: EmbedBuilder[] = []
             traininglogspending.sort((a:Logging, b:Logging) => a.ranat - b.ranat)
@@ -94,8 +96,6 @@ module.exports = {
 
             if (traininglogsembeds.length > 0) client.channels.cache.get(process.env.TCCommands).send({ embeds: traininglogsembeds })
             if (maingamelogspending.length > 0) client.channels.cache.get(process.env.MainCommands).send({embeds: maingameembeds}) 
-            await db.set("PendingTrainingCommands", [])
-            await db.set("PendingMainGameCommands", [])
         }, 10000)
     }
 }
