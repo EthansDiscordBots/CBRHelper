@@ -257,6 +257,7 @@ module.exports = {
         }
 
         if (interaction.isButton() && interaction.customId == "Close") {
+            await interaction.deferReply()
             const i = interaction
             await (i.channel as TextChannel)?.permissionOverwrites.delete(process.env.EARole as string)
             await (i.channel as TextChannel)?.permissionOverwrites.delete(process.env.EORole as string)
