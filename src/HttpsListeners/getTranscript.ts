@@ -322,7 +322,7 @@ module.exports = {
                 .addComponents(
                     new ButtonBuilder()
                         .setStyle(ButtonStyle.Link)
-                        .setURL(`https://cbr.ethansrandomthings/transcripts/${interaction.channel.id}`)
+                        .setURL(`https://cbr.ethansrandomthings.uk/transcripts/${interaction.channel.id}`)
                         .setLabel("Download file")
                 )
 
