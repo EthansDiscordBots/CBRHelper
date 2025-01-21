@@ -89,6 +89,8 @@ module.exports = {
             interaction.showModal(modal)
         }
         if (interaction.isModalSubmit() && interaction.customId == "ReasonSetModal") {
+            let reason: string = interaction.fields.getTextInputValue("reason")
+            if (reason.length < 1) reason = "No reason provided."
             await db.set(`Ticket${(interaction.channel as TextChannel)?.id}.CloseReason`, interaction.fields.getTextInputValue("reason"))
             const newe = new EmbedBuilder()
                 .setTitle("Ticket closed")
