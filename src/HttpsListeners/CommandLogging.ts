@@ -15,6 +15,7 @@ module.exports = {
     authNeeded: true,
     async execute(req, res) {
         let entries = req.body
+        console.log(entries)
         if (Array.isArray(entries)) {
             for (let i = 0; i < entries.length; i++) {
                 if (entries[i].type == "Training") {

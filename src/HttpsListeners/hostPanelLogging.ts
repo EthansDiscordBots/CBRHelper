@@ -7,7 +7,7 @@ module.exports = {
     directory: "/host-panel",
     authNeeded: true,
     async execute(req, res) {
-        res.json({"success": true}).status(200)
+        
     },
     discordEvent: "ready",
     discordOnce: true,
