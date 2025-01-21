@@ -10,7 +10,7 @@ module.exports = {
     directory: "/transcripts/:id",
     async execute(req, res, client) {
         const ticketId = req.params.id
-        const intend = "../Transcripts"
+        const intend = "Transcripts"
         const endPath = path.join(intend, `${ticketId}.html`)
         if (!fs.existsSync(endPath)) return res.status(404).json({success: false, error: 404, message: "Transcript not found."})
         res.sendFile(endPath)
@@ -293,10 +293,10 @@ module.exports = {
             })
             const transcriptname = `${interaction.channel.id}.html`
             const filePath = "Transcripts"
-            const endpath = path.join(filePath, transcriptname)
             if (!fs.existsSync(filePath)) {
                 fs.mkdirSync(filePath, { recursive: true }); // Create directory if it doesn't exist
             }
+            const endpath = path.join(filePath, transcriptname)
             fs.writeFileSync(endpath, transcriptfile, "utf8")
 
 
