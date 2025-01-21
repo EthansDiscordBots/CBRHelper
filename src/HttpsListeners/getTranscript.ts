@@ -308,12 +308,12 @@ module.exports = {
             const transcriptembed = new EmbedBuilder()
                 .setTitle("Ticket Closed")
                 .addFields(
-                    { name: "Opened by", value: CreatedBy.length > 1 ? CreatedBy : "HIYA", inline: true },
-                    { name: "Claimed by", value: ClaimedBy.lenth > 1 ? ClaimedBy : "HIYA", inline: true },
-                    { name: "Created at", value: CreatedAt.length > 1 ? CreatedAt : "HIYA", inline: true },
-                    { name: "Closed by", value: closedBy.lenght > 1 ? closedBy : "HIYA", inline: true },
-                    { name: "Ticket Type", value: TicketType.length > 1 ? TicketType : "HIYA", inline: true },
-                    { name: "Close reason", value: closeReason.length > 1 ? closeReason : "HIYA" }
+                    { name: "Opened by", value: CreatedBy.length > 1 ? CreatedBy : "N/A", inline: true },
+                    { name: "Claimed by", value: ClaimedBy.lenth > 1 ? ClaimedBy : "N/A", inline: true },
+                    { name: "Created at", value: CreatedAt.length > 1 ? CreatedAt : "Error occured", inline: true },
+                    { name: "Closed by", value: closedBy.lenght > 1 ? closedBy : "Error.", inline: true },
+                    { name: "Ticket Type", value: TicketType.length > 1 ? TicketType : "Error", inline: true },
+                    { name: "Close reason", value: closeReason.length > 1 ? closeReason : "None provided." }
                 )
                 .setColor(0x00ffe5)
             const transcriptbutton = new ActionRowBuilder()
