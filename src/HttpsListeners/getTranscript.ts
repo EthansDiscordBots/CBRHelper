@@ -8,7 +8,7 @@ import * as path from "path"
 module.exports = {
     method: 'get',
     directory: "/transcripts/:id",
-    async execute(req, res, client) {
+    async execute(req, res) {
         const ticketId = req.params.id
         const intend = "Transcripts"
         const endPath = path.join(intend, `${ticketId}.html`)
@@ -320,7 +320,7 @@ module.exports = {
                 .addComponents(
                     new ButtonBuilder()
                         .setStyle(ButtonStyle.Link)
-                        .setURL(`https://cbr.ethansrandomthings.uk/transcripts/${interaction.channel.id}`)
+                        .setURL(`https://www.cbayr.xyz/transcripts/${interaction.channel.id}`)
                         .setLabel("View online transcript")
                 )
 

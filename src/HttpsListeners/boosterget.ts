@@ -10,7 +10,7 @@ module.exports = {
     method: 'get',
     directory: "/boosters",
     authNeeded: true,
-    async execute(req, res, client) {
+    async execute(req, res) {
         const boosters = await db.get("Boosters")
         res.send(boosters).status(200)
     },

@@ -13,7 +13,7 @@ module.exports = {
     method: 'post',
     directory: "/command-logging",
     authNeeded: true,
-    async execute(req, res, client) {
+    async execute(req, res) {
         let entries = req.body
         if (Array.isArray(entries)) {
             for (let i = 0; i < entries.length; i++) {
