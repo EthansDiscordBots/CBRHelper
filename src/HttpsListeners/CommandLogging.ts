@@ -14,6 +14,7 @@ module.exports = {
     directory: "/command-logging",
     authNeeded: true,
     async execute(req, res) {
+        console.log(req)
         let entries = req.body
         console.log(entries)
         if (Array.isArray(entries)) {
