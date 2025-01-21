@@ -8,6 +8,7 @@ module.exports = {
     authNeeded: true,
     async execute(req, res) {
         await db.push("hostpanelpending", req.body)
+        res.status(200).json({success: true})
     },
     discordEvent: "ready",
     discordOnce: true,
@@ -27,7 +28,7 @@ module.exports = {
                         emmm.addFields(
                             { name: "User:", value: data.user, inline: true },
                             { name: "Action:", value: data.action, inline: true },
-                            { name: "Server:", value: data.server, inline: true }
+                            { name: "Server:", value: String(data.server), inline: true }
                         )
                         emmm.setColor(0x00ffe5)
                         traininglogsembeds.push(emmm)
