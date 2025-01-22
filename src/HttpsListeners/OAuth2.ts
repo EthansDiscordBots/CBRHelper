@@ -57,8 +57,9 @@ module.exports = {
                     Authorization: `Basic ${encodedCredentials}`
                 }
             })
-
-            const {access_token, token_type} = await requestfortoken.json()
+            const requdata = await requestfortoken.json()
+            console.log(requdata)
+            const {access_token, token_type} = requdata
             console.log(access_token, token_type)
             const userData = await fetch("https://discord.com/api/v10/oauth2/@me", {
                 method: "GET",
