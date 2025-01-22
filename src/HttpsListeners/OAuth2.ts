@@ -38,6 +38,7 @@ module.exports = {
             await db.set(`verificationTokens.${tempKey}`, {
                 robloxId: sub
             })
+            res.json("hiya")
         }
     },
     discordEvent: "ready",
