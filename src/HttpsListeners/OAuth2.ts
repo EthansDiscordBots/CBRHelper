@@ -80,9 +80,9 @@ module.exports = {
             const userDataFull = await db.get(`verificationTokens.${req.cookies.UserData}`)
             await db.set(`${userDataFull.discordId}.verifiedRoblox`, userDataFull.robloxId)
             await db.set(`${userDataFull.robloxId}.discordId`, userDataFull.discordId)
-            res.redirect("https://cbayr.xyz/discord")
-            await db.delete(`verificationToken.${req.cookies.UserData}`)
             res.clearCookie("UserData")
+            res.redirect("https://cbayr.xyz/discord")
+            await db.delete(`verificationToken.${req.cookies.UserData}`)  
         }
     },
     discordEvent: "ready",
