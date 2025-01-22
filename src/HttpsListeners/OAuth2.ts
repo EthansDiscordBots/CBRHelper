@@ -45,7 +45,10 @@ module.exports = {
         }
         else if (stage == "complete") {
             const robloxdata = await db.get(`verificationTokens.${req.cookies.UserData}`)
-            const encodedCredentials = Buffer.from(`${process.env.OAuth2ClientId}:${process.env.OAuth2Secret}`).toString('base64')
+            const encodedCredentials = await Buffer.from(`${process.env.OAuth2ClientId}:${process.env.OAuth2Secret}`).toString('base64')
+            console.log('Client ID:', process.env.CLIENTID);
+    console.log('OAuth2 Secret:', process.env.OAuth2Secret);
+            console.log(encodedCredentials)
             const requestfortoken = await fetch("https://discord.com/api/v10/oauth2/token", {
                 method: "POST",
                 body: new URLSearchParams({
@@ -54,6 +57,7 @@ module.exports = {
                     redirect_uri: "https://cbayr.xyz/oauth2/complete"
                 }),
                 headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
                     Authorization: `Basic ${encodedCredentials}`
                 }
             })
