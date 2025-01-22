@@ -4,10 +4,9 @@ import { EmbedBuilder } from "discord.js";
 
 module.exports = {
     method: 'get',
-    directory: "/test",
+    directory: "/discord",
     async execute(req, res) {
-        console.log(req.body)
-        res.json({"success": true}).status(200)
+        res.redirect("https://discord.gg/nhVMcT9Ngf")
     },
     discordEvent: "ready",
     discordOnce: true,

@@ -21,7 +21,11 @@ module.exports = {
                 new ButtonBuilder()
                     .setCustomId("Game")
                     .setLabel("Game Verification")
-                    .setStyle(ButtonStyle.Success)
+                    .setStyle(ButtonStyle.Success),
+                new ButtonBuilder()
+                    .setLabel("Discord+Roblox Websites.")
+                    .setStyle(ButtonStyle.Link)
+                    .setURL("https://www.cbayr.xyz/oauth2/start")
             )
 
         const embed = new EmbedBuilder()
