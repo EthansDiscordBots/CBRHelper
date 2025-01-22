@@ -52,7 +52,6 @@ module.exports = {
             res.redirect("https://discord.com/oauth2/authorize?client_id=1138830931914932354&response_type=code&redirect_uri=https%3A%2F%2Fcbayr.xyz%2Foauth2%2Fcomplete&scope=identify")
         }
         else if (stage == "complete") {
-            const robloxdata = await db.get(`verificationTokens.${req.cookies.UserData}`)
             const encodedCredentials = Buffer.from(`${process.env.OAuth2ClientId}:${process.env.OAuth2Secret}`).toString('base64')
             const requestfortoken = await fetch("https://discord.com/api/v10/oauth2/token", {
                 method: "POST",
@@ -76,8 +75,7 @@ module.exports = {
             })
             const data = await userData.json()
             const user = data.user
-            robloxdata.discordId = user.id
-            await db.set(`verificationTokens.${req.cookies.UserData}`, robloxdata)
+            await db.set(`verificationTokens.${req.cookies.UserData}.discordId`, user.id)
 
             const userDataFull = await db.get(`verificationToken.${req.cookies.UserData}`)
             await db.set(`${userDataFull.discordId}.verifiedRoblox`, userDataFull.robloxId)
