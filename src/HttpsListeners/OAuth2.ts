@@ -1,15 +1,24 @@
 import { QuickDB } from "quick.db";
 const db = new QuickDB();
-import { EmbedBuilder, User } from "discord.js";
+import { Embed, EmbedBuilder, User } from "discord.js";
 import * as crypto from "crypto"
 import { updateUser } from "../Functions/updateuser";
 import { json } from "stream/consumers";
+import { getUsernameFromId } from "noblox.js";
 module.exports = {
     method: 'get',
     directory: "/oauth2/:stage",
     async execute(req, res) {
-        const {stage} = req.params
+        const { stage } = req.params
         if (stage == "start") {
+            const tempKey = crypto.randomBytes(32).toString("hex")
+            res.cookie("UserData", tempKey, {
+                expires: new Date(Date.now() + 60 * 60 * 1000),
+                httpOnly: true,
+                secure: true,
+                sameSite: "Lax",
+            })
+            await db.set(`verificationTokens.${tempKey}.guildId`, req.query.guildId || null)
             res.redirect("https://apis.roblox.com/oauth/v1/authorize?client_id=2750000934827931867&redirect_uri=https://cbayr.xyz/oauth2/discord&scope=openid&response_type=code")
         }
         else if (stage == "discord") {
@@ -28,7 +37,7 @@ module.exports = {
                 }
             })
             const tokendata = await requestfortoken.json()
-            const {access_token, token_type} = tokendata
+            const { access_token, token_type } = tokendata
             console.log(tokendata)
 
             const userData = await fetch("https://apis.roblox.com/oauth/v1/userinfo", {
@@ -39,17 +48,7 @@ module.exports = {
             })
             const hiya = await userData.json()
             const UserId = hiya.sub
-            console.log(hiya)
-            const tempKey = crypto.randomBytes(32).toString("hex")
-            res.cookie("UserData", tempKey, {
-                expires: new Date(Date.now() + 60 * 60 * 1000),
-                httpOnly: true,
-                secure: true, 
-                sameSite: "Lax",
-            })
-            await db.set(`verificationTokens.${tempKey}`, {
-                robloxId: UserId
-            })
+            await db.set(`verificationTokens.${req.cookies.UserData}.robloxId`, UserId)
             res.redirect("https://discord.com/oauth2/authorize?client_id=1138830931914932354&response_type=code&redirect_uri=https%3A%2F%2Fcbayr.xyz%2Foauth2%2Fcomplete&scope=identify")
         }
         else if (stage == "complete") {
@@ -67,12 +66,12 @@ module.exports = {
                 }
             })
             const requdata = await requestfortoken.json()
-            const {access_token, token_type} = requdata
+            const { access_token, token_type } = requdata
             const userData = await fetch("https://discord.com/api/v10/oauth2/@me", {
                 method: "GET",
                 headers: {
                     Authorization: `${token_type} ${access_token}`
-                } 
+                }
             })
             const data = await userData.json()
             const user = data.user
@@ -83,42 +82,37 @@ module.exports = {
             await db.set(`${userDataFull.robloxId}.discordId`, userDataFull.discordId)
             res.clearCookie("UserData")
             res.redirect("https://cbayr.xyz/discord")
-            await db.delete(`verificationToken.${req.cookies.UserData}`)  
             
-            const channelFetchData = await fetch(`https://discord.com/api/v9/users/@me/channels`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bot ${process.env.token}`,
-                    'Content-Type': 'application/json'
-                },
-                redirect: "follow",
-                body: JSON.stringify({
-                    recipients: [{id: userDataFull.discordId}]
-                })
-            })
-            const channelData = await channelFetchData.json()
-            console.log(userDataFull.discordId)
-            console.log(channelData)
-            const channelId = channelData.id
-
-            await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bot ${process.env.token}`
-                },
-                body: JSON.stringify({
-                    embeds: [
-                        {
-                           description: `You have successfully verified your account with userId ${userDataFull.robloxId}`,
-                           color: 0x00ffe5 
-                        }
-                    ]
-                })
-            })
+            await db.push("sendDMSayingVerifiedMessage", {discordId: userDataFull.discordId, guildId: userDataFull.guildId, robloxId: userDataFull.robloxId})
+            await db.delete(`verificationToken.${req.cookies.UserData}`)
         }
     },
     discordEvent: "ready",
     discordOnce: true,
     async run(client) {
+        setInterval(async () => {
+            let userData = await db.pop("sendDMSayingVerifiedMessage")
+            if (!userData) return
+            let userId = userData.discordId
+            let guildId = userData.guildId
+            let robloxId = userData.robloxId
+            let member
+            for (const guild of client.guilds.cache.values()) {
+                try {
+                    member = await guild.members.fetch(userId);
+                    if (member) break;
+                } catch (err) {
+                    console.error(`Could not fetch member in guild ${guild.id}: ${err.message}`);
+                }
+            }
+            if (guildId) await (await client.guilds.fetch(guildId))?.members.fetch(userId)
+            const embed = new EmbedBuilder()
+                .setTitle("Verified")
+                .setDescription(`You have successfully verified your discord account with https://roblox.com/users/${await db.get(`${userId}.verifiedRoblox`)}/profile`)
+            if (member) {
+                await member.send({ embeds: [embed] })
+                await updateUser(robloxId, member, await getUsernameFromId(robloxId))
+            }
+        })
     }
 }

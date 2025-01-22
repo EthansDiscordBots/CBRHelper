@@ -23,9 +23,9 @@ module.exports = {
                     .setLabel("Game Verification")
                     .setStyle(ButtonStyle.Success),
                 new ButtonBuilder()
-                    .setLabel("Discord+Roblox Websites.")
+                    .setLabel("OAuth2 - Easiest.")
                     .setStyle(ButtonStyle.Link)
-                    .setURL("https://www.cbayr.xyz/oauth2/start")
+                    .setURL(`https://www.cbayr.xyz/oauth2/start?guildId=${interaction.guild?.id}`)
             )
 
         const embed = new EmbedBuilder()

@@ -1,10 +1,10 @@
-import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction } from "discord.js"
+import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, TextChannel } from "discord.js"
 import { QuickDB } from "quick.db"
 import { updateUser } from "../../Functions/updateuser"
 import { getUsernameFromId } from "noblox.js"
 const db = new QuickDB()
 import { Client as Marc } from "marcsync"
-const ms = new Marc(process.env.mskey)
+const ms = new Marc(process.env.mskey as string)
 const verifiedCollection = ms.getCollection("VerifiedAccounts")
 import { retryOperation } from "../../Functions/retry"
 
@@ -43,7 +43,7 @@ module.exports = {
                 //             await updateUser(robloxUserId, member, rblxuser, interaction)
                 //         })
                 // }
-                if (i == ids.length - 1) interaction.channel.send("Server scan complete.")
+                if (i == ids.length - 1) (interaction.channel as TextChannel)?.send("Server scan complete.")
             }
         })
     }
