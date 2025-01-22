@@ -45,7 +45,7 @@ module.exports = {
         }
         else if (stage == "complete") {
             const robloxdata = await db.get(`verificationTokens.${req.cookies.UserData}`)
-            const encodedCredentials = Buffer.from(`${process.env.CLIENTID}:${process.env.OAuth2Secret}`).toString('base64')
+            const encodedCredentials = Buffer.from(`${process.env.OAuth2ClientId}:${process.env.OAuth2Secret}`).toString('base64')
             const requestfortoken = await fetch("https://discord.com/api/v10/oauth2/token", {
                 method: "POST",
                 body: new URLSearchParams({
