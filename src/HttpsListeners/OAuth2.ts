@@ -96,6 +96,7 @@ module.exports = {
                 })
             })
             const channelData = await channelFetchData.json()
+            console.log(channelData)
             const channelId = channelData.id
 
             await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
