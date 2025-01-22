@@ -31,7 +31,7 @@ module.exports = {
             })
 
             const {sub} = await userData.json()
-            const tempKey = crypto.randomBytes(32).toString("base64")
+            const tempKey = crypto.randomBytes(32).toString("hex")
             res.cookie("UserData", tempKey, {
                 expires: new Date(Date.now() + 60 * 60 * 1000),
                 httpOnly: true,
@@ -46,9 +46,6 @@ module.exports = {
         else if (stage == "complete") {
             const robloxdata = await db.get(`verificationTokens.${req.cookies.UserData}`)
             const encodedCredentials = await Buffer.from(`${process.env.OAuth2ClientId}:${process.env.OAuth2Secret}`).toString('base64')
-            console.log('Client ID:', process.env.CLIENTID);
-    console.log('OAuth2 Secret:', process.env.OAuth2Secret);
-            console.log(encodedCredentials)
             const requestfortoken = await fetch("https://discord.com/api/v10/oauth2/token", {
                 method: "POST",
                 body: new URLSearchParams({
@@ -62,9 +59,7 @@ module.exports = {
                 }
             })
             const requdata = await requestfortoken.json()
-            console.log(requdata)
             const {access_token, token_type} = requdata
-            console.log(access_token, token_type)
             const userData = await fetch("https://discord.com/api/v10/oauth2/@me", {
                 method: "GET",
                 headers: {
@@ -81,6 +76,8 @@ module.exports = {
             await db.set(`${userDataFull.discordId}.verifiedRoblox`, userDataFull.robloxId)
             await db.set(`${userDataFull.robloxId}.discordId`, userDataFull.discordId)
             res.redirect("https://cbayr.xyz/discord")
+            await db.delete(`verificationToken.${req.cookies.UserData}`)
+            res.clearCookie("UserData")
         }
     },
     discordEvent: "ready",
