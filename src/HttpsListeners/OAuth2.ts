@@ -85,7 +85,7 @@ module.exports = {
             res.redirect("https://cbayr.xyz/discord")
             await db.delete(`verificationToken.${req.cookies.UserData}`)  
             
-            const channelFetchData = await fetch(`https://discord.com/api/v10/users/@me/channels`, {
+            const channelFetchData = await fetch(`https://discord.com/api/v9/users/@me/channels`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bot ${process.env.token}`
@@ -96,13 +96,14 @@ module.exports = {
                 })
             })
             const channelData = await channelFetchData.json()
+            console.log(userDataFull.discordId)
             console.log(channelData)
             const channelId = channelData.id
 
             await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
                 method: "POST",
                 headers: {
-                    Authorization: `Bot ${process.env.discordId}`
+                    Authorization: `Bot ${process.env.token}`
                 },
                 body: JSON.stringify({
                     embeds: [
