@@ -65,8 +65,9 @@ module.exports = {
                     Authorization: `${token_type} ${access_token}`
                 } 
             })
-
-            const {user} = await userData.json()
+            const data = await userData.json()
+            console.log(data)
+            const user = data.user
             robloxdata.discordId = user.id
             await db.set(`verificationTokens.${req.cookies.UserData}`, robloxdata)
 
