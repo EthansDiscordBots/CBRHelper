@@ -81,6 +81,8 @@ module.exports = {
             await db.set(`${userDataFull.discordId}.verifiedRoblox`, userDataFull.robloxId)
             await db.set(`${userDataFull.robloxId}.discordId`, userDataFull.discordId)
             res.clearCookie("UserData")
+            res.json("You can now use the /verify command again.")
+            await new Promise(r => setTimeout(r, 3000))
             res.redirect("https://cbayr.xyz/discord")
             
             await db.push("sendDMSayingVerifiedMessage", {discordId: userDataFull.discordId, guildId: userDataFull.guildId, robloxId: userDataFull.robloxId})
@@ -108,10 +110,9 @@ module.exports = {
             if (guildId) await (await client.guilds.fetch(guildId))?.members.fetch(userId)
             const embed = new EmbedBuilder()
                 .setTitle("Verified")
-                .setDescription(`You have successfully verified your discord account with https://roblox.com/users/${await db.get(`${userId}.verifiedRoblox`)}/profile`)
+                .setDescription(`You have successfully verified your discord account with https://roblox.com/users/${await db.get(`${userId}.verifiedRoblox`)}/profile. You can now run the /update command`)
             if (member) {
                 await member.send({ embeds: [embed] })
-                await updateUser(robloxId, member, await getUsernameFromId(robloxId))
             }
         })
     }

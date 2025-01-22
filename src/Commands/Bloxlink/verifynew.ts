@@ -1,6 +1,8 @@
 import { SlashCommandBuilder, EmbedBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction } from "discord.js"
 import { QuickDB } from "quick.db"
-
+import { updateUser } from "../../Functions/updateuser"
+import { getUsernameFromId } from "../../Functions/getIdFromUsername"
+const db = new QuickDB()
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -27,7 +29,8 @@ module.exports = {
                     .setStyle(ButtonStyle.Link)
                     .setURL(`https://www.cbayr.xyz/oauth2/start?guildId=${interaction.guild?.id}`)
             )
-
+        const userId = await db.get(`${interaction.user.id}.verifiedRoblox`)
+        if (userId) return await updateUser(userId, interaction.member, await getUsernameFromId(userId), interaction)
         const embed = new EmbedBuilder()
             .setDescription("You are about to begin the verification process to link your roblox account to your discord account, please select your way of verifying from the options below.")
             .setColor(0x00ffe5)

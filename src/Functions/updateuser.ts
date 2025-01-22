@@ -39,6 +39,7 @@ export async function updateUser(userid, member, rblxusername, interaction?: Com
             roles: [process.env.GroupWallShoutPerms]
         },
     ]
+    if (!interaction) return
     var rank
     var RankName
     const removed = []
@@ -63,7 +64,7 @@ export async function updateUser(userid, member, rblxusername, interaction?: Com
 
     await member.setNickname(`${displayName}`).catch((err) => console.log("Username not changed as I do not have permission to"));
     let oldrole
-    if (!interaction) return
+    
     const guild = interaction.guild as Guild
     const newrole = guild.roles.cache?.find(role => role.name == RankName)
     for (let i = 0; i < roles.length; i++) {
