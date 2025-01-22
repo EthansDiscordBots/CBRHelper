@@ -12,10 +12,12 @@ module.exports = {
             res.redirect("https://apis.roblox.com/oauth/v1/authorize?client_id=2750000934827931867&redirect_uri=https://cbayr.xyz/oauth2/discord&scope=openid&response_type=code")
         }
         else if (stage == "discord") {
+            const code = req.query.code
+            console.log(code)
             const requestfortoken = await fetch("https://apis.roblox.com/v1/token", {
                 method: "POST",
                 body: new URLSearchParams({
-                    code: req.query.code as string,
+                    code: code,
                     grant_type: "authorization_code",
                     client_id: process.env.RobloxClientId as string,
                     client_secret: process.env.RobloxSecret as string
