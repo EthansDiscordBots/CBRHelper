@@ -13,8 +13,7 @@ module.exports = {
         }
         else if (stage == "discord") {
             const code = req.query.code
-            console.log(code)
-            const requestfortoken = await fetch("https://apis.roblox.com/v1/token", {
+            const requestfortoken = await fetch("https://apis.roblox.com/oauth/v1/token", {
                 method: "POST",
                 body: new URLSearchParams({
                     code: code,
@@ -28,9 +27,8 @@ module.exports = {
             })
             const tokendata = await requestfortoken.json()
             const {access_token, token_type} = tokendata
-            console.log(tokendata)
 
-            const userData = await fetch("https://apis.roblox.com/v1/userinfo", {
+            const userData = await fetch("https://apis.roblox.com/oauth/v1/userinfo", {
                 method: "GET",
                 headers: {
                     Authorization: `${token_type} ${access_token}`
@@ -38,7 +36,6 @@ module.exports = {
             })
             const hiya = await userData.json()
             const UserId = hiya.sub
-            console.log(hiya)
             const tempKey = crypto.randomBytes(32).toString("hex")
             res.cookie("UserData", tempKey, {
                 expires: new Date(Date.now() + 60 * 60 * 1000),
