@@ -1,6 +1,6 @@
 import { QuickDB } from "quick.db";
 const db = new QuickDB();
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, User } from "discord.js";
 import * as crypto from "crypto"
 
 module.exports = {
@@ -29,8 +29,9 @@ module.exports = {
                     Authorization: `${token_type} ${access_token}`
                 }
             })
-
-            const {sub} = await userData.json()
+            const hiya = await userData.json()
+            const UserId = hiya.sub
+            console.log(hiya)
             const tempKey = crypto.randomBytes(32).toString("hex")
             res.cookie("UserData", tempKey, {
                 expires: new Date(Date.now() + 60 * 60 * 1000),
@@ -39,13 +40,13 @@ module.exports = {
                 sameSite: 'Strict',
             })
             await db.set(`verificationTokens.${tempKey}`, {
-                robloxId: sub
+                robloxId: UserId
             })
             res.redirect("https://discord.com/oauth2/authorize?client_id=1138830931914932354&response_type=code&redirect_uri=https%3A%2F%2Fcbayr.xyz%2Foauth2%2Fcomplete&scope=identify")
         }
         else if (stage == "complete") {
             const robloxdata = await db.get(`verificationTokens.${req.cookies.UserData}`)
-            const encodedCredentials = await Buffer.from(`${process.env.OAuth2ClientId}:${process.env.OAuth2Secret}`).toString('base64')
+            const encodedCredentials = Buffer.from(`${process.env.OAuth2ClientId}:${process.env.OAuth2Secret}`).toString('base64')
             const requestfortoken = await fetch("https://discord.com/api/v10/oauth2/token", {
                 method: "POST",
                 body: new URLSearchParams({
@@ -67,7 +68,6 @@ module.exports = {
                 } 
             })
             const data = await userData.json()
-            console.log(data)
             const user = data.user
             robloxdata.discordId = user.id
             await db.set(`verificationTokens.${req.cookies.UserData}`, robloxdata)
