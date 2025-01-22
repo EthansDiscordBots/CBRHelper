@@ -21,7 +21,10 @@ module.exports = {
                     grant_type: "authorization_code",
                     client_id: process.env.RobloxClientId as string,
                     client_secret: process.env.RobloxSecret as string
-                })
+                }),
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
             })
             const tokendata = await requestfortoken.json()
             const {access_token, token_type} = tokendata
