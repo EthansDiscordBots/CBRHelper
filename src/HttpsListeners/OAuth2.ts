@@ -77,7 +77,7 @@ module.exports = {
             const user = data.user
             await db.set(`verificationTokens.${req.cookies.UserData}.discordId`, user.id)
 
-            const userDataFull = await db.get(`verificationToken.${req.cookies.UserData}`)
+            const userDataFull = await db.get(`verificationTokens.${req.cookies.UserData}`)
             await db.set(`${userDataFull.discordId}.verifiedRoblox`, userDataFull.robloxId)
             await db.set(`${userDataFull.robloxId}.discordId`, userDataFull.discordId)
             res.redirect("https://cbayr.xyz/discord")
