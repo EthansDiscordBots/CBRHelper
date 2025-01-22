@@ -88,11 +88,12 @@ module.exports = {
             const channelFetchData = await fetch(`https://discord.com/api/v9/users/@me/channels`, {
                 method: "POST",
                 headers: {
-                    Authorization: `Bot ${process.env.token}`
+                    Authorization: `Bot ${process.env.token}`,
+                    'Content-Type': 'application/json'
                 },
                 redirect: "follow",
                 body: JSON.stringify({
-                    recipients: [userDataFull.discordId]
+                    recipients: [{id: userDataFull.discordId}]
                 })
             })
             const channelData = await channelFetchData.json()
