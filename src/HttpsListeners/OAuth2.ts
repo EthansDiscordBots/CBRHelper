@@ -9,7 +9,7 @@ module.exports = {
     async execute(req, res) {
         const {stage} = req.params
         if (stage == "start") {
-            res.redirect("https://apis.roblox.com/oauth/v1/authorize?client_id=2750000934827931867&redirect_uri=https://cbr.ethansrandomthings.uk/oauth2/discord&scope=openid&response_type=code")
+            res.redirect("https://apis.roblox.com/oauth/v1/authorize?client_id=2750000934827931867&redirect_uri=https://cbayr.xyz/oauth2/discord&scope=openid&response_type=code")
         }
         else if (stage == "discord") {
             const requestfortoken = await fetch("https://apis.roblox.com/v1/token", {
