@@ -21,7 +21,9 @@ module.exports = {
                     client_secret: process.env.RobloxSecret as string
                 })
             })
-            const {access_token, token_type} = await requestfortoken.json()
+            const tokendata = await requestfortoken.json()
+            const {access_token, token_type} = tokendata
+            console.log(tokendata)
 
             const userData = await fetch("https://apis.roblox.com/v1/userinfo", {
                 method: "GET",
