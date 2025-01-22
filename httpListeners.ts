@@ -2,7 +2,7 @@ import { deployListeners } from "./src/Functions/deployListeners";
 const express = require("express");
 const bodypass = require("body-parser")
 const cook = require("cookie-parser")
-
+require('dotenv').config();
 const app = express();
 const PORT = 5000; // Use any available port
 
