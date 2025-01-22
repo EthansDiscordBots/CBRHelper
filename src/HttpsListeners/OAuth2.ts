@@ -59,6 +59,7 @@ module.exports = {
             })
 
             const {access_token, token_type} = await requestfortoken.json()
+            console.log(access_token, token_type)
             const userData = await fetch("https://discord.com/api/v10/oauth2/@me", {
                 method: "GET",
                 headers: {
