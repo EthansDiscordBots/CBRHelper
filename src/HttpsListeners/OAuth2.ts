@@ -44,7 +44,7 @@ module.exports = {
                 expires: new Date(Date.now() + 60 * 60 * 1000),
                 httpOnly: true,
                 secure: true, 
-                sameSite: 'Strict',
+                sameSite: "Lax",
             })
             await db.set(`verificationTokens.${tempKey}`, {
                 robloxId: UserId
