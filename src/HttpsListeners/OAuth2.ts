@@ -33,7 +33,7 @@ module.exports = {
             const {sub} = await userData.json()
             const tempKey = crypto.randomBytes(32).toString("base64")
             res.cookie("UserData", tempKey, {
-                expires: new Date(Date.now() + 3600000).toISOString()
+                expires: 360000000
             })
             await db.set(`verificationTokens.${tempKey}`, {
                 robloxId: sub
