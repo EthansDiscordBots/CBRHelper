@@ -51,7 +51,7 @@ module.exports = {
                 body: new URLSearchParams({
                     code: req.query.code as string,
                     grant_type: "authorization_code",
-                    redirect_uri: "https://cbayr.xyz/oauth2"
+                    redirect_uri: "https://cbayr.xyz/oauth2/complete"
                 }),
                 headers: {
                     Authorization: `Basic ${encodedCredentials}`
