@@ -2,7 +2,8 @@ import { QuickDB } from "quick.db";
 const db = new QuickDB();
 import { EmbedBuilder, User } from "discord.js";
 import * as crypto from "crypto"
-
+import { updateUser } from "../Functions/updateuser";
+import { json } from "stream/consumers";
 module.exports = {
     method: 'get',
     directory: "/oauth2/:stage",
@@ -83,6 +84,34 @@ module.exports = {
             res.clearCookie("UserData")
             res.redirect("https://cbayr.xyz/discord")
             await db.delete(`verificationToken.${req.cookies.UserData}`)  
+            
+            const channelFetchData = await fetch(`https://discord.com/api/v10/users/@me/channels`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bot ${process.env.token}`
+                },
+                redirect: "follow",
+                body: JSON.stringify({
+                    recipients: [userDataFull.discordId]
+                })
+            })
+            const channelData = await channelFetchData.json()
+            const channelId = channelData.id
+
+            await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bot ${process.env.discordId}`
+                },
+                body: JSON.stringify({
+                    embeds: [
+                        {
+                           description: `You have successfully verified your account with userId ${userDataFull.robloxId}`,
+                           color: 0x00ffe5 
+                        }
+                    ]
+                })
+            })
         }
     },
     discordEvent: "ready",
