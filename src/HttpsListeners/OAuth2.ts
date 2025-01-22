@@ -18,7 +18,7 @@ module.exports = {
                 secure: true,
                 sameSite: "Lax",
             })
-            await db.set(`verificationTokens.${tempKey}.guildId`, req.query.guildId || null)
+            if (req.query.guildId) await db.set(`verificationTokens.${tempKey}.guildId`, req.query.guildId)
             res.redirect("https://apis.roblox.com/oauth/v1/authorize?client_id=2750000934827931867&redirect_uri=https://cbayr.xyz/oauth2/discord&scope=openid&response_type=code")
         }
         else if (stage == "discord") {
