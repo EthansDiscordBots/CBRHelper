@@ -11,9 +11,10 @@ app.use(bodypass.json())
 app.use(cook())
 app.use((req, res, next) => {
     const folderPath = path.join("Website", req.path)
-
+    console.log(folderPath)
     if (folderPath) {
         res.sendFile(path.resolve(path.join(folderPath, "index.html")), err => {
+            if (err) console.log(err)
             if (err) next()
         })
     } else {
