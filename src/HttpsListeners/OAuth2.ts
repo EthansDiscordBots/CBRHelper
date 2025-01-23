@@ -2,9 +2,6 @@ import { QuickDB } from "quick.db";
 const db = new QuickDB();
 import { Embed, EmbedBuilder, User } from "discord.js";
 import * as crypto from "crypto"
-import { updateUser } from "../Functions/updateuser";
-import { json } from "stream/consumers";
-import { getUsernameFromId } from "noblox.js";
 module.exports = {
     method: 'get',
     directory: "/oauth2/:stage",

@@ -27,7 +27,8 @@
         "start": "node dist/index.js",
         "build": "tsup index.ts --no-config",
         "httpsbuild": "tsup httpListeners.ts",
-        "httpsstart": "node dist/httpListeners.js"
+        "httpsstart": "node dist/httpListeners.js",
+        "httpsdev": "tsx watch httpListeners.ts"
     },
     "author": "",
     "license": "ISC",
