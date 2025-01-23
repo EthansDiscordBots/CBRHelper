@@ -1,22 +1,13 @@
+import { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, TextChannel, ChannelType, PermissionsBitField } from "discord.js";
 import { QuickDB } from "quick.db";
-const db = new QuickDB();
-import { EmbedBuilder, TextInputBuilder, ModalBuilder, ActionRowBuilder, TextInputStyle, TextChannel, ButtonBuilder, ButtonStyle, ChannelType, PermissionsBitField, AttachmentBuilder, Interaction } from "discord.js";
+const db = new QuickDB()
 import { ticketPermission as permissions } from "../Functions/ticketpermissions";
-import * as transcript from "discord-html-transcripts"
 import * as fs from "fs"
 import * as path from "path"
+import * as transcript from "discord-html-transcripts"
 module.exports = {
-    method: 'get',
-    directory: "/transcripts/:id",
-    async execute(req, res) {
-        const ticketId = req.params.id
-        const intend = "Transcripts"
-        const endPath = path.join(intend, `${ticketId}.html`)
-        if (!fs.existsSync(endPath)) return res.status(404).json({success: false, error: 404, message: "Transcript not found."})
-        res.sendFile(path.resolve(endPath))
-    },
-    discordEvent: 'interactionCreate',
-    async run(interaction, client) {
+    name: "interactionCreate",
+    async execute(interaction, client) {
         if (interaction.isStringSelectMenu() && interaction.customId == "TicketOpen") {
             const modal = new ModalBuilder()
                 .setTitle("Ticket Creation")
@@ -289,8 +280,8 @@ module.exports = {
                 saveImages: true, // Download all images and include the image data in the HTML (allows viewing the image even after it has been deleted) (! WILL INCREASE FILE SIZE !)
                 poweredBy: false, // Whether to include the "Powered by discord-html-transcripts" footer
             })
-            const transcriptname = `${interaction.channel.id}.html`
-            const filePath = "Transcripts"
+            const transcriptname = `index.html`
+            const filePath = `Website/transcripts/${interaction.channel.id}`
             if (!fs.existsSync(filePath)) {
                 fs.mkdirSync(filePath, { recursive: true }); // Create directory if it doesn't exist
             }
