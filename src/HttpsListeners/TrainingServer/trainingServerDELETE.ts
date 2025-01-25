@@ -9,5 +9,6 @@ module.exports = {
     async execute(req, res) {
         if (!await db.get(`TrainingServers.${req.body.serverId}`)) return res.status(404).json("Server not found")
         await db.delete(`TrainingServers.${req.body.serverId}`)
+        res.status("200").json("server deleted")
     }
 }
