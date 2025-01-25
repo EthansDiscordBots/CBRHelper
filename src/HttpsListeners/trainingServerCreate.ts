@@ -21,11 +21,3 @@ module.exports = {
     async run(client) {
     }
 }
-
-module.exports = {
-    method: "get",
-    directory: "/training-servers",
-    async execute(req, res) {
-        res.status(200).json(await db.get("TrainingServers"))
-    }
-}
