@@ -6,7 +6,7 @@ module.exports = {
     method: 'get',
     directory: "/discord",
     async execute(req, res) {
-        res.redirect("https://discord.gg/nhVMcT9Ngf")
+        res.redirect("https://discord.gg/QbcY6sQ5ZS")
     },
     discordEvent: "ready",
     discordOnce: true,
