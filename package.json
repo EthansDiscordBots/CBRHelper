@@ -25,8 +25,8 @@
         "test": "node index.ts",
         "dev": "tsx watch index.ts",
         "start": "node dist/index.js",
-        "build": "tsup index.ts --no-config --format esm --target esnext --dts",
-        "httpsbuild": "tsup httpListeners.ts --format esm --target esnext --dts",
+        "build": "tsup index.ts --no-config",
+        "httpsbuild": "tsup httpListeners.ts",
         "httpsstart": "node dist/httpListeners.js",
         "httpsdev": "tsx watch httpListeners.ts"
     },
