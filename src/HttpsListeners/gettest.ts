@@ -6,7 +6,7 @@ module.exports = {
     method: 'get',
     directory: "/test",
     async execute(req, res) {
-        res.send("If the helper bot is offline, all actions are still being logged.").status(200)
+        res.json("If the helper bot is offline, all actions are still being logged.").status(200)
     },
     discordEvent: "ready",
     discordOnce: true,

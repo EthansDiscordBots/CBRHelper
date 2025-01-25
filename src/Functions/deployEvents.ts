@@ -11,6 +11,7 @@ export async function deployEvents(client) {
         }
         for (const file of fs.readdirSync("src/HttpsListeners")) {
             const event = require(`../HttpsListeners/${file}`);
+            if (!event.discordEvent) continue
             if (event.discordOnce) {
                 client.once(event.discordEvent, (...args) => event.run(...args, client));
             } else {

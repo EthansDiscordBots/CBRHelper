@@ -20,7 +20,6 @@ module.exports = {
         }
         else if (stage == "discord") {
             const code = req.query.code
-            console.log(code)
             const requestfortoken = await fetch("https://apis.roblox.com/oauth/v1/token", {
                 method: "POST",
                 body: new URLSearchParams({
@@ -35,7 +34,6 @@ module.exports = {
             })
             const tokendata = await requestfortoken.json()
             const { access_token, token_type } = tokendata
-            console.log(tokendata)
 
             const userData = await fetch("https://apis.roblox.com/oauth/v1/userinfo", {
                 method: "GET",
