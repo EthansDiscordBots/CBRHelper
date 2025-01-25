@@ -2,7 +2,7 @@ import * as fs from "fs"
 import * as path from "path"
 
 export async function deployListeners(app) {
-    const basePath = path.join(__dirname, '../HttpsListeners');
+    const basePath = path.join(__dirname, '../src/HttpsListeners');
     const filesAndFolders = await fs.promises.readdir(basePath);
 
     for (const entry of filesAndFolders) {
