@@ -8,16 +8,11 @@ module.exports = {
     authNeeded: true,
     async execute(req, res) {
         const body = req.body
-        console.log(body)
-        if (body.ServerId) {
-            await db.set(`TrainingServers.${body.ServerId}`, Object.fromEntries(Object.entries(body).filter(([key]) => key != "ServerId")))
-            console.log(Object.fromEntries(Object.entries(body).filter(([key]) => key != "ServerId")))
+        if (body.serverId) {
+            await db.set(`TrainingServers.${body.serverId}`, Object.fromEntries(Object.entries(body).filter(([key]) => key != "ServerId")))
+            await db.set(`TrainingServers.${body.serverId}.lastHeartbeat`, Math.floor(Date.now() / 1000))
             return res.status(200).json("Made training")
         }
         return res.status(400).json("No Body Found")
     },
-    discordEvent: "ready",
-    discordOnce: true,
-    async run(client) {
-    }
 }
