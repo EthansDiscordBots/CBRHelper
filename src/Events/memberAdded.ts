@@ -28,6 +28,7 @@ module.exports = {
             }
         }
         await cacheInvites(process.env.MainServerId as string)
+
         client.on(Events.GuildMemberAdd, async member => {
             if (member.guild.id != process.env.MainServerId) return
             if (member.bot) return
@@ -59,12 +60,16 @@ module.exports = {
             } catch (error) {
                 console.error(`Error tracking invite for ${member.user.tag}:`, error);
             }
-            if (usedInvite && usedInvite.inviter && !usedInvite.inviter.bot) await db.add(`${usedInvite.inviter.id}.invites`, 1)
+            if (usedInvite && usedInvite.inviter && !usedInvite.inviter.bot) {
+                await db.add(`invites.${usedInvite.inviter.id}.total`, 1)
+                await db.add(`invites.${usedInvite.inviter.id}.lastWipe`, 1)
+                await db.add(`invites.${usedInvite.inviter.id}.week`, 1)
+            }
             const embed = new EmbedBuilder()
                 .setAuthor({ name: member.displayName, iconURL: member.user.displayAvatarURL({ dynamic: true }) })
                 .setColor(0x00ffe5)
                 .setTimestamp() 
-                .setDescription(`Welcome to Crystal Bay Resorts <@${member.user.id}>! We hope you enjoy it here! Want to apply for a possible HR rank? Visit <#1133077886929219727>!`)
+                .setDescription(`Welcome to Crystal Bay Resorts <@${member.user.id}>! We hope you enjoy it here! Want to apply for a possible HR rank? Visit <#1133077886929219727>!` + usedInvite && usedInvite.inviter && !usedInvite.inviter.bot ? `\nYou was invited by <@${usedInvite.inviter.id}> and they now have a total of ${await db.get(`${usedInvite.inviter.id}.invites`)} invites.` : "")
 
             if (usedInvite && usedInvite.inviter && !usedInvite.inviter.bot) embed.setFooter({ text: `You was invited by <@${usedInvite.inviter.id}> and they now have a total of ${await db.get(`${usedInvite.inviter.id}.invites`)} invites.` })
             client.channels.cache.get("1140348271563386940").send({ content: `<@${member.user.id}>`, embeds: [embed] })
