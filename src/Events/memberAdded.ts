@@ -18,6 +18,7 @@ module.exports = {
                 const inviteData = invites.map((invite) => ({
                     code: invite.code,
                     uses: invite.uses || 0,
+                    inviter: invite.inviter
                 }));
 
                 await db.set(`invites_${guildId}`, inviteData);
@@ -26,7 +27,7 @@ module.exports = {
                 console.error(`Error caching invites for guild ${guildId}:`, error);
             }
         }
-        cacheInvites(process.env.MainServerId as string)
+        await cacheInvites(process.env.MainServerId as string)
         client.on(Events.GuildMemberAdd, async member => {
             if (member.guild.id != process.env.MainServerId) return
             if (member.bot) return
@@ -41,7 +42,8 @@ module.exports = {
                     code: inv.code,
                     uses: inv.uses || 0
                 }))
-                for (let i = 0; i <= storedInvites.length; i++) {
+
+                for (let i = 0; i < storedInvites.length; i++) {
                     const invtocheck = (mappedinvites.filter(r => r.code == storedInvites[i].code))[0]
                     if (invtocheck.uses > storedInvites[i].uses) {
                         usedInvite = storedInvites[i]
@@ -50,11 +52,7 @@ module.exports = {
                 }
 
                 if (usedInvite) {
-                    const updatedInvites = currentInvites.map((invite) => ({
-                        code: invite.code,
-                        uses: invite.uses || 0,
-                    }));
-                    await db.set(`invites_${guildId}`, updatedInvites);
+                    await cacheInvites(guildId)
                 } else {
                     console.log(`${member.user.tag} joined, but the invite couldn't be tracked.`);
                 }
@@ -65,7 +63,7 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setAuthor({ name: member.displayName, iconURL: member.user.displayAvatarURL({ dynamic: true }) })
                 .setColor(0x00ffe5)
-                .setTimestamp()
+                .setTimestamp() 
                 .setDescription(`Welcome to Crystal Bay Resorts <@${member.user.id}>! We hope you enjoy it here! Want to apply for a possible HR rank? Visit <#1133077886929219727>!`)
 
             if (usedInvite && usedInvite.inviter && !usedInvite.inviter.bot) embed.setFooter({ text: `You was invited by <@${usedInvite.inviter.id}> and they now have a total of ${await db.get(`${usedInvite.inviter.id}.invites`)} invites.` })
