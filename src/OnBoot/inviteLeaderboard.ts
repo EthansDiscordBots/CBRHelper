@@ -14,7 +14,11 @@ module.exports = {
             const totalOrder = Object.entries(totalInvites).sort((a, b) => b[1].invites - a[1].invites)
             let totalString = ""
             for (let i = 0; i < 10 && i < totalOrder.length; i++) {
-                totalString += `${i}. <@${totalOrder[i]}>: ${totalOrder[i].invites} invites\n`
+                for (let i = 0; i < 10 && i < totalOrder.length; i++) {
+                    const userId = totalOrder[i][0];
+                    const invites = totalOrder[i][1].invites;
+                    totalString += `${i + 1}. <@${userId}>: ${invites} invites\n`;
+                }
             }
             (await client.channels.cache.get(process.env.InviteTracking).messages.fetch(process.env.TotalInvites)).edit({
                 content: null,
