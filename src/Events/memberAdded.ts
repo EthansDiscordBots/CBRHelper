@@ -61,9 +61,9 @@ module.exports = {
                 console.error(`Error tracking invite for ${member.user.tag}:`, error);
             }
             if (usedInvite && usedInvite.inviter && !usedInvite.inviter.bot) {
-                await db.add(`invites.${usedInvite.inviter.id}.total`, 1)
-                await db.add(`invites.${usedInvite.inviter.id}.lastWipe`, 1)
-                await db.add(`invites.${usedInvite.inviter.id}.week`, 1)
+                await db.add(`${guildId}.totalInvites.${usedInvite.inviter.id}.invites`, 1)
+                await db.add(`${guildId}.lastWipeInvites.${usedInvite.inviter.id}.invites`, 1)
+                await db.add(`${guildId}.weeklyInvites.${usedInvite.inviter.id}.invites`, 1)
             }
             const embed = new EmbedBuilder()
                 .setAuthor({ name: member.displayName, iconURL: member.user.displayAvatarURL({ dynamic: true }) })
