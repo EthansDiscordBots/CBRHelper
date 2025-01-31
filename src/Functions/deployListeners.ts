@@ -12,8 +12,6 @@ export async function deployListeners(app) {
             else {
                 for (const newfile of fs.readdirSync(`src/HttpsListeners/${file}`)) {
                     const newlistener = require(`../HttpsListeners/${file}/${newfile}`)
-                    console.log("found listener")
-                    console.log(newlistener)
                     app[newlistener.method](newlistener.directory, (req, res) => {
                         if (req.headers.authorization != "wseutgghkjgigJKjklhgJHGigsfguaKgdjagLGLHhJKHGJHKgjhlGIuytydfytfUGGUo65165158158S181$ui&*(" && newlistener.authNeeded) return res.status(403).send("Unauthorised")
                             newlistener.execute(req, res)
