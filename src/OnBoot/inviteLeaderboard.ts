@@ -10,7 +10,7 @@ module.exports = {
             const embed = new EmbedBuilder()
             .setColor(0x00ffe5)
 
-            const totalInvites = await db.get(`${process.env.MainServerId}.totalInvites`)
+            const totalInvites = await db.get(`${process.env.MainServerId}.totalInvites`) || []
             const totalOrder = totalInvites.sort((a, b) => a > b)
             let totalString = ""
             for (let i = 0; i < 10 && i < totalOrder.length; i++) {
