@@ -20,7 +20,7 @@ module.exports = {
             }
             (await client.channels.cache.get(process.env.InviteTracking).messages.fetch(process.env.TotalInvites)).edit({
                 content: null,
-                embeds: [embed.setDescription(totalString.length > 0 ? totalString : "No tracked invites.")]
+                embeds: [embed.setTitle("Total Invites").setDescription(totalString.length > 0 ? totalString : "No tracked invites.")]
             })
 
             const wipeInvites = await db.get(`${process.env.MainServerId}.lastWipeInvites`) || {}
@@ -33,7 +33,7 @@ module.exports = {
             }
             (await client.channels.cache.get(process.env.InviteTracking).messages.fetch(process.env.WipedInvites)).edit({
                 content: null,
-                embeds: [embed.setDescription(totalString.length > 0 ? totalString : "No tracked invites.")]
+                embeds: [embed.setTitle("Invites since last wipe").setDescription(totalString.length > 0 ? totalString : "No tracked invites.")]
             })
 
             const weeklyInvites = await db.get(`${process.env.MainServerId}.weeklyInvites`) || {}
@@ -46,7 +46,7 @@ module.exports = {
             }
             (await client.channels.cache.get(process.env.InviteTracking).messages.fetch(process.env.WeeklyInvites)).edit({
                 content: null,
-                embeds: [embed.setDescription(totalString.length > 0 ? totalString : "No tracked invites.")]
+                embeds: [embed.setTitle("Weekly Invites").setDescription(totalString.length > 0 ? totalString : "No tracked invites.")]
             })
 
         }, 20 * 1000)
