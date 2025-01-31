@@ -36,12 +36,18 @@ module.exports = {
             try {
                 const storedInvites = await db.get(`invites_${guildId}`) || [];
                 const currentInvites = await member.guild.invites.fetch();
-                usedInvite = currentInvites.find((invite) =>
-                    storedInvites.some(
-                        (storedInvite: { code: string; uses: number }) =>
-                            storedInvite.code === invite.code && invite.uses! > storedInvite.uses
-                    )
-                );
+
+                const mappedinvites = currentInvites.map(inv => ({
+                    code: inv.code,
+                    uses: inv.uses || 0
+                }))
+                for (let i = 0; i <= storedInvites.length; i++) {
+                    const invtocheck = (mappedinvites.filter(r => r.code == storedInvites[i].code))[0]
+                    if (invtocheck.uses > storedInvites[i].uses) {
+                        usedInvite = storedInvites[i]
+                        break
+                    }
+                }
 
                 if (usedInvite) {
                     const updatedInvites = currentInvites.map((invite) => ({
