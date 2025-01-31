@@ -10,8 +10,8 @@ module.exports = {
             const embed = new EmbedBuilder()
             .setColor(0x00ffe5)
 
-            const totalInvites = await db.get(`${process.env.MainServerId}.totalInvites`) || []
-            const totalOrder = totalInvites.sort((a, b) => a > b)
+            const totalInvites = await db.get(`${process.env.MainServerId}.totalInvites`) || {}
+            const totalOrder = Object.entries(totalInvites).sort((a, b) => b[1].invites - a[1].invites)
             let totalString = ""
             for (let i = 0; i < 10 && i < totalOrder.length; i++) {
                 totalString += `${i}. <@${totalOrder[i]}>: ${totalOrder[i].invites} invites\n`
