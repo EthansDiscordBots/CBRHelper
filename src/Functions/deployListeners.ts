@@ -10,7 +10,6 @@ export async function deployListeners(app) {
                 })
             }
             else {
-                console.log("possibly directory")
                 for (const newfile of fs.readdirSync(`src/HttpsListeners/${file}`)) {
                     const newlistener = require(`../HttpsListeners/${file}/${newfile}`)
                     console.log("found listener")
