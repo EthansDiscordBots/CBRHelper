@@ -23,7 +23,7 @@ module.exports = {
                 expires: new Date(Date.now() + 60 * 60 * 1000 * 24),
                 httpOnly: true,
                 secure: true,
-                sameSite: "Lax",
+                sameSite: "None",
             })
             await db.set(`tsverificationTokens.${tempKey}`, {})
             res.redirect("https://discord.com/oauth2/authorize?client_id=1138830931914932354&response_type=code&redirect_uri=https%3A%2F%2Fcbayr.xyz%2Foauth2%2Fmain-auth-complete&scope=identify")
@@ -61,7 +61,7 @@ module.exports = {
                 expires: new Date(Date.now() + 60 * 60 * 1000),
                 httpOnly: true,
                 secure: true,
-                sameSite: "Lax",
+                sameSite: "None",
             })
             if (req.query.guildId) await db.set(`verificationTokens.${tempKey}.guildId`, req.query.guildId)
             res.redirect("https://apis.roblox.com/oauth/v1/authorize?client_id=2750000934827931867&redirect_uri=https://cbayr.xyz/oauth2/discord&scope=openid&response_type=code")

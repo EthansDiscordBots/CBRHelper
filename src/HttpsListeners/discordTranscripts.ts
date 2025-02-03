@@ -10,7 +10,7 @@ module.exports = {
             expires: new Date(Date.now() + 60 * 60 * 1000 * 24),
             httpOnly: true,
             secure: true,
-            sameSite: "Lax",
+            sameSite: "None",
         })
         console.log(req.cookies.userToken)
         console.log(await db.get(`userTokens.${req.cookies.userToken}`))
