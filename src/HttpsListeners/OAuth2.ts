@@ -7,6 +7,15 @@ module.exports = {
     directory: "/oauth2/:stage",
     async execute(req, res) {
         const { stage } = req.params
+        if (String(stage).includes("complete")) {
+            if (req.cookies.redirect_url) {
+                res.redirect(req.cookies.redirect_url)
+                res.clearCookie("redirect_url")
+            }
+            else {
+                res.status(503)
+            }
+        }
         if (stage == "main-auth") {
             let tempKey = crypto.randomBytes(32).toString("hex")
             while (await db.get(`tsverificationTokens.${tempKey}`)) tempKey = crypto.randomBytes(32).toString("hex")
@@ -27,7 +36,7 @@ module.exports = {
                 body: new URLSearchParams({
                     code: req.query.code as string,
                     grant_type: "authorization_code",
-                    redirect_uri: "https://cbayr.xyz/oauth2/complete"
+                    redirect_uri: "https://cbayr.xyz/oauth2/main-auth-complete"
                 }),
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",

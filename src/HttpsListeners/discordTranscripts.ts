@@ -6,8 +6,15 @@ module.exports = {
     method: 'get',
     directory: "/transcripts/:id",
     async execute(req, res) {
+        res.cookie("redirect_url", `https://cbayr.xyz/transcipts/${req.params.id}`, {
+            expires: new Date(Date.now() + 60 * 60 * 1000 * 24),
+            httpOnly: true,
+            secure: true,
+            sameSite: "Lax",
+        })
         if (!req.cookies.UserData) return res.redirect("https://cbayr.xyz/oauth2/transcript-auth")
         if (!await db.get(`userTokens.${req.cookies.UserData}`)) return res.redirect("https://cbayr.xyz/oauth2/transcript-auth")
+        res.clearCookie("redirect_url")
     },
     discordEvent: "ready",
     discordOnce: true,
