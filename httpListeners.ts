@@ -15,7 +15,6 @@ app.use((req, res, next) => {
         res.sendFile(path.resolve(path.join(folderPath, "index.html")), err => {
             if (err) next()
         })
-        next()
     } else {
         next()
     }
