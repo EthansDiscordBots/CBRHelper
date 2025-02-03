@@ -9,8 +9,10 @@ module.exports = {
         const { stage } = req.params
         if (String(stage).includes("complete")) {
             if (req.cookies.redirect_url) {
-                res.redirect(req.cookies.redirect_url)
+                const url = req.cookies.redirect_url
                 res.clearCookie("redirect_url")
+                res.redirect(url)
+                
             }
             else {
                 res.status(503)
