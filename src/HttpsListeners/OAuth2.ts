@@ -27,7 +27,6 @@ module.exports = {
             })
             await db.set(`tsverificationTokens.${tempKey}`, {})
             res.redirect("https://discord.com/oauth2/authorize?client_id=1138830931914932354&response_type=code&redirect_uri=https%3A%2F%2Fcbayr.xyz%2Foauth2%2Fmain-auth-complete&scope=identify")
-
         }
         else if (stage == "main-auth-complete") {
             const encodedCredentials = Buffer.from(`${process.env.OAuth2ClientId}:${process.env.OAuth2Secret}`).toString('base64')
