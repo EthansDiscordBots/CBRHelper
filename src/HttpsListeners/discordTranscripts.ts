@@ -11,16 +11,17 @@ module.exports = {
     async execute(req, res) {
         const ticketId = req.params.id
         const intend = "Transcripts"
+        const {userToken} = req.cookies 
         res.cookie("redirect_url", `https://cbayr.xyz/transcripts/${req.params.id}`, {
             expires: new Date(Date.now() + 60 * 60 * 1000 * 24),
             httpOnly: true,
             secure: true,
             sameSite: "None",
         })
-        console.log(req.cookies.userToken)
-        console.log(await db.get(`userTokens.${req.cookies.userToken}`))
-        if (!req.cookies.userToken) return res.redirect("https://cbayr.xyz/oauth2/main-auth")
-        if (!await db.get(`userTokens.${req.cookies.userToken}`)) return res.redirect("https://cbayr.xyz/oauth2/main-auth")
+        console.log(userToken)
+        console.log(await db.get(`userTokens.${userToken}`))
+        if (!userToken) return res.redirect("https://cbayr.xyz/oauth2/main-auth")
+        if (!await db.get(`userTokens.${userToken}`)) return res.redirect("https://cbayr.xyz/oauth2/main-auth")
         res.clearCookie("redirect_url")
         const endPath = path.join(intend, `${ticketId}.html`)
         if (!fs.existsSync(endPath)) return res.status(404).json({success: false, error: 404, message: "Transcript not found."})
