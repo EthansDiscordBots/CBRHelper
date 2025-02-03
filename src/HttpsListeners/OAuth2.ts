@@ -7,8 +7,48 @@ module.exports = {
     directory: "/oauth2/:stage",
     async execute(req, res) {
         const { stage } = req.params
-        if (stage == "start") {
-            const tempKey = crypto.randomBytes(32).toString("hex")
+        if (stage == "main-auth") {
+            let tempKey = crypto.randomBytes(32).toString("hex")
+            while (await db.get(`tsverificationTokens.${tempKey}`)) tempKey = crypto.randomBytes(32).toString("hex")
+            res.cookie("UserData", tempKey, {
+                expires: new Date(Date.now() + 60 * 60 * 1000 * 24),
+                httpOnly: true,
+                secure: true,
+                sameSite: "Lax",
+            })
+            await db.set(`tsverificationTokens.${tempKey}`, {})
+            res.redirect("https://discord.com/oauth2/authorize?client_id=1138830931914932354&response_type=code&redirect_uri=https%3A%2F%2Fcbayr.xyz%2Foauth2%2Fmain-auth-complete&scope=identify")
+            
+        }
+        else if (stage == "main-auth-complete") {
+            const encodedCredentials = Buffer.from(`${process.env.OAuth2ClientId}:${process.env.OAuth2Secret}`).toString('base64')
+            const requestfortoken = await fetch("https://discord.com/api/v10/oauth2/token", {
+                method: "POST",
+                body: new URLSearchParams({
+                    code: req.query.code as string,
+                    grant_type: "authorization_code",
+                    redirect_uri: "https://cbayr.xyz/oauth2/complete"
+                }),
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    Authorization: `Basic ${encodedCredentials}`
+                }
+            })
+            const requdata = await requestfortoken.json()
+            const { access_token, token_type } = requdata
+            const userData = await fetch("https://discord.com/api/v10/oauth2/@me", {
+                method: "GET",
+                headers: {
+                    Authorization: `${token_type} ${access_token}`
+                }
+            })
+            const data = await userData.json()
+            const user = data.user
+            await db.set(`userTokens.${req.cookies.UserData}`, {...user, expires: Date.now() + 60 * 60 * 1000 * 24})
+        }
+        else if (stage == "start") {
+            let tempKey = crypto.randomBytes(32).toString("hex")
+            while (await db.get(`verificationTokens.${tempKey}`)) tempKey = crypto.randomBytes(32).toString("hex")
             res.cookie("UserData", tempKey, {
                 expires: new Date(Date.now() + 60 * 60 * 1000),
                 httpOnly: true,
@@ -109,6 +149,14 @@ module.exports = {
             if (member) {
                 await member.send({ embeds: [embed] })
             }
-        })
+        }, 20 * 1000)
+        setInterval(async () => {
+            const data = await db.get("userTokens")
+            for (const [key, value] of Object.entries(data)) {
+                if (value.expires < Date.now()) {
+                    await db.delete(`userTokens.${key}`)
+                }
+            }
+        }, 60 * 60 * 1000)
     }
 }
