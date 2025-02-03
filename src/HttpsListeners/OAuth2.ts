@@ -19,7 +19,7 @@ module.exports = {
         if (stage == "main-auth") {
             let tempKey = crypto.randomBytes(32).toString("hex")
             while (await db.get(`tsverificationTokens.${tempKey}`)) tempKey = crypto.randomBytes(32).toString("hex")
-            res.cookie("UserData", tempKey, {
+            res.cookie("userToken", tempKey, {
                 expires: new Date(Date.now() + 60 * 60 * 1000 * 24),
                 httpOnly: true,
                 secure: true,
@@ -52,7 +52,7 @@ module.exports = {
             })
             const data = await userData.json()
             const user = data.user
-            await db.set(`userTokens.${req.cookies.UserData}`, { ...user, expires: Date.now() + 60 * 60 * 1000 * 24 })
+            await db.set(`userTokens.${req.cookies.userToken}`, { ...user, expires: Date.now() + 60 * 60 * 1000 * 24 })
         }
         else if (stage == "start") {
             let tempKey = crypto.randomBytes(32).toString("hex")
