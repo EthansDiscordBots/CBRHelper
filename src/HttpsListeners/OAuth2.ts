@@ -27,7 +27,7 @@ module.exports = {
             })
             await db.set(`tsverificationTokens.${tempKey}`, {})
             res.redirect("https://discord.com/oauth2/authorize?client_id=1138830931914932354&response_type=code&redirect_uri=https%3A%2F%2Fcbayr.xyz%2Foauth2%2Fmain-auth-complete&scope=identify")
-            
+
         }
         else if (stage == "main-auth-complete") {
             const encodedCredentials = Buffer.from(`${process.env.OAuth2ClientId}:${process.env.OAuth2Secret}`).toString('base64')
@@ -53,7 +53,7 @@ module.exports = {
             })
             const data = await userData.json()
             const user = data.user
-            await db.set(`userTokens.${req.cookies.UserData}`, {...user, expires: Date.now() + 60 * 60 * 1000 * 24})
+            await db.set(`userTokens.${req.cookies.UserData}`, { ...user, expires: Date.now() + 60 * 60 * 1000 * 24 })
         }
         else if (stage == "start") {
             let tempKey = crypto.randomBytes(32).toString("hex")
@@ -128,8 +128,8 @@ module.exports = {
             res.json("You can now use the /verify command again.")
             await new Promise(r => setTimeout(r, 3000))
             res.redirect("https://cbayr.xyz/discord")
-            
-            await db.push("sendDMSayingVerifiedMessage", {discordId: userDataFull.discordId, guildId: userDataFull.guildId, robloxId: userDataFull.robloxId})
+
+            await db.push("sendDMSayingVerifiedMessage", { discordId: userDataFull.discordId, guildId: userDataFull.guildId, robloxId: userDataFull.robloxId })
             await db.delete(`verificationToken.${req.cookies.UserData}`)
         }
     },

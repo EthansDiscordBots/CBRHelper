@@ -12,6 +12,8 @@ module.exports = {
             secure: true,
             sameSite: "Lax",
         })
+        console.log(req.cookies.UserData)
+        console.log(await db.get(`userTokens.${req.cookies.UserData}`))
         if (!req.cookies.UserData) return res.redirect("https://cbayr.xyz/oauth2/main-auth")
         if (!await db.get(`userTokens.${req.cookies.UserData}`)) return res.redirect("https://cbayr.xyz/oauth2/main-auth")
         res.clearCookie("redirect_url")
