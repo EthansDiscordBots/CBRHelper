@@ -12,8 +12,8 @@ module.exports = {
             secure: true,
             sameSite: "Lax",
         })
-        if (!req.cookies.UserData) return res.redirect("https://cbayr.xyz/oauth2/transcript-auth")
-        if (!await db.get(`userTokens.${req.cookies.UserData}`)) return res.redirect("https://cbayr.xyz/oauth2/transcript-auth")
+        if (!req.cookies.UserData) return res.redirect("https://cbayr.xyz/oauth2/main-auth")
+        if (!await db.get(`userTokens.${req.cookies.UserData}`)) return res.redirect("https://cbayr.xyz/oauth2/main-auth")
         res.clearCookie("redirect_url")
     },
     discordEvent: "ready",
