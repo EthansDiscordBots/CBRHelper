@@ -8,7 +8,7 @@ module.exports = {
     authNeeded: true,
     async execute(req, res) {
         const { location } = req.params
-        const data = req.body
+        const { filters } = req.body
 
         if (!location) return res.status(400).json("No location found")
 
@@ -35,8 +35,7 @@ module.exports = {
                 }
             }
         }
-        console.log(data)
-        await db.push(`serverStorage.${location}`, { ...data, "_id": await generateUniqueId() })
+        await db.push(`serverStorage.${location}`, { ...filters, "_id": await generateUniqueId() })
         return res.status(status).json({success: true, status: status})
     },
 }
