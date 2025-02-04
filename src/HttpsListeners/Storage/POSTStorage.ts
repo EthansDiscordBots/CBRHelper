@@ -3,14 +3,14 @@ const db = new QuickDB();
 import { EmbedBuilder } from "discord.js";
 
 module.exports = {
-    method: 'patch',
+    method: 'post',
     directory: "/storage/:location",
     authNeeded: true,
     async execute(req, res) {
         const { location } = req.params
         const { filters } = req.body
 
-        if (!location) return res.status(400).json("No location found")
+        if (!location) await db.set(`serverStorage.${location}`, {})
 
         const potentialReturn = await db.get(`serverStorage.${location}`) || {}
         if (!filters) return res.status(200).json(potentialReturn)

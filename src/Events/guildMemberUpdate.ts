@@ -8,20 +8,24 @@ const certicoll = ms.getCollection("certified")
 import { retryOperation } from "../Functions/retry";
 import { getCachedRobloxFromDiscord } from "../Functions/getCachedRobloxFromDiscord";
 
+interface Booster {
+    UserId: number
+}
+
 module.exports = {
     name: Events.GuildMemberUpdate,
     async execute(client, oldMember, newMember) {
             const roblox = await db.get(`${newMember.user.id}.verifiedRoblox`) 
             if (!newMember.roles.cache.get(process.env.BoosterRole)) {
-                const boostersorig = await db.get("serverStorage.boosters") as Array<string>
-                let boosters = boostersorig.filter(r => r == roblox)
-                if (boosters.length > 0) await db.set("serverStorage.boosters", boostersorig.filter(r => r != roblox))
+                const boostersorig: Array<Booster> = await db.get("serverStorage.boosters") as Array<Booster>
+                let boosters = boostersorig.filter(r => r.UserId == roblox)
+                if (boosters.length > 0) await db.set("serverStorage.boosters", boostersorig.filter(r => r.UserId != roblox))
 
             }
             else if (newMember.roles.cache.get(process.env.BoosterRole)) {
-                let boosters = await db.get("serverStorage.boosters") as Array<string>
-                boosters = boosters.filter(r => r == roblox)
-                if (boosters.length < 1) await db.push("serverStorage.boosters", await db.get(`${newMember.user.id}.verifiedRoblox`))
+                let boosters: Array<Booster> = await db.get("serverStorage.boosters") as Array<Booster>
+                boosters = boosters.filter(r => r.UserId == roblox)
+                if (boosters.length < 1) await db.push("serverStorage.boosters", {UserId: await db.get(`${newMember.user.id}.verifiedRoblox`)})
             }
     }
 }
