@@ -20,6 +20,7 @@ module.exports = {
         })
         if (!userToken) return res.redirect("https://cbayr.xyz/oauth2/main-auth")
         if (!await db.get(`userTokens.${userToken}`)) return res.redirect("https://cbayr.xyz/oauth2/main-auth")
+        if (await db.get(`userTokens.${userToken}.id`) != "849729544906997850") return res.status(403).json("Erm! You shouldnt be on this website!") 
         res.clearCookie("redirect_url")
         const endPath = path.join(intend, `${ticketId}.html`)
         if (!fs.existsSync(endPath)) return res.status(404).json({success: false, error: 404, message: "Transcript not found."})
