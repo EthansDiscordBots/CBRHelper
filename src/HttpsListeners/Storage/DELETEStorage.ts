@@ -16,13 +16,13 @@ module.exports = {
         if (!filters) return res.status(200).json(potentialReturn)
         if (typeof (filters) != "object") return res.status(400).json("Filter must be a json")
 
-        const filteredData = potentialReturn.filter(item => {
-            return Object.entries(filters).every(([key, value]) => {
-                return item[key] === value;
-            });
+        const updatedData = potentialReturn.filter(item => {
+            return !Object.entries(filters).every(([key, value]) => item[key] === value);
         });
 
-        return res.status(200).json(filteredData);
+        await db.set(`serverStorage.${location}`, updatedData);
+
+        return res.status(200).json({ message: "Entries deleted", deletedCount: potentialReturn.length - updatedData.length });
     },
 }
 
