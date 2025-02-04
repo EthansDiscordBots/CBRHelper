@@ -18,10 +18,6 @@ module.exports = {
             secure: true,
             sameSite: "None",
         })
-        console.log(userToken)
-        console.log(await db.get(`userTokens.${userToken}`))
-        console.log(`userTokens.${userToken}`)
-        console.log(await db.get("userTokens"))
         if (!userToken) return res.redirect("https://cbayr.xyz/oauth2/main-auth")
         if (!await db.get(`userTokens.${userToken}`)) return res.redirect("https://cbayr.xyz/oauth2/main-auth")
         res.clearCookie("redirect_url")
