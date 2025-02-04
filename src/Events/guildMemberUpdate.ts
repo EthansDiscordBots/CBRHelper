@@ -9,7 +9,7 @@ import { retryOperation } from "../Functions/retry";
 import { getCachedRobloxFromDiscord } from "../Functions/getCachedRobloxFromDiscord";
 
 interface Booster {
-    UserId: number
+    userId: number
 }
 
 module.exports = {
@@ -18,14 +18,14 @@ module.exports = {
             const roblox = await db.get(`${newMember.user.id}.verifiedRoblox`) 
             if (!newMember.roles.cache.get(process.env.BoosterRole)) {
                 const boostersorig: Array<Booster> = await db.get("serverStorage.boosters") as Array<Booster>
-                let boosters = boostersorig.filter(r => r.UserId == roblox)
-                if (boosters.length > 0) await db.set("serverStorage.boosters", boostersorig.filter(r => r.UserId != roblox))
+                let boosters = boostersorig.filter(r => r.userId == roblox)
+                if (boosters.length > 0) await db.set("serverStorage.boosters", boostersorig.filter(r => r.userId != roblox))
 
             }
             else if (newMember.roles.cache.get(process.env.BoosterRole)) {
                 let boosters: Array<Booster> = await db.get("serverStorage.boosters") as Array<Booster>
-                boosters = boosters.filter(r => r.UserId == roblox)
-                if (boosters.length < 1) await db.push("serverStorage.boosters", {UserId: await db.get(`${newMember.user.id}.verifiedRoblox`)})
+                boosters = boosters.filter(r => r.userId == roblox)
+                if (boosters.length < 1) await db.push("serverStorage.boosters", {userId: await db.get(`${newMember.user.id}.verifiedRoblox`)})
             }
     }
 }
