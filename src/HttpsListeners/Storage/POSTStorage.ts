@@ -36,6 +36,7 @@ module.exports = {
             }
         }
         await db.push(`serverStorage.${location}`, { ...data, "_id": generateUniqueId() })
+        return res.status(200).json({success: true, status: 200})
     },
 }
 
