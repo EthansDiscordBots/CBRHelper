@@ -14,7 +14,7 @@ module.exports = {
 
         const potentialReturn = await db.get(`serverStorage.${location}`) || {}
 
-        if (!filters || filters.length == 0) {await db.delete(`serverStorage.${location}`); res.status(200).json({message: "Collection deleted"}); return}
+        if (!filters || Object.keys(filters).length == 0) {await db.delete(`serverStorage.${location}`); res.status(200).json({message: "Collection deleted"}); return}
         if (typeof (filters) != "object") return res.status(400).json("Filter must be a json")
 
         const updatedData = potentialReturn.filter(item => {
