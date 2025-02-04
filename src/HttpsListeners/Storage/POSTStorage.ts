@@ -8,7 +8,7 @@ module.exports = {
     authNeeded: true,
     async execute(req, res) {
         const { location } = req.params
-        const { data } = req.body
+        const data = req.body
 
         if (!location) return res.status(400).json("No location found")
 

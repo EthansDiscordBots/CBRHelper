@@ -7,6 +7,7 @@ const ms = new MarcSyncClient(String(process.env.mskey))
 const certicoll = ms.getCollection("certified")
 import { retryOperation } from "../Functions/retry";
 import { getCachedRobloxFromDiscord } from "../Functions/getCachedRobloxFromDiscord";
+import { json } from "stream/consumers";
 
 interface Booster {
     userId: number
@@ -16,6 +17,16 @@ module.exports = {
     name: Events.GuildMemberUpdate,
     async execute(client, oldMember, newMember) {
             const roblox = await db.get(`${newMember.user.id}.verifiedRoblox`) 
+
+            const currentBoostersRAW = await fetch("https://cbr.ethansrandomthings.uk/storage/boosters", {
+            method: "PATCH", 
+            body: JSON.stringify({
+                userId: roblox
+            }), 
+            headers: {
+                Authorization: process.env.WebsiteAuth as string
+            }})
+            
             if (!newMember.roles.cache.get(process.env.BoosterRole)) {
                 const boostersorig: Array<Booster> = await db.get("serverStorage.boosters") as Array<Booster>
                 let boosters = boostersorig.filter(r => r.userId == roblox)
@@ -23,9 +34,8 @@ module.exports = {
 
             }
             else if (newMember.roles.cache.get(process.env.BoosterRole)) {
-                let boosters: Array<Booster> = await db.get("serverStorage.boosters") as Array<Booster>
-                boosters = boosters.filter(r => r.userId == roblox)
-                if (boosters.length < 1) await db.push("serverStorage.boosters", {userId: await db.get(`${newMember.user.id}.verifiedRoblox`)})
+                
+                if (boosters.length < 1) await db.push("serverStorage.boosters", {userId: })
             }
     }
 }
