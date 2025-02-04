@@ -13,7 +13,8 @@ module.exports = {
         if (!location) return res.status(400).json("No location found")
 
         const potentialReturn = await db.get(`serverStorage.${location}`) || {}
-        if (!filters) return res.status(200).json(potentialReturn)
+
+        if (!filters) {await db.delete(`serverStorage.${location}`); res.status(200).json({message: "Collection deleted"}); return}
         if (typeof (filters) != "object") return res.status(400).json("Filter must be a json")
 
         const updatedData = potentialReturn.filter(item => {
