@@ -27,6 +27,7 @@ module.exports = {
             const PbanEmbeds: Array<EmbedBuilder> = []
 
             await new Promise(r => setTimeout(r, 3000))
+            console.log(PbansPending)
             if (PbansPending?.length > 0) {
                 const data = PbansPending[0]
                 const emmm = new EmbedBuilder()
