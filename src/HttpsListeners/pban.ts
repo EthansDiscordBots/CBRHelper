@@ -45,13 +45,13 @@ module.exports = {
                     headers: {
                         Authorization: process.env.WebsiteAuth as string
                     },
-                    body: JSON.stringify({
-                        "filters": {
-                            UserId: data.UserId,
-                            Reason: data.Reason,
-                            IssuerUserId: data.IssuerUserId
-                        }
-                    })
+                    body: `{
+                            "filters":{
+                                "UserId":${data.UserId},
+                                "Reason":"${data.Reason}",
+                                "IssuerUserId":${data.IssuerUserId}
+                            }
+                        }`
                 })
 
                 let arr = PbansPending.filter(item => item != data.UserId)
