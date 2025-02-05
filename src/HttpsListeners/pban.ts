@@ -53,7 +53,7 @@ module.exports = {
                   
                   fetch('https://cbayr.xyz/storage/permbans', options)
 
-                let arr = PbansPending.filter(item => String(item) != String(data.UserId))
+                let arr = PbansPending.filter(item => item.UserId != data.UserId)
                 await db.set("PbanPending", arr)
                 client.channels.cache.get(process.env.PermBans).send({ embeds: PbanEmbeds }).then(msg => msg.startThread({ name: "Proof" }))
             }
