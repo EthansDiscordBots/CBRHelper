@@ -44,7 +44,7 @@ module.exports = {
                 const raw = await fetch("https://cbr.ethansrandomthings.uk/storage/permbans", {
                     method: "POST",
                     headers: {
-                        Authroization: process.env.WebsiteAuth as string
+                        Authorization: process.env.WebsiteAuth as string
                     },
                     body: JSON.stringify({
                         filters: {
