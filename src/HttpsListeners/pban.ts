@@ -27,7 +27,7 @@ module.exports = {
             const PbanEmbeds: Array<EmbedBuilder> = []
 
             await new Promise(r => setTimeout(r, 3000))
-            console.log(PbansPending)
+
             if (PbansPending?.length > 0) {
                 const data = PbansPending[0]
                 const emmm = new EmbedBuilder()
@@ -37,11 +37,11 @@ module.exports = {
                     { name: "Issued by:", value: (data.IssuerUserId == 1 ? "Automated Ban" : await getUsernameFromId(data.IssuerUserId)) + " // " + String(data.IssuerUserId), inline: true }
                 )
 
-                let arr = PbansPending.filter(item => item != PbansPending.UserId)
+                let arr = PbansPending.filter(item => item != data.UserId)
                 await db.set("PbanPending", arr)
                 emmm.setColor(0x00ffe5)
                 PbanEmbeds.push(emmm)
-                const raw = await fetch("https://cbr.ethansrandomthings.uk/storage/permbans", {
+                await fetch("https://cbr.ethansrandomthings.uk/storage/permbans", {
                     method: "POST",
                     headers: {
                         Authorization: process.env.WebsiteAuth as string
@@ -54,7 +54,7 @@ module.exports = {
                         }
                     })
                 })
-                console.log(await raw.json())
+
                 client.channels.cache.get(process.env.PermBans).send({ embeds: PbanEmbeds }).then(msg => msg.startThread({ name: "Proof" }))
             }
         }, 10000);
