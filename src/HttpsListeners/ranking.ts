@@ -66,7 +66,7 @@ module.exports = {
                         .setTitle(`New User Ranked In ${place}`)
                         .setURL(`https://roblox.com/games/${placeId}`)
                         .addFields(
-                            { name: "User Ranked", value: `${await getUsernameFromId(userId)}\n\`${userId}\`` },
+                            { name: "User Ranked", value: `${(await getUsernameFromId(userId)).name}\n\`${userId}\`` },
                             { name: "Old rank", value: `${curr}` },
                             { name: "New rank", value: `${newRankName}` },
                         )
