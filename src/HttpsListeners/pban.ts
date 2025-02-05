@@ -1,7 +1,7 @@
 import { QuickDB } from "quick.db";
 const db = new QuickDB();
 import { EmbedBuilder } from "discord.js";
-import {getUsernameFromId} from "../Functions/getIdFromUsername"
+import { getUsernameFromId } from "../Functions/getIdFromUsername"
 
 module.exports = {
     method: 'post',
@@ -17,7 +17,7 @@ module.exports = {
         else {
             await db.push("PbanPending", entries)
         }
-        return await res.status(200).json({message: "Pban logged"})
+        return await res.status(200).json({ message: "Pban logged" })
     },
     discordEvent: "ready",
     discordOnce: true,
@@ -36,7 +36,7 @@ module.exports = {
                     { name: "Reason:", value: data.Reason, inline: true },
                     { name: "Issued by:", value: (data.IssuerUserId == 1 ? "Automated Ban" : await getUsernameFromId(data.IssuerUserId)) + " // " + String(data.IssuerUserId), inline: true }
                 )
-                
+
                 let arr = PbansPending.filter(item => item != PbansPending.UserId)
                 await db.set("PbanPending", arr)
                 emmm.setColor(0x00ffe5)
@@ -47,9 +47,11 @@ module.exports = {
                         Authroization: process.env.WebsiteAuth as string
                     },
                     body: JSON.stringify({
-                        UserId: data.UserId,
-                        Reason: data.Reason,
-                        IssuerUserId: data.IssuerUserId
+                        filters: {
+                            UserId: data.UserId,
+                            Reason: data.Reason,
+                            IssuerUserId: data.IssuerUserId
+                        }
                     })
                 })
 
