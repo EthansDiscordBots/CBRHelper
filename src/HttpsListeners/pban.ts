@@ -41,7 +41,7 @@ module.exports = {
                 await db.set("PbanPending", arr)
                 emmm.setColor(0x00ffe5)
                 PbanEmbeds.push(emmm)
-                await fetch("https://cbr.ethansrandomthing.uk/storage/permbans", {
+                const raw = await fetch("https://cbr.ethansrandomthing.uk/storage/permbans", {
                     method: "POST",
                     headers: {
                         Authroization: process.env.WebsiteAuth as string
@@ -54,7 +54,7 @@ module.exports = {
                         }
                     })
                 })
-
+                console.log(await raw.json())
                 client.channels.cache.get(process.env.PermBans).send({ embeds: PbanEmbeds }).then(msg => msg.startThread({ name: "Proof" }))
             }
         }, 10000);
