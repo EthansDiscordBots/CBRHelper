@@ -12,7 +12,7 @@ module.exports = {
         const ticketId = req.params.id
         const intend = "Transcripts"
         const {userToken} = req.cookies 
-        res.cookie("redirect_url", `https://cbayr.xyz/transcripts/${req.params.id}`, {
+        await res.cookie("redirect_url", `https://cbayr.xyz/transcripts/${req.params.id}`, {
             expires: new Date(Date.now() + 60 * 60 * 1000 * 24),
             httpOnly: true,
             secure: true,
