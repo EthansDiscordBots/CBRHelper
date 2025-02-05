@@ -7,6 +7,17 @@ module.exports = {
     directory: "/oauth2/:stage",
     async execute(req, res) {
         const { stage } = req.params
+        async function complete() {
+            if (req.cookies.redirect_url) {
+                const url = req.cookies.redirect_url
+                res.clearCookie("redirect_url")
+                res.redirect(url)
+                
+            }
+            else {
+                res.status(503).json({message: "Redirect URL not given"})
+            }
+        }
         if (stage == "main-auth") {
             let tempKey = crypto.randomBytes(32).toString("hex")
             while (await db.get(`tsverificationTokens.${tempKey}`)) tempKey = crypto.randomBytes(32).toString("hex")
@@ -44,6 +55,7 @@ module.exports = {
             const data = await userData.json()
             const user = data.user
             await db.set(`userTokens.${req.cookies.userToken}`, { ...user, expires: Date.now() + 60 * 60 * 1000 * 24 })
+            return await complete()
         }
         else if (stage == "start") {
             let tempKey = crypto.randomBytes(32).toString("hex")
@@ -121,6 +133,7 @@ module.exports = {
 
             await db.push("sendDMSayingVerifiedMessage", { discordId: userDataFull.discordId, guildId: userDataFull.guildId, robloxId: userDataFull.robloxId })
             await db.delete(`verificationToken.${req.cookies.UserData}`)
+            return await complete()
         }
 
         if (String(stage).includes("complete")) {
