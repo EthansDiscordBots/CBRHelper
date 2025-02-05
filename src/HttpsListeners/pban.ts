@@ -46,7 +46,7 @@ module.exports = {
                         Authorization: process.env.WebsiteAuth as string
                     },
                     body: JSON.stringify({
-                        filters: {
+                        "filters": {
                             UserId: data.UserId,
                             Reason: data.Reason,
                             IssuerUserId: data.IssuerUserId
