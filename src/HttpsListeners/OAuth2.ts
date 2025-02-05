@@ -131,7 +131,7 @@ module.exports = {
                 
             }
             else {
-                res.status(503)
+                res.status(503).json({message: "Redirect URL not given"})
             }
         }
     },
