@@ -9,6 +9,7 @@ module.exports = {
     async execute(req, res) {
         const { location } = req.params
         const { filters } = req.body
+        console.log(req.body)
         console.log(filters)
         if (!location) return res.status(400).json("No location found")
 
