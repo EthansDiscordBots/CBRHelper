@@ -43,9 +43,7 @@ module.exports = {
                 const options = {
                     method: 'POST',
                     headers: {
-                      cookie: 'SERVERID77446=200171%7CZ4%2F6t%7CZ4%2F47',
                       'Content-Type': 'application/json',
-                      'User-Agent': 'insomnia/10.3.0',
                       Authorization: 'wseutgghkjgigJKjklhgJHGigsfguaKgdjagLGLHhJKHGJHKgjhlGIuytydfytfUGGUo65165158158S181$ui&*'
                     },
                     body: `{"filters":{"UserId":${data.UserId},"Reason":"${data.Reason}","IssuerUserId":${data.IssuerUserId},"IssuedAt":${data.IssuedAt || Math.floor(Date.now() / 1000)}}}`
