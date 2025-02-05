@@ -9,6 +9,7 @@ module.exports = {
         setInterval(async () => {
             const embed = new EmbedBuilder()
                 .setColor(0x00ffe5)
+                
 
             const totalInvites = await db.get(`${process.env.MainServerId}.totalInvites`) || {}
             const totalOrder: Array<object> = Object.entries(totalInvites).sort((a, b) => b[1].invites - a[1].invites)
