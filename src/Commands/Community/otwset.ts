@@ -20,7 +20,7 @@ module.exports = {
         async function getUser(optionName) {
             let userId = isNaN(Number(optionName)) ? await getIdFromUsername(optionName) : Number(optionName)
             let discorduser
-            await fetch(`https://api.blox.link/v4/public/guilds/480452557949370380/roblox-to-discord/${userId}`, {headers: { "Authorization": process.env.BloxlinkAPIKey}}).then(async res => {
+            await fetch(`https://api.blox.link/v4/public/guilds/480452557949370380/roblox-to-discord/${userId}`, {headers: { "Authorization": process.env.BloxlinkAPIKey as string}}).then(async res => {
                 const data = await res.json()
                 if (!data.error) {
                     discorduser = await client.guilds.cache.get(process.env.MainServerId).members.fetch(data.discordIDs[0])
@@ -47,14 +47,24 @@ module.exports = {
         const hrotwrole = process.env.HROTW
         const exotwrole = process.env.ExecOTW
         const shrotwrole = process.env.SHROTW
-        console.log(LR, MR, HR, HRS, SHR)
+
         async function setoftheweeks() {
-            await collection.updateEntryById("6673070e5b3916d7357467bf", {
-                LR: {UserId: LR == 0 ? 44794 : LR, Username: await getUsernameFromId(LR == 0 ? 44794 : LR)},
-                MR: {UserId: MR == 0 ? 44794 : MR, Username: await getUsernameFromId(MR == 0 ? 44794 : MR)},
-                HR: {UserId: HR == 0 ? 44794 : HR, Username: await getUsernameFromId(HR == 0 ? 44794 : HR)},
-                Exec: {UserId: HRS == 0 ? 44794 : HRS, Username: await getUsernameFromId(HRS == 0 ? 44794 : HRS)},
-                SHR: {UserId: SHR == 0 ? 44794 : SHR, Username: await getUsernameFromId(SHR == 0 ? 44794 : SHR)}
+            await fetch("https://cbayr.xyz/storage/otwpodiums", {
+                method: "PUT",
+                headers: {
+                    Authorization: process.env.WebsiteAuth as string
+                },
+                body: JSON.stringify({
+                filters: {
+                    "_id": "adf151ecf4f6e292317ad97225ea3d606697c17a4328487aa57ce2ccddc47810"
+                },
+                update: {
+                    LR: {UserId: LR == 0 ? 44794 : LR, Username: await getUsernameFromId(LR == 0 ? 44794 : LR)},
+                    MR: {UserId: MR == 0 ? 44794 : MR, Username: await getUsernameFromId(MR == 0 ? 44794 : MR)},
+                    HR: {UserId: HR == 0 ? 44794 : HR, Username: await getUsernameFromId(HR == 0 ? 44794 : HR)},
+                    Exec: {UserId: HRS == 0 ? 44794 : HRS, Username: await getUsernameFromId(HRS == 0 ? 44794 : HRS)},
+                    SHR: {UserId: SHR == 0 ? 44794 : SHR, Username: await getUsernameFromId(SHR == 0 ? 44794 : SHR)}
+                }})
             })
         }
         retryOperation(setoftheweeks)

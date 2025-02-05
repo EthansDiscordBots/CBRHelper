@@ -4,6 +4,7 @@
         "better-sqlite3": "^9.0.0",
         "body-parser": "^1.20.3",
         "canvacord": "^5.4.10",
+        "cookie-parser": "^1.4.7",
         "discord-html-transcripts": "^3.2.0",
         "discord.js": "^14.16.1",
         "discordx": "^11.12.2",
@@ -24,7 +25,10 @@
         "test": "node index.ts",
         "dev": "tsx watch index.ts",
         "start": "node dist/index.js",
-        "build": "tsup index.ts "
+        "build": "tsup index.ts --no-config",
+        "httpsbuild": "tsup httpListeners.ts",
+        "httpsstart": "node dist/httpListeners.js",
+        "httpsdev": "tsx watch httpListeners.ts"
     },
     "author": "",
     "license": "ISC",

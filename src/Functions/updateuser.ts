@@ -1,7 +1,7 @@
-import { ButtonInteraction, CommandInteraction, EmbedBuilder, GuildAuditLogsEntry } from "discord.js"
+import { ButtonInteraction, CommandInteraction, EmbedBuilder, Guild, GuildAuditLogsEntry } from "discord.js"
 import * as rbx from "noblox.js"
 
-export async function updateUser(userid, member, rblxusername, interaction: CommandInteraction | ButtonInteraction) {
+export async function updateUser(userid, member, rblxusername, interaction?: CommandInteraction | ButtonInteraction) {
     const binds = [
         {
             minrole: 4,
@@ -39,11 +39,11 @@ export async function updateUser(userid, member, rblxusername, interaction: Comm
             roles: [process.env.GroupWallShoutPerms]
         },
     ]
+    if (!interaction) return
     var rank
     var RankName
     const removed = []
     const add = []
-    const guild = interaction.guild
     await fetch(`https://groups.roblox.com/v2/users/${userid}/groups/roles`).then(async res => {
         const data = await res.json()
         let targetGroupEntry = data.data.find((entry) => {return entry.group.id === 4720080});
@@ -64,6 +64,8 @@ export async function updateUser(userid, member, rblxusername, interaction: Comm
 
     await member.setNickname(`${displayName}`).catch((err) => console.log("Username not changed as I do not have permission to"));
     let oldrole
+    
+    const guild = interaction.guild as Guild
     const newrole = guild.roles.cache?.find(role => role.name == RankName)
     for (let i = 0; i < roles.length; i++) {
         const roleName = roles[i];
@@ -77,17 +79,17 @@ export async function updateUser(userid, member, rblxusername, interaction: Comm
         await member.roles.add(newrole.id);
         add.unshift(` ${newrole.name}`)
     }
-    if (!member.roles.cache.get((interaction.guild.roles.cache.find(role => role.name == "Verified")).id)) {
+    if (!member.roles.cache.get((interaction.guild?.roles.cache.find(role => role.name == "Verified"))?.id)) {
         add.unshift(" Verified")
-        await member.roles.add((interaction.guild.roles.cache.find(role => role.name == "Verified")).id)
+        await member.roles.add((interaction.guild?.roles.cache.find(role => role.name == "Verified"))?.id)
     }
 
-    if (member.roles.cache.get((interaction.guild.roles.cache.find(role => role.name == "Unverified")).id)) {
+    if (member.roles.cache.get((interaction.guild?.roles.cache.find(role => role.name == "Unverified"))?.id)) {
         removed.unshift(" Unverified")
-        await member.roles.remove((interaction.guild.roles.cache.find(role => role.name == "Unverified")).id)
+        await member.roles.remove((interaction.guild?.roles.cache.find(role => role.name == "Unverified"))?.id)
     }
 
-    if (interaction.guild.id == process.env.MainServerId) {
+    if (interaction.guild?.id == process.env.MainServerId) {
         for (let i = 0; i < binds.length; i++) {
             const bind = binds[i]
             if (rank < bind.minrole || rank > bind.maxrole) {

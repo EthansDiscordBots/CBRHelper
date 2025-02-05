@@ -1,0 +1,11 @@
+{
+    "apps": [
+        {
+            "name": "CBR DEV HTTPS Listener",
+            "script": "npm",
+            "args" : "run httpsstart",
+            "error_file": "httpserr.log",
+            "out_file": "httpsout.log"
+        }
+    ]
+}
