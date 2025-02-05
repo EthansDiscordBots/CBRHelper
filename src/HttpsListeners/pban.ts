@@ -9,6 +9,7 @@ module.exports = {
     authNeeded: true,
     async execute(req, res) {
         let entries = req.body
+        console.log(entries)
         if (Array.isArray(entries)) {
             for (let i = 0; i < entries.length; i++) {
                 await db.push("PbanPending", entries[i])
@@ -17,6 +18,7 @@ module.exports = {
         else {
             await db.push("PbanPending", entries)
         }
+        return await res.status(200).json({message: "Pban logged"})
     },
     discordEvent: "ready",
     discordOnce: true,
