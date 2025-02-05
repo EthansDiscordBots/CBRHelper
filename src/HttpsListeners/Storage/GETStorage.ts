@@ -12,7 +12,8 @@ module.exports = {
 
         if (!location) return res.status(400).json("No location found")
 
-        const potentialReturn = await db.get(`serverStorage.${location}`) || {}
+        let potentialReturn = await db.get(`serverStorage.${location}`)
+        if (!potentialReturn) potentialReturn = {}
         if (!filters) return res.status(200).json(potentialReturn)
         if (typeof (filters) != "object") return res.status(400).json("Filter must be a json")
 

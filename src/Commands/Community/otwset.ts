@@ -20,7 +20,7 @@ module.exports = {
         async function getUser(optionName) {
             let userId = isNaN(Number(optionName)) ? await getIdFromUsername(optionName) : Number(optionName)
             let discorduser
-            await fetch(`https://api.blox.link/v4/public/guilds/480452557949370380/roblox-to-discord/${userId}`, {headers: { "Authorization": process.env.BloxlinkAPIKey}}).then(async res => {
+            await fetch(`https://api.blox.link/v4/public/guilds/480452557949370380/roblox-to-discord/${userId}`, {headers: { "Authorization": process.env.BloxlinkAPIKey as string}}).then(async res => {
                 const data = await res.json()
                 if (!data.error) {
                     discorduser = await client.guilds.cache.get(process.env.MainServerId).members.fetch(data.discordIDs[0])
