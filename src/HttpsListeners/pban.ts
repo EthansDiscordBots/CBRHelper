@@ -38,8 +38,6 @@ module.exports = {
                     { name: "Issued by:", value: (data.IssuerUserId == 1 ? "Automated Ban" : (await getUsernameFromId(data.IssuerUserId)).name) + " // " + String(data.IssuerUserId), inline: true }
                 )
 
-                let arr = PbansPending.filter(item => item != data.UserId)
-                await db.set("PbanPending", arr)
                 emmm.setColor(0x00ffe5)
                 PbanEmbeds.push(emmm)
                 await fetch("https://cbr.ethansrandomthings.uk/storage/permbans", {
@@ -56,6 +54,8 @@ module.exports = {
                     })
                 })
 
+                let arr = PbansPending.filter(item => item != data.UserId)
+                await db.set("PbanPending", arr)
                 client.channels.cache.get(process.env.PermBans).send({ embeds: PbanEmbeds }).then(msg => msg.startThread({ name: "Proof" }))
             }
         }, 10000);
