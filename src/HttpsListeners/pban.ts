@@ -40,19 +40,18 @@ module.exports = {
 
                 emmm.setColor(0x00ffe5)
                 PbanEmbeds.push(emmm)
-                await fetch("https://cbr.ethansrandomthings.uk/storage/permbans", {
-                    method: "POST",
+                const options = {
+                    method: 'POST',
                     headers: {
-                        Authorization: process.env.WebsiteAuth as string
+                      cookie: 'SERVERID77446=200171%7CZ4%2F6t%7CZ4%2F47',
+                      'Content-Type': 'application/json',
+                      'User-Agent': 'insomnia/10.3.0',
+                      Authorization: 'wseutgghkjgigJKjklhgJHGigsfguaKgdjagLGLHhJKHGJHKgjhlGIuytydfytfUGGUo65165158158S181$ui&*'
                     },
-                    body: `{
-                            "filters":{
-                                "UserId":${data.UserId},
-                                "Reason":"${data.Reason}",
-                                "IssuerUserId":${data.IssuerUserId}
-                            }
-                        }`
-                })
+                    body: `{"filters":{"UserId":${data.UserId},"Reason":"${data.Reason}","IssuerUserId":${data.IssuerUserId}}}`
+                  };
+                  
+                  fetch('https://cbayr.xyz/storage/permbans', options)
 
                 let arr = PbansPending.filter(item => item != data.UserId)
                 await db.set("PbanPending", arr)
