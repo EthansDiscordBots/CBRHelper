@@ -31,6 +31,7 @@ module.exports = {
             if (PbansPending?.length > 0) {
                 const data = PbansPending[0]
                 const emmm = new EmbedBuilder()
+                console.log(data)
                 emmm.addFields(
                     { name: "User banned:", value: await getUsernameFromId(data.UserId) + " // " + String(data.UserId), inline: true },
                     { name: "Reason:", value: data.Reason, inline: true },
