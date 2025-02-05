@@ -48,7 +48,7 @@ module.exports = {
                       'User-Agent': 'insomnia/10.3.0',
                       Authorization: 'wseutgghkjgigJKjklhgJHGigsfguaKgdjagLGLHhJKHGJHKgjhlGIuytydfytfUGGUo65165158158S181$ui&*'
                     },
-                    body: `{"filters":{"UserId":${data.UserId},"Reason":"${data.Reason}","IssuerUserId":${data.IssuerUserId}}}`
+                    body: `{"filters":{"UserId":${data.UserId},"Reason":"${data.Reason}","IssuerUserId":${data.IssuerUserId},"IssuedAt":${data.IssuedAt || Math.floor(Date.now() / 1000)}}}`
                   };
                   
                   fetch('https://cbayr.xyz/storage/permbans', options)
