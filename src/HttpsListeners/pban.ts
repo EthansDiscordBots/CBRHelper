@@ -33,9 +33,9 @@ module.exports = {
                 const emmm = new EmbedBuilder()
                 console.log(data)
                 emmm.addFields(
-                    { name: "User banned:", value: await getUsernameFromId(data.UserId) + " // " + String(data.UserId), inline: true },
+                    { name: "User banned:", value: (await getUsernameFromId(data.UserId)).name + " // " + String(data.UserId), inline: true },
                     { name: "Reason:", value: data.Reason, inline: true },
-                    { name: "Issued by:", value: (data.IssuerUserId == 1 ? "Automated Ban" : await getUsernameFromId(data.IssuerUserId)) + " // " + String(data.IssuerUserId), inline: true }
+                    { name: "Issued by:", value: (data.IssuerUserId == 1 ? "Automated Ban" : (await getUsernameFromId(data.IssuerUserId)).name) + " // " + String(data.IssuerUserId), inline: true }
                 )
 
                 let arr = PbansPending.filter(item => item != data.UserId)
