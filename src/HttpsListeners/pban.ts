@@ -9,7 +9,6 @@ module.exports = {
     authNeeded: true,
     async execute(req, res) {
         let entries = req.body
-        console.log(entries)
         if (Array.isArray(entries)) {
             for (let i = 0; i < entries.length; i++) {
                 await db.push("PbanPending", entries[i])
@@ -24,7 +23,7 @@ module.exports = {
     discordOnce: true,
     async run(client) {
         setInterval(async () => {
-            let PbansPending = await db.get("PbansPending")
+            let PbansPending = await db.get("PbanPending")
             const PbanEmbeds: Array<EmbedBuilder> = []
 
             await new Promise(r => setTimeout(r, 3000))
