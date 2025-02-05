@@ -37,7 +37,7 @@ module.exports = {
                 )
                 
                 let arr = PbansPending.filter(item => item != PbansPending.UserId)
-                await db.set("PbansPending", arr)
+                await db.set("PbanPending", arr)
                 emmm.setColor(0x00ffe5)
                 PbanEmbeds.push(emmm)
                 await fetch("https://cbr.ethansrandomthing.uk/storage/permbans", {
