@@ -42,8 +42,8 @@ export async function updateUser(userid, member, rblxusername, interaction?: Com
     if (!interaction) return
     var rank
     var RankName
-    const removed: Array<string> = []
-    const add: Array<string> = []
+    let removed: Array<string> = []
+    let add: Array<string> = []
     await fetch(`https://groups.roblox.com/v2/users/${userid}/groups/roles`).then(async res => {
         const data = await res.json()
         let targetGroupEntry = data.data.find((entry) => {return entry.group.id === 4720080});
@@ -126,6 +126,10 @@ export async function updateUser(userid, member, rblxusername, interaction?: Com
             }
         }
     }
+    const commonValues = add.filter(value => removed.includes(value));
+
+    add = add.filter(value => !commonValues.includes(value));
+    removed = removed.filter(value => !commonValues.includes(value));
     if (add.length >= 1 || removed.length >= 1) {
         const embed = new EmbedBuilder()
             .setColor("Red")
