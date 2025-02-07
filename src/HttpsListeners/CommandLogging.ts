@@ -15,6 +15,7 @@ module.exports = {
     authNeeded: true,
     async execute(req, res) {
         let entries = req.body
+        console.log(entries)
         if (Array.isArray(entries)) {
             for (let i = 0; i < entries.length; i++) {
                 if (entries[i].type == "Training") {
@@ -33,6 +34,8 @@ module.exports = {
                 await db.push("PendingMainGameCommands", entries)
             }
         }
+        console.log(await db.get("PendingTrainingCommands"))
+        console.log(await db.get("PendingMainGameCommands"))
         res.json({"data": "Logging"}).status(200)
     },
     discordEvent: "ready",
@@ -72,7 +75,7 @@ module.exports = {
 
             for (let i = 0; i < maingamelogspending.length; i++) {
                 if (i % 10 == 0 && i != 0) {
-                    client.channels.cache.get(process.env.TCCommands).send({ embeds: maingameembeds })
+                    client.channels.cache.get(process.env.MainCommands).send({ embeds: maingameembeds })
                     traininglogsembeds = []
                 }
                 const data: Logging = maingamelogspending[i]
