@@ -9,6 +9,7 @@ module.exports = {
     async execute(req, res) {
         const body = req.body
         console.log(body)
+        console.log(body.serverId)
         if (body.serverId) {
             await db.set(`TrainingServers.${body.serverId}`, Object.fromEntries(Object.entries(body).filter(([key]) => key != "serverId")))
             console.log("TrainingMade")
