@@ -1,4 +1,4 @@
-import { ButtonInteraction, CommandInteraction, EmbedBuilder, Guild, GuildAuditLogsEntry } from "discord.js"
+import { ButtonInteraction, CommandInteraction, EmbedBuilder, Guild, GuildAuditLogsEntry, Role, TextChannel } from "discord.js"
 import * as rbx from "noblox.js"
 
 export async function updateUser(userid, member, rblxusername, interaction?: CommandInteraction | ButtonInteraction) {
@@ -42,8 +42,8 @@ export async function updateUser(userid, member, rblxusername, interaction?: Com
     if (!interaction) return
     var rank
     var RankName
-    const removed = []
-    const add = []
+    const removed: Array<string> = []
+    const add: Array<string> = []
     await fetch(`https://groups.roblox.com/v2/users/${userid}/groups/roles`).then(async res => {
         const data = await res.json()
         let targetGroupEntry = data.data.find((entry) => {return entry.group.id === 4720080});
@@ -89,6 +89,16 @@ export async function updateUser(userid, member, rblxusername, interaction?: Com
         await member.roles.remove((interaction.guild?.roles.cache.find(role => role.name == "Unverified"))?.id)
     }
 
+    try{
+        if (rank < 20 && member.roles.cache.get(process.env.CertifiedManagementRole)) {
+            removed.unshift(" Certified Management")
+            await member.roles.role(process.env.CertifiedManagementRole)
+        }
+    }   catch {
+
+    }
+
+
     if (interaction.guild?.id == process.env.MainServerId) {
         for (let i = 0; i < binds.length; i++) {
             const bind = binds[i]
@@ -96,7 +106,7 @@ export async function updateUser(userid, member, rblxusername, interaction?: Com
                 for (let i = 0; i < bind.roles.length; i++) {
                     if (member.roles.cache.get(bind.roles[i])) {
                         await member.roles.remove(bind.roles[i])
-                        removed.unshift(" " + interaction.guild.roles.cache.get(bind.roles[i]).name)
+                        removed.unshift(" " + (interaction.guild?.roles.cache.get(bind.roles[i] as string) as Role).name)
                     }
     
                 }
@@ -109,7 +119,7 @@ export async function updateUser(userid, member, rblxusername, interaction?: Com
                 for (let i = 0; i < bind.roles.length; i++) {
                     if (!member.roles.cache.get(bind.roles[i])) {
                         await member.roles.add(bind.roles[i])
-                        add.unshift(" " + interaction.guild.roles.cache.get(bind.roles[i]).name)
+                        add.unshift(" " + (interaction.guild?.roles.cache.get(bind.roles[i] as string) as Role).name)
                     }
     
                 }
@@ -124,7 +134,7 @@ export async function updateUser(userid, member, rblxusername, interaction?: Com
         if (interaction.isCommand() && interaction.commandName == "verify-all") 
             return
         if (interaction.isCommand() && interaction.commandName != "update") 
-            await interaction.channel.send({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
+            await (interaction.channel as TextChannel).send({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
         if (interaction.isCommand() && interaction.commandName == "update") {
             if (!interaction.deferred) await interaction.reply({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
             else await interaction.followUp({ content: `Welcome to the server ${rblxusername}`, embeds: [embed] })
