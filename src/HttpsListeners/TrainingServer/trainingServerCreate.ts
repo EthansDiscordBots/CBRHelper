@@ -10,7 +10,7 @@ module.exports = {
         const body = req.body
         console.log(body)
         if (body.serverId) {
-            await db.set(`TrainingServers.${body.serverId}`, Object.fromEntries(Object.entries(body).filter(([key]) => key != "ServerId")))
+            await db.set(`TrainingServers.${body.serverId}`, Object.fromEntries(Object.entries(body).filter(([key]) => key != "serverId")))
             return res.status(200).json("Made training")
         }
         return res.status(400).json("No Body Found")
