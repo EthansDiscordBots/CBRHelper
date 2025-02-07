@@ -10,7 +10,7 @@ module.exports = {
         const body = req.body
         if (!await db.get(`TrainingServers.${body.serverId}`)) return res.status(404).json("Server Not Found")
         let base = `TrainingServers.${body.serverId}`
-        for (const [key, value] of Object.entries(body).filter(([key]) => key != "ServerId")) await db.set(`${base}.${key}`, value)
+        for (const [key, value] of Object.entries(body).filter(([key]) => key != "serverId")) await db.set(`${base}.${key}`, value)
         
         res.status(200).json("server updated")
     }
