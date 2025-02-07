@@ -15,7 +15,6 @@ module.exports = {
     authNeeded: true,
     async execute(req, res) {
         let entries = req.body
-        console.log(entries)
         if (Array.isArray(entries)) {
             for (let i = 0; i < entries.length; i++) {
                 if (entries[i].type == "Training") {
@@ -34,8 +33,6 @@ module.exports = {
                 await db.push("PendingMainGameCommands", entries)
             }
         }
-        console.log(await db.get("PendingTrainingCommands"))
-        console.log(await db.get("PendingMainGameCommands"))
         res.json({"data": "Logging"}).status(200)
     },
     discordEvent: "ready",
