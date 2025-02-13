@@ -8,6 +8,7 @@ import { setRank } from "../Functions/setRank";
 module.exports = {
     method: 'post',
     directory: "/ranking",
+    authNeeded: true,
     async execute(req, res) {
         let entries = req.body
         if (Array.isArray(entries)) {

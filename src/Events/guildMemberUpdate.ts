@@ -17,6 +17,7 @@ module.exports = {
     name: Events.GuildMemberUpdate,
     async execute(oldMember, newMember, client) {
             const roblox = await db.get(`${newMember.user.id}.verifiedRoblox`) 
+            if (!roblox) return
             const currentBoostersRAW = await fetch("https://cbr.ethansrandomthings.uk/storage/boosters", {
             method: "PATCH", 
             body: JSON.stringify({
