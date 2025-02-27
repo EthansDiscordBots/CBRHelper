@@ -32,8 +32,8 @@ module.exports = {
             *APPROVERUSERNAME*,
             **RANK**
             **DEPARTMENT, Crystal Bay Resorts**`
-            if (!await db.get(`${approver_roblox}.discord`)) return await interaction.reply({ ephemeral: true, content: "It seems the approver user is not verified on the helper bot. Please have them verify so the bot can determine the department the approver is. Logging process aborted." })
-            if (!await db.get(`${requestRoblox}.discord`)) return await interaction.reply({ ephemeral: true, content: "It seems the requester isnt verified on the helper bot. Please ask them to verify so that the bot can DM them. Logging process aborted." })
+            if (!await db.get(`${approver_roblox}.discordId`)) return await interaction.reply({ ephemeral: true, content: "It seems the approver user is not verified on the helper bot. Please have them verify so the bot can determine the department the approver is. Logging process aborted." })
+            if (!await db.get(`${requestRoblox}.discordId`)) return await interaction.reply({ ephemeral: true, content: "It seems the requester isnt verified on the helper bot. Please ask them to verify so that the bot can DM them. Logging process aborted." })
             let splitDate = interaction.fileds.getTextInputValue("StartDate").split("-")
             let startdate = new Date()
             startdate.setDate(Number(splitDate[0]))
@@ -45,7 +45,7 @@ module.exports = {
             enddate.setMonth(Number(splitDate[1]) + 1)
             enddate.setFullYear(Number(splitDate[2]))
             let department
-            const reqdiscordobj = await client.guilds.cache.get(process.env.MainServerId as string)?.members.fetch(await db.get(`${approver_roblox}.discord`) as string)
+            const reqdiscordobj = await client.guilds.cache.get(process.env.MainServerId as string)?.members.fetch(await db.get(`${approver_roblox}.discordId`) as string)
             if (!reqdiscordobj) return await interaction.reply({ content: "There was an error fetching the approvers discord roles. Please try again later." })
             if (reqdiscordobj.roles.cache.get(process.env.MAINHR as string)) department = "HR"
             if (reqdiscordobj.roles.cache.get(process.env.MainServerCOO as string)) department = "Ops"
@@ -60,7 +60,7 @@ module.exports = {
                 .replace("START-DATE", interaction.fields.getTextInputValue("StartDate"))
                 .replace("END-DATE", interaction.fields.getTextInputValue("EndDate"))
 
-            const memberObject = await client.guilds.cache.get(process.env.MainServerId as string)?.members.fetch(await db.get(`${requestRoblox}.discord`) as string)
+            const memberObject = await client.guilds.cache.get(process.env.MainServerId as string)?.members.fetch(await db.get(`${requestRoblox}.discordId`) as string)
             if (!memberObject) return await interaction.reply({ content: "There was an error fetching the requesters discord account to DM. Please try again later." })
 
             const timeConfirm = new EmbedBuilder()
