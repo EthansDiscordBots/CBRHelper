@@ -51,7 +51,6 @@ module.exports = {
             if (reqdiscordobj.roles.cache.get(process.env.MainServerCOO as string)) department = "Ops"
             if (reqdiscordobj.roles.cache.get(process.env.MainServerCCO as string)) department = "Comms"
             if (reqdiscordobj.roles.cache.get(process.env.President as string) || reqdiscordobj.roles.cache.get(process.env.VicePresident as string) || reqdiscordobj.roles.cache.get(process.env.CEO as string) || reqdiscordobj.roles.cache.get(process.env.AB as string)) department = "OT"
-            console.log(reqdiscordobj.roles.cache.map(m => m.id))
             if (!department) return await interaction.reply({ ephemeral: true, content: "None of your approvers roles correlate to a set up department, please contact Scr1ptxd_Ethxn if you believe this should be wrong." })
 
             format.replace("USERNAME", interaction.fields.getTextInputValue("Username"))
@@ -106,6 +105,7 @@ module.exports = {
         }
 
         if (interaction.isButton() && interaction.customId.split("-")[0] in ["TimeAgree", "TimeDeny"]) {
+            console.log(await db.get(interaction.customId.split("-")[1]))
             if (interaction.customId.split("-")[0] == "TimeAgree") await interaction.channel.send({embeds: [await db.get(interaction.customId.split("-")[1])]})
             await db.delete(interaction.customId.split("-")[1])
             if (interaction.customId.split("-")[0] == "TimeDeny") await interaction.channel.send({content: "Please start again. Remember date is in the format DD-MM-YYYY", ephemeral: true})
