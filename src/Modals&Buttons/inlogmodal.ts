@@ -34,7 +34,7 @@ module.exports = {
             **DEPARTMENT, Crystal Bay Resorts**`
             if (!await db.get(`${approver_roblox}.discordId`)) return await interaction.reply({ ephemeral: true, content: "It seems the approver user is not verified on the helper bot. Please have them verify so the bot can determine the department the approver is. Logging process aborted." })
             if (!await db.get(`${requestRoblox}.discordId`)) return await interaction.reply({ ephemeral: true, content: "It seems the requester isnt verified on the helper bot. Please ask them to verify so that the bot can DM them. Logging process aborted." })
-            let splitDate = interaction.fileds.getTextInputValue("StartDate").split("-")
+            let splitDate = interaction.fields.getTextInputValue("StartDate").split("-")
             let startdate = new Date()
             startdate.setDate(Number(splitDate[0]))
             startdate.setMonth(Number(splitDate[1]) + 1)
