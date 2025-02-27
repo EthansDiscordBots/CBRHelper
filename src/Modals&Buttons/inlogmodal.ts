@@ -104,7 +104,7 @@ module.exports = {
             )
         }
 
-        if (interaction.isButton() && interaction.customId.split("-")[0] in ["TimeAgree", "TimeDeny"]) {
+        if (interaction.isButton() && ["TimeAgree", "TimeDeny"].includes(interaction.customId.split("-")[0])) {
             console.log(await db.get(interaction.customId.split("-")[1]))
             if (interaction.customId.split("-")[0] == "TimeAgree") await interaction.channel.send({embeds: [await db.get(interaction.customId.split("-")[1])]})
             await db.delete(interaction.customId.split("-")[1])
