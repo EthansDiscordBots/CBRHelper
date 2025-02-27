@@ -101,11 +101,11 @@ module.exports = {
                         value: interaction.fields.getTextInputValue("EndDate")
                     },
                 )
+                .setFooter({text: `Logged by ${interaction.user.username}`})
             )
         }
 
         if (interaction.isButton() && ["TimeAgree", "TimeDeny"].includes(interaction.customId.split("-")[0])) {
-            console.log(await db.get(interaction.customId.split("-")[1]))
             if (interaction.customId.split("-")[0] == "TimeAgree") await interaction.channel.send({embeds: [await db.get(interaction.customId.split("-")[1])]})
             await db.delete(interaction.customId.split("-")[1])
             if (interaction.customId.split("-")[0] == "TimeDeny") await interaction.channel.send({content: "Please start again. Remember date is in the format DD-MM-YYYY", ephemeral: true})
