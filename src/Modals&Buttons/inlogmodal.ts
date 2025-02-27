@@ -47,7 +47,7 @@ module.exports = {
             let department
             const reqdiscordobj = await client.guilds.cache.get(process.env.MainServerId as string)?.members.fetch(await db.get(`${approver_roblox}.discordId`) as string)
             if (!reqdiscordobj) return await interaction.reply({ content: "There was an error fetching the approvers discord roles. Please try again later." })
-            if (reqdiscordobj.roles.cache.get(process.env.MAINHR as string)) department = "HR"
+            if (reqdiscordobj.roles.cache.get(process.env.MAINHRD as string)) department = "HR"
             if (reqdiscordobj.roles.cache.get(process.env.MainServerCOO as string)) department = "Ops"
             if (reqdiscordobj.roles.cache.get(process.env.MainServerCCO as string)) department = "Comms"
             if (reqdiscordobj.roles.cache.get(process.env.President as string) || reqdiscordobj.roles.cache.get(process.env.VicePresident as string) || reqdiscordobj.roles.cache.get(process.env.CEO as string) || reqdiscordobj.roles.cache.get(process.env.AB as string)) department = "OT"
