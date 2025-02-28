@@ -80,7 +80,7 @@ module.exports = {
 
             await interaction.reply({ embeds: [timeConfirm], components: [buttons], ephemeral: true })
 
-            await db.set(interaction.id, new EmbedBuilder()
+            await db.set(interaction.id, {embed: new EmbedBuilder()
                 .setTitle("Approved Inactivity Notice.")
                 .setColor("Green")
                 .setFields(
@@ -101,12 +101,14 @@ module.exports = {
                         value: interaction.fields.getTextInputValue("EndDate")
                     },
                 )
-                .setFooter({text: `Logged by ${interaction.user.username}`})
-            )
+                .setFooter({text: `Logged by ${interaction.user.username}`}),
+        memberToSendTo: memberObject, format: format},)
         }
 
         if (interaction.isButton() && ["TimeAgree", "TimeDeny"].includes(interaction.customId.split("-")[0])) {
-            if (interaction.customId.split("-")[0] == "TimeAgree") await interaction.channel.send({embeds: [await db.get(interaction.customId.split("-")[1])]})
+            const dbdata = await db.get(interaction.customId.split("-")[1])
+            if (interaction.customId.split("-")[0] == "TimeAgree") await interaction.channel.send({embeds: [dbdata.embed]})
+            await dbdata.memberToSendTo.send({content: dbdata.format})
             await db.delete(interaction.customId.split("-")[1])
             if (interaction.customId.split("-")[0] == "TimeDeny") await interaction.channel.send({content: "Please start again. Remember date is in the format DD-MM-YYYY", ephemeral: true})
         }
