@@ -129,9 +129,10 @@ module.exports = {
                 interface T { }
                 const noping = await db.get("SHRDontPingUsers")
                 for (let i = 0; i < noping.length; i++) {
-                    if ((await client.guilds.cache.get(process.env.MainServerId).members.fetch(message.author.id)).roles.cache.get("1098284216749404351")) return
-                    if (message.author.id == noping[i]) return
+                    if ((await client.guilds.cache.get(process.env.MainServerId).members.fetch(message.author.id)).roles.cache.get(process.env.MAINSHR)) return
+                    if (message.author.id == noping[i]) continue
                     if (message.mentions.users.get(noping[i]) && (message.mentions.repliedUser?.id || null) != noping[i]) {
+                        if (message.channel.id == process.env.Events) return
                         const VWs = await db.get(`SHRPingVWs.${message.author.id}`) ?? []
                         var modoncallping = `<@&1234609631159124089>`
                         if (VWs.length > 0) {
