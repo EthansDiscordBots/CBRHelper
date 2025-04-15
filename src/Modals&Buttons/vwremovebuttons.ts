@@ -7,13 +7,6 @@ import { message } from "noblox.js";
 import { QuickDB } from "quick.db";
 const db = new QuickDB()
 
-interface Command {
-    data: {
-        name: string;
-    };
-    execute: (interaction: CommandInteraction, client: Client) => Promise<void>;
-}
-
 const commands = new Collection<keyof Command, Command>();
 
 module.exports = {
