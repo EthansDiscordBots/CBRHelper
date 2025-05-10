@@ -75,6 +75,7 @@ module.exports = {
                     client.channels.cache.get(process.env.MainCommands).send({ embeds: maingameembeds })
                     maingameembeds = []
                 }
+                
                 const data: Logging = maingamelogspending[i]
                 const emmm = new EmbedBuilder()
                 emmm.setTitle("A new command has been ran in the main game!")
