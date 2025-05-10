@@ -30,6 +30,7 @@ module.exports = {
                     .setURL(`https://www.cbayr.xyz/oauth2/start?guildId=${interaction.guild?.id}`)
             )
         const userId = await db.get(`${interaction.user.id}.verifiedRoblox`)
+        console.log(await getUsernameFromId(userId))
         if (userId) return await updateUser(userId, interaction.member, await getUsernameFromId(userId), interaction)
         const embed = new EmbedBuilder()
             .setDescription("You are about to begin the verification process to link your roblox account to your discord account, please select your way of verifying from the options below.")
