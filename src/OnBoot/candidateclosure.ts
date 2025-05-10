@@ -43,7 +43,7 @@ module.exports = {
                 if (hrcan) hrcan = "enabled"
                 else if (!hrcan) hrcan = "disabled"
                 await i.reply({content: `The HRD candidate button has now been ${hrcan} in <#1206773441534107738>`, ephemeral:true})
-                await client.channels.cache.get("1206998357076353075").send(`The HRD candidate button has been ${hrcan} by <@${i.user.id}>. ${estTime}`)
+                await client.channels.cache.get("1361724322217070822").send(`The HRD candidate button has been ${hrcan} by <@${i.user.id}>. ${estTime}`)
             }
             else if (i.customId == "ops") {
                 var opscan = await db.get("OpsCan.disabled")
@@ -51,7 +51,7 @@ module.exports = {
                 if (opscan) opscan = "enabled"
                 else if (!opscan) opscan = "disabled"
                 await i.reply({content: `The Operations candidate button has now been ${opscan} in <#1206773441534107738>`, ephemeral:true})
-                await client.channels.cache.get("1206998357076353075").send(`The Operations candidate button has been ${opscan} by <@${i.user.id}>. ${estTime}`)
+                await client.channels.cache.get("1361724322217070822").send(`The Operations candidate button has been ${opscan} by <@${i.user.id}>. ${estTime}`)
             }
             else if (i.customId == "comms") {
                 var commscan = await db.get("CommsCan.disabled")
@@ -59,7 +59,7 @@ module.exports = {
                 if (commscan) commscan = "enabled"
                 else if (!commscan) commscan = "disabled"
                 await i.reply({content: `The Communications candidate button has now been ${commscan} in <#1206773441534107738>`, ephemeral:true})
-                await client.channels.cache.get("1206998357076353075").send(`The Communications candidate button has been ${commscan} by <@${i.user.id}>. ${estTime}`)
+                await client.channels.cache.get("1361724322217070822").send(`The Communications candidate button has been ${commscan} by <@${i.user.id}>. ${estTime}`)
             }
             const EIembed = new EmbedBuilder()
             .setTitle("Role Selection")
