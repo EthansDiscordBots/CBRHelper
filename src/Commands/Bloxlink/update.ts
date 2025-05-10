@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, CommandInteraction, PermissionsBitField } from "discord.js"
 import { updateUser } from "../../Functions/updateuser"
 import { QuickDB } from "quick.db"
-import { getUsernameFromId } from "noblox.js"
+import { getUsernameFromId } from "../../Functions/getIdFromUsername"
 const db = new QuickDB()
 
 module.exports = {
@@ -19,6 +19,6 @@ module.exports = {
         const rblxuserid = await db.get(`${member.user.id}.verifiedRoblox`)
         if (!rblxuserid) return await interaction.reply({ content: "The person you are trying to update is not verified.", ephemeral: true })
             interaction.deferReply()
-            await updateUser(rblxuserid, member, await getUsernameFromId(rblxuserid), interaction)
+            await updateUser(rblxuserid, member, (await getUsernameFromId(rblxuserid)).name, interaction)
     }
 }
