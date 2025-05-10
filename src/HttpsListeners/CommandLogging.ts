@@ -73,7 +73,7 @@ module.exports = {
             for (let i = 0; i < maingamelogspending.length; i++) {
                 if (i % 10 == 0 && i != 0) {
                     client.channels.cache.get(process.env.MainCommands).send({ embeds: maingameembeds })
-                    traininglogsembeds = []
+                    maingameembeds = []
                 }
                 const data: Logging = maingamelogspending[i]
                 const emmm = new EmbedBuilder()
