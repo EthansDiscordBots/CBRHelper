@@ -59,19 +59,19 @@ Signed,
                 await member.send({ content: format })
             }
 
-            if (message.channel.id == "1317963988427866112") {
+            if (message.channel.id == "1355916298080620779") {
                 if (await checkDepartment(message.content, "hrd")) {
                     sendMessage("hrd")
                 }
                 await message.delete()
             }
-            if (message.channel.id == "1317964548308729877") {
+            if (message.channel.id == "1355916298344988786") {
                 if (await checkDepartment(message.content, "ops")) {
                     sendMessage("ops")
                 }
                 await message.delete()
             }
-            if (message.channel.id == "1317964754119032894") {
+            if (message.channel.id == "1355916298730606707") {
                 if (await checkDepartment(message.content, "comms")) {
                     sendMessage("comms")
                 }
